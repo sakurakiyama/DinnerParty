@@ -4,15 +4,41 @@ import HomePage from './homepage/Homepage';
 import Login from './login/Login';
 import './App.css';
 
-interface UserContextProps {
-  user: string | null;
-  setUser: React.Dispatch<React.SetStateAction<string | null>>;
+interface UserProps {
+  user: {
+    bio: string | null;
+    city: string | null;
+    email: string | null;
+    firstname: string | null;
+    ishost: boolean;
+    lastname: string | null;
+    phonenumber: string | null;
+    profilepicture: ArrayBuffer | null;
+    tempcode: string | null;
+    tempcodedate: string | null;
+    userid: number;
+  } | null;
+  setUser: React.Dispatch<
+    React.SetStateAction<{
+      bio: string | null;
+      city: string | null;
+      email: string | null;
+      firstname: string | null;
+      ishost: boolean;
+      lastname: string | null;
+      phonenumber: string | null;
+      profilepicture: ArrayBuffer | null;
+      tempcode: string | null;
+      tempcodedate: string | null;
+      userid: number;
+    } | null>
+  >;
 }
 
-export const UserContext = createContext<UserContextProps | null>(null);
+export const UserContext = createContext<UserProps | null>(null);
 
 function App() {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<UserProps['user']>(null);
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <Routes>

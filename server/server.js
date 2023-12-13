@@ -3,6 +3,7 @@ const app = express();
 const PORT = 8080;
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js';
+import userRouter from './routes/user.js';
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
@@ -10,6 +11,7 @@ app.use(cookieParser());
 
 // route handlers
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 // catch-all error handler
 app.get('*', (req, res) => {

@@ -8,4 +8,13 @@ router.get('/status', authController.checkStatus, (req, res) => {
   return res.status(401).json(res.locals.user);
 });
 
+router.post(
+  '/code',
+  authController.generateTempCode,
+  authController.sendTempCode,
+  (req, res) => {
+    return res.status(200).json(res.locals.message);
+  }
+);
+
 export default router;

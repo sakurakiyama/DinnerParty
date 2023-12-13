@@ -1,28 +1,66 @@
-import { useState } from 'react';
+import { useState, useContext, useRef } from 'react';
+import { UserContext } from '../App';
 import FoodTile from '../assets/FoodTile.png';
 import Logo from '../assets/Logo.png';
+import axios from 'axios';
+
+type InputRef = React.RefObject<HTMLInputElement> | null;
+
 function Login() {
+  const { setUser } = useContext(UserContext)!;
+
   const [email, setEmail] = useState<null | string>(null);
   const [emailSubmitted, setEmailSubmitted] = useState<boolean>(false);
-  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [code, setCode] = useState<string[]>(['', '', '', '', '', '']);
+
+  const inputRefs: InputRef[] = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
 
   const handleCodeChange = (index: number, value: string) => {
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
+    const next = index + 1;
+    if (index !== inputRefs.length - 1) inputRefs[next]?.current?.focus();
   };
 
+  const handleDelete = (
+    index: number,
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    const keyPressed = event.code;
+    if (keyPressed === 'Backspace') {
+      event.preventDefault();
+      if (index > 0 && code[index]) {
+        const newCode = [...code];
+        newCode[index] = '';
+        setCode(newCode);
+      } else if (index > 0 && !code[index]) {
+        const newCode = [...code];
+        newCode[index - 1] = '';
+        setCode(newCode);
+        inputRefs[index - 1]?.current?.focus();
+      }
+    }
+  };
   const submitVerificationCode = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    console.log('verification submitted', code.join(''));
   };
-  const submitEmail = (e: { preventDefault: () => void }) => {
+  const submitEmail = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     /*
-   [] Check if the user exists
-   [] Add the user to the database if the user doesn't exist
-   [] Generate a six digit code on the server side 
-   [] Add the six digit code to the users table (expire in 10 minutes)
-   [] Send the email with the six digit code to the users email 
+   [x] Check if the user exists
+   [x] Add the user to the database if the user doesn't exist
+   [x] Generate a six digit code on the server side 
+   [x] Add the six digit code to the users table (expire in 10 minutes)
+   [x] Send the email with the six digit code to the users email 
    [] on client, wait for user input. 
    [] on server, check if user input matches whats in the db 
    [] if it doesn't, send back error
@@ -31,6 +69,14 @@ function Login() {
    [] delete code from db 
     [] 
    */
+    try {
+      const { data: userData } = await axios.post('/user/getUser', { email });
+      setUser(userData);
+      const { data } = await axios.post('/auth/code', { email });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
     setEmailSubmitted(true);
   };
   // TODO: Add functionality for deleting
@@ -73,11 +119,13 @@ function Login() {
               <form className='pt-8' onSubmit={submitVerificationCode}>
                 {code.map((value, index) => (
                   <input
+                    ref={inputRefs[index]}
                     className='border w-[25px] h-[40px] rounded-md m-2 text-center'
                     key={index}
                     type='text'
                     maxLength={1}
                     value={value}
+                    onKeyDown={(e) => handleDelete(index, e)}
                     onChange={(e) => handleCodeChange(index, e.target.value)}
                   />
                 ))}

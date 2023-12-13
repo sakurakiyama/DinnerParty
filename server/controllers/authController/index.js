@@ -11,5 +11,7 @@
  */
 
 import checkStatus from './middleware/checkStatus.js';
+import generateTempCode from './middleware/generateTempCode.js';
+import sendTempCode from './middleware/sendTempCode.js';
 
-export default { checkStatus };
+export default { checkStatus, generateTempCode, sendTempCode };
