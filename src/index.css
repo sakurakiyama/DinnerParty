@@ -5,6 +5,9 @@
 @tailwind utilities;
 
 :root {
+  font-family: 'Poppins', sans-serif;
   --font-libre: 'Libre Baskerville', serif;
-  --font-poppins: 'Poppins', sans-serif;
+  --mango-sorbet: #ffa857;
+  --salmon: #ff6b57;
+  --light-pink: #ff99ff;
 }
