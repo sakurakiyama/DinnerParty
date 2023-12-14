@@ -27,7 +27,7 @@ const generateTempCode = async (req, res, next) => {
     WHERE email = $3
     RETURNING *`;
 
-    await query(saveCodeQuery, [randomCode, new Date(), email]);
+    await query(saveCodeQuery, [randomCode, new Date().toUTCString(), email]);
 
     res.locals.randomCode = randomCode;
     return next();
