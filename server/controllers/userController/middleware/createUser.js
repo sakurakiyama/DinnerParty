@@ -24,8 +24,7 @@ const createUser = async (req, res, next) => {
 
     if (!res.locals.userExists) {
       const createUserQuery = `INSERT INTO users (email) VALUES ($1) RETURNING *  `;
-      const { rows } = await query(createUserQuery, [email]);
-      res.locals.user = rows[0];
+      await query(createUserQuery, [email]);
     }
     return next();
   } catch (error) {
