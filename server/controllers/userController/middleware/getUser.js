@@ -20,12 +20,15 @@ import query from '../../../models/db.js';
 
 const getUser = async (req, res, next) => {
   try {
-    const { email } = req.body;
+    const email = req.body.email
+      ? req.body.email
+      : res.locals.verification.email;
+
     const getUserQuery = `SELECT * FROM users WHERE email = $1`;
     const { rows } = await query(getUserQuery, [email]);
     let user = rows[0];
 
-    user ? (res.locals.userExists = true) : (res.locals.userExists = false);
+    res.locals.userExists = user ? true : false;
     res.locals.user = user;
     return next();
   } catch (error) {
