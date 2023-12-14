@@ -12,7 +12,7 @@ function SectionOne() {
 
   const loginUser = () => {
     if (user) {
-      // TODO: navigate to the main app
+      navigate('/browse');
     } else {
       // navigate to login
       navigate('/login');

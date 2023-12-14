@@ -3,11 +3,13 @@ import { UserContext } from '../App';
 import FoodTile from '../assets/FoodTile.png';
 import Logo from '../assets/Logo.png';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 type InputRef = React.RefObject<HTMLInputElement> | null;
 
 function Login() {
   const { setUser } = useContext(UserContext)!;
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState<null | string>(null);
   const [emailSubmitted, setEmailSubmitted] = useState<boolean>(false);
@@ -90,6 +92,7 @@ function Login() {
         code: code.join(''),
       });
       setUser(data);
+      navigate('/browse');
     } catch (error) {
       console.error(error);
     }
