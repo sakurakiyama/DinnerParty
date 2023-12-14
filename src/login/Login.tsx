@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../App';
 import FoodTile from '../assets/FoodTile.png';
 import Logo from '../assets/Logo.png';
@@ -6,10 +6,6 @@ import axios from 'axios';
 
 type InputRef = React.RefObject<HTMLInputElement> | null;
 
-/*
-TODO: Make the caret go to the end when pasted 
-TODO: Change the highlight color of the input field 
-*/
 function Login() {
   const { setUser } = useContext(UserContext)!;
 
@@ -25,6 +21,12 @@ function Login() {
     useRef(null),
     useRef(null),
   ];
+
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (emailInputRef.current) emailInputRef.current.focus();
+  }, []);
 
   const handleCodeChange = (index: number, value: string) => {
     const newCode = [...code];
@@ -76,6 +78,7 @@ function Login() {
       count++;
       currentIndex++;
     }
+    inputRefs[currentIndex - 1]?.current?.focus();
     setCode(newCode);
   };
 
@@ -107,7 +110,7 @@ function Login() {
       className='justify-center items-center flex flex-col h-screen bg-cover'
       style={{ backgroundImage: `url(${FoodTile})` }}
     >
-      <div className='w-[75%] h-[70%] md:w-[350px] md:h-[60%] min-h-[500px] overflow-hidden rounded-md shadow-md flex flex-col'>
+      <div className='w-[75%] h-[70%] md:w-[350px] md:h-[60%] min-h-[550px] overflow-hidden rounded-md shadow-md flex flex-col'>
         <div className='h-16 bg-[var(--mango-sorbet)] text-center items-center flex flex-col'>
           <div className='bg-white shadow-md rounded-full w-16 h-16 transform translate-y-8'>
             <img
@@ -122,7 +125,8 @@ function Login() {
               Enter your email address
               <form className='pt-8 flex flex-col' onSubmit={submitEmail}>
                 <input
-                  className='border rounded-lg p-1'
+                  ref={emailInputRef}
+                  className='border rounded-lg p-1 outline-[var(--light-pink)]'
                   type='email'
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -142,7 +146,7 @@ function Login() {
                 {code.map((value, index) => (
                   <input
                     ref={inputRefs[index]}
-                    className='border w-[25px] h-[40px] rounded-md m-2 text-center'
+                    className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-[var(--light-pink)]'
                     key={index}
                     type='text'
                     maxLength={1}
@@ -160,7 +164,16 @@ function Login() {
                 </button>
               </form>
               <div className='pt-8 text-sm'>
-                Can't find it? Check your spam/junk folder.
+                <p>
+                  Can't find it? Check your spam/junk folder. Or
+                  <button
+                    className='text-blue-500 underline cursor-pointer'
+                    onClick={submitEmail}
+                  >
+                    request a new code
+                  </button>
+                  .
+                </p>
               </div>
             </div>
           )}
