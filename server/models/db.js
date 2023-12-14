@@ -4,7 +4,7 @@ const { Pool } = pg;
 
 const pool = new Pool({
   // eslint-disable-next-line no-undef
-  connectionString: process.env.VITE_PG_URI,
+  connectionString: process.env.PG_URI,
 });
 
 const query = (text, params, callback) => {

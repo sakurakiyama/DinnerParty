@@ -2,6 +2,10 @@ import { UserContext } from '../../App';
 import { useContext } from 'react';
 import DinnerSpread from '../../assets/DinnerSpread.jpg';
 import { useNavigate } from 'react-router-dom';
+
+/*
+TODO: If returning user, should display Welcome Back
+*/
 function SectionOne() {
   const { user } = useContext(UserContext)!;
   const navigate = useNavigate();

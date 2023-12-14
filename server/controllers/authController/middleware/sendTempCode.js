@@ -4,7 +4,7 @@
  * @module authController.sendTempCode
  *
  * @description
- * This controller middleware is used to generate a
+ * This controller middleware is used to send a
  * temporary code
  *
  * **************************************************

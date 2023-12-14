@@ -11,7 +11,7 @@ function HomePage() {
     const checkAuthStatus = async () => {
       try {
         const { data } = await axios.get('/auth/status');
-        // TODO: if the request was successful, update setUser with the user object
+        setUser(data);
       } catch (error: AxiosError | unknown) {
         if (error instanceof AxiosError) {
           if (error.response) {

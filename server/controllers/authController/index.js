@@ -10,8 +10,18 @@
  * **************************************************
  */
 
-import checkStatus from './middleware/checkStatus.js';
+import getToken from './middleware/getToken.js';
+import verifyToken from './middleware/verifyToken.js';
 import generateTempCode from './middleware/generateTempCode.js';
 import sendTempCode from './middleware/sendTempCode.js';
+import verifyTempCode from './middleware/verifyTempCode.js';
+import generateToken from './middleware/generateToken.js';
 
-export default { checkStatus, generateTempCode, sendTempCode };
+export default {
+  verifyToken,
+  getToken,
+  generateTempCode,
+  sendTempCode,
+  verifyTempCode,
+  generateToken,
+};

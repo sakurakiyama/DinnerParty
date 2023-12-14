@@ -6,6 +6,10 @@ import axios from 'axios';
 
 type InputRef = React.RefObject<HTMLInputElement> | null;
 
+/*
+TODO: Make the caret go to the end when pasted 
+TODO: Change the highlight color of the input field 
+*/
 function Login() {
   const { setUser } = useContext(UserContext)!;
 
@@ -46,40 +50,58 @@ function Login() {
         newCode[index - 1] = '';
         setCode(newCode);
         inputRefs[index - 1]?.current?.focus();
+      } else if (index === 0 && code[index]) {
+        const newCode = [...code];
+        newCode[index] = '';
+        setCode(newCode);
       }
     }
   };
-  const submitVerificationCode = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log('verification submitted', code.join(''));
+
+  const handlePaste = async (
+    index: number,
+    event: React.ClipboardEvent<HTMLInputElement>
+  ) => {
+    event.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const clipboardData = event.clipboardData || (window as any).clipboardData;
+    const pastedText = clipboardData.getData('text/plain');
+
+    let currentIndex = index;
+    let count = 0;
+    const newCode = [...code];
+
+    while (currentIndex < newCode.length && count < pastedText.length) {
+      newCode[currentIndex] = pastedText[count];
+      count++;
+      currentIndex++;
+    }
+    setCode(newCode);
   };
+
+  const submitVerificationCode = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post('/auth/verifycode', {
+        email,
+        code: code.join(''),
+      });
+      setUser(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const submitEmail = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    /*
-   [x] Check if the user exists
-   [x] Add the user to the database if the user doesn't exist
-   [x] Generate a six digit code on the server side 
-   [x] Add the six digit code to the users table (expire in 10 minutes)
-   [x] Send the email with the six digit code to the users email 
-   [] on client, wait for user input. 
-   [] on server, check if user input matches whats in the db 
-   [] if it doesn't, send back error
-   [] if it does, send user to main page
-    [] create JWT
-   [] delete code from db 
-    [] 
-   */
     try {
-      const { data: userData } = await axios.post('/user/getUser', { email });
-      setUser(userData);
-      const { data } = await axios.post('/auth/code', { email });
-      console.log(data);
+      await axios.post('/user/sendCode', { email });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
     setEmailSubmitted(true);
   };
-  // TODO: Add functionality for deleting
+
   return (
     <div
       className='justify-center items-center flex flex-col h-screen bg-cover'
@@ -127,6 +149,7 @@ function Login() {
                     value={value}
                     onKeyDown={(e) => handleDelete(index, e)}
                     onChange={(e) => handleCodeChange(index, e.target.value)}
+                    onPaste={(e) => handlePaste(index, e)}
                   />
                 ))}
                 <button
