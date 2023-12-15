@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { NavBarContext } from '../GuestNavbar';
+import { BrowsePageContext } from '../../../browse/BrowsePage';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -11,7 +11,7 @@ Remove focus styling on click of next and previous buttons
 */
 
 function CalendarSelector() {
-  const { calendarContext } = useContext(NavBarContext);
+  const { calendarContext } = useContext(BrowsePageContext);
   const { setDate } = calendarContext;
 
   return (

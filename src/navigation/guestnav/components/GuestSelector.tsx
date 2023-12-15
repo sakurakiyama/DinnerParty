@@ -1,10 +1,10 @@
 import { CiCircleMinus } from 'react-icons/ci';
 import { CiCirclePlus } from 'react-icons/ci';
 import { useContext } from 'react';
-import { NavBarContext } from '../GuestNavbar';
-import { GuestCategory } from '../GuestNavbar';
+import { BrowsePageContext } from '../../../browse/BrowsePage';
+import { GuestCategory } from '../../../browse/BrowsePage';
 function GuestSelector() {
-  const { guestContext } = useContext(NavBarContext);
+  const { guestContext } = useContext(BrowsePageContext);
   const { guests, setGuests } = guestContext;
 
   const handleCount = (category: GuestCategory, operation: string) => {

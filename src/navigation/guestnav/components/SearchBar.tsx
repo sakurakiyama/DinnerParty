@@ -1,6 +1,6 @@
 import { FaSearch } from 'react-icons/fa';
 import { useState, useContext, useEffect } from 'react';
-import { NavBarContext } from '../GuestNavbar';
+import { BrowsePageContext } from '../../../browse/BrowsePage';
 import { formatDate } from '../../../utils';
 
 // TODO: Implement logic for clicking outside the calendar and the add guest div to close respective divs.
@@ -18,7 +18,7 @@ function SearchBar() {
   >(undefined);
 
   const { locationContext, calendarContext, guestContext } =
-    useContext(NavBarContext);
+    useContext(BrowsePageContext);
   const { location, setLocation } = locationContext;
   const { date, dateOpen, setDateOpen } = calendarContext;
   const { guests, guestOpen, setGuestOpen } = guestContext;
