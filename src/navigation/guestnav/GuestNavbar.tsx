@@ -98,7 +98,7 @@ function GuestNavBar() {
         },
       }}
     >
-      <div className='pl-4 pt-4 flex flex-col items-center justify-between pr-4'>
+      <div className='pl-4 pt-4 flex flex-col items-center justify-between pr-4 text-sm'>
         <div className='flex w-full items-center justify-between border-b pb-4'>
           {/* Left */}
           <div className='flex flex-row w-[50%]'>

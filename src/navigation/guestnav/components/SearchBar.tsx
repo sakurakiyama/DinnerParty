@@ -45,7 +45,7 @@ function SearchBar() {
   }, [guests]);
 
   return (
-    <div className='flex md:flex-row space-x-6 border p-2 pl-8 rounded-full items-center shadow-md text-slate-700 text-xs md:text-base	'>
+    <div className='flex md:flex-row space-x-6 border p-2 pl-8 rounded-full items-center shadow-md text-slate-700 text-sm'>
       <div>
         <input
           className={`hover:transition-all outline-none max-w-[120px] md:max-w-[240px] text-center ${
@@ -64,7 +64,7 @@ function SearchBar() {
         />
       </div>
       <span>|</span>
-      <div>
+      <div className='min-w-[55px] text-center'>
         <button
           onClick={() => {
             if (guestOpen) setGuestOpen(false);

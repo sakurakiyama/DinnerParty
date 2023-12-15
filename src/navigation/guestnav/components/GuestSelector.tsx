@@ -32,8 +32,8 @@ function GuestSelector() {
               } ${isLast && 'pb-0 border-b-0'}`}
             >
               <div className='flex flex-col'>
-                <div>{current.category}</div>
-                <div className='text-sm text-slate-500'>
+                <div className='text-sm'>{current.category}</div>
+                <div className='text-xs text-slate-500'>
                   {current.description}
                 </div>
               </div>
