@@ -14,10 +14,6 @@ function CalendarSelector() {
   const { calendarContext } = useContext(NavBarContext);
   const { setDate } = calendarContext;
 
-  const handleSelect = (event: DateSelectArg) => {
-    setDate(event.startStr);
-  };
-
   return (
     <div className='border p-8 rounded-lg min-w-[430px] min-h-[30em] shadow-sm'>
       <FullCalendar
@@ -32,7 +28,7 @@ function CalendarSelector() {
         dayHeaderFormat={{
           weekday: 'short',
         }}
-        select={handleSelect}
+        select={(e: DateSelectArg) => setDate(e.startStr)}
       />
     </div>
   );

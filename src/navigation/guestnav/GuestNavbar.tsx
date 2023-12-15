@@ -99,17 +99,17 @@ function GuestNavBar() {
       }}
     >
       <div className='pl-4 pt-4 flex flex-col items-center justify-between pr-4'>
-        <div className='flex w-full items-center justify-between'>
+        <div className='flex w-full items-center justify-between border-b pb-4'>
           {/* Left */}
-          <div className='flex flex-row'>
-            <img className='h-[50px]' src={Logo}></img>
+          <div className='flex flex-row w-[50%]'>
+            <img className='h-[50px] mr-6' src={Logo}></img>
           </div>
           {/* Center */}
           <div className='hidden md:block'>
             <SearchBar />
           </div>
           {/* Right */}
-          <div className=''>
+          <div className='w-[50%] text-end'>
             <Toggle />
           </div>
         </div>

@@ -26,6 +26,7 @@ function GuestSelector() {
           const isFirst = index === 0;
           return (
             <div
+              key={`${current.category}+${index}`}
               className={`border-b pb-4 pt-4 flex flex-row justify-between ${
                 isFirst && 'pt-0'
               } ${isLast && 'pb-0 border-b-0'}`}
