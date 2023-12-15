@@ -1,0 +1,53 @@
+.fc {
+  --fc-border-color: transparent;
+
+  & .fc-toolbar-title {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 18px !important;
+  }
+
+  & * {
+    font-size: 16px !important;
+  }
+
+  & .fc-button-primary {
+    background-color: #d3d3d3;
+    border-color: #d3d3d3;
+    border-radius: 20px;
+  }
+
+  --fc-today-bg-color: transparent;
+
+  & .fc-daygrid-day-top {
+    justify-content: center;
+    align-items: center;
+    height: 3.75em;
+  }
+
+  & .fc-daygrid-day-events {
+    display: none !important;
+  }
+
+  & .fc-media-screen {
+    min-height: 30em !important;
+  }
+}
+
+.fc-day-past {
+  background-color: #00000007;
+}
+
+.fc-highlight {
+  background-color: transparent !important;
+  border: 2px solid black;
+  border-radius: 20px !important;
+}
+
+.fc-day-other {
+  color: black !important;
+}
+
+td[role='presentation'] {
+  height: 20em !important;
+}

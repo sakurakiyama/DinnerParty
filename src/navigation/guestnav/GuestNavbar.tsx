@@ -12,33 +12,43 @@ interface LocationProps {
 interface CalendarProps {
   date: string;
   setDate: React.Dispatch<React.SetStateAction<string>>;
+  dateOpen: boolean;
+  setDateOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface SearchBarContextProps {
+interface NavBarContextProps {
   locationContext: LocationProps;
   calendarContext: CalendarProps;
 }
 
-export const SearchBarContext = createContext<SearchBarContextProps>({
+export const NavBarContext = createContext<NavBarContextProps>({
   locationContext: {
     location: '',
     setLocation: () => {},
   },
   calendarContext: {
-    date: '',
+    date: 'Date',
     setDate: () => {},
+    dateOpen: false,
+    setDateOpen: () => {},
   },
 });
 
 function GuestNavBar() {
   const [location, setLocation] = useState<LocationProps['location']>('');
-  const [date, setDate] = useState<CalendarProps['date']>('');
+  const [date, setDate] = useState<CalendarProps['date']>('Date');
+  const [dateOpen, setDateOpen] = useState<CalendarProps['dateOpen']>(false);
 
   return (
-    <SearchBarContext.Provider
+    <NavBarContext.Provider
       value={{
         locationContext: { location, setLocation },
-        calendarContext: { date, setDate },
+        calendarContext: {
+          date,
+          setDate,
+          dateOpen,
+          setDateOpen,
+        },
       }}
     >
       <div className='pl-4 pt-4 flex flex-col items-center justify-between pr-4'>
@@ -59,11 +69,11 @@ function GuestNavBar() {
         <div className='block mt-8 md:hidden'>
           <SearchBar />
         </div>
-        <div>
+        <div className={`mt-4 ${dateOpen ? 'block' : 'hidden'}`}>
           <CalendarSelector />
         </div>
       </div>
-    </SearchBarContext.Provider>
+    </NavBarContext.Provider>
   );
 }
 

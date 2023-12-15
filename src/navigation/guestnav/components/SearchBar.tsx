@@ -1,20 +1,25 @@
 import { FaSearch } from 'react-icons/fa';
 import { useState, useContext } from 'react';
-import { SearchBarContext } from '../GuestNavbar';
+import { NavBarContext } from '../GuestNavbar';
+import { formatDate } from '../../../utils';
 
 function SearchBar() {
   const [locationOpen, setLocationOpen] = useState<boolean>(false);
-  const { locationContext } = useContext(SearchBarContext)!;
+  const { locationContext, calendarContext } = useContext(NavBarContext);
   const { location, setLocation } = locationContext;
+  const { date, dateOpen, setDateOpen } = calendarContext;
 
   const handleLocation = (value: string) => {
     setLocation(value);
   };
+
   const handleSearch = () => {
     console.log('Location is: ', location);
   };
+
+  console.log('date: ', date);
   return (
-    <div className='flex md:flex-row space-x-6 border p-2 pl-8 rounded-full items-center shadow-md text-slate-700	'>
+    <div className='flex md:flex-row space-x-6 border p-2 pl-8 rounded-full items-center shadow-md text-slate-700 text-xs md:text-base	'>
       <div>
         <input
           className={`hover:transition-all outline-none max-w-[120px] md:max-w-[240px] text-center ${
@@ -30,7 +35,13 @@ function SearchBar() {
       </div>
       <span>|</span>
       <div>
-        <button>Dates</button>
+        <button
+          onClick={() => {
+            dateOpen ? setDateOpen(false) : setDateOpen(true);
+          }}
+        >
+          {date === 'Date' ? date : formatDate(new Date(date))}
+        </button>
       </div>
       <span>|</span>
       <div>
