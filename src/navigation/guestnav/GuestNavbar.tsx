@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar';
 import Toggle from '../Toggle';
 import { createContext, useState } from 'react';
 import CalendarSelector from './components/CalendarSelector';
+import GuestSelector from './components/GuestSelector';
 
 interface LocationProps {
   location: string;
@@ -16,10 +17,42 @@ interface CalendarProps {
   setDateOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+export enum GuestCategory {
+  Adults = 'Adults',
+  Children = 'Children',
+  Infants = 'Infants',
+  Pets = 'Pets',
+}
+
+interface GuestInfo {
+  category: GuestCategory;
+  description: string;
+  count: number;
+}
+
+interface GuestProps {
+  guests: GuestInfo[];
+  setGuests: React.Dispatch<React.SetStateAction<GuestInfo[]>>;
+  guestOpen: boolean;
+  setGuestOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 interface NavBarContextProps {
   locationContext: LocationProps;
   calendarContext: CalendarProps;
+  guestContext: GuestProps;
 }
+
+const initialGuests: GuestInfo[] = [
+  {
+    category: GuestCategory.Adults,
+    description: 'Ages 13 and above',
+    count: 0,
+  },
+  { category: GuestCategory.Children, description: '2-12', count: 0 },
+  { category: GuestCategory.Infants, description: 'Under 2', count: 0 },
+  { category: GuestCategory.Pets, description: 'Service animals', count: 0 },
+];
 
 export const NavBarContext = createContext<NavBarContextProps>({
   locationContext: {
@@ -32,12 +65,20 @@ export const NavBarContext = createContext<NavBarContextProps>({
     dateOpen: false,
     setDateOpen: () => {},
   },
+  guestContext: {
+    guests: initialGuests,
+    setGuests: () => {},
+    guestOpen: false,
+    setGuestOpen: () => {},
+  },
 });
 
 function GuestNavBar() {
   const [location, setLocation] = useState<LocationProps['location']>('');
   const [date, setDate] = useState<CalendarProps['date']>('Date');
   const [dateOpen, setDateOpen] = useState<CalendarProps['dateOpen']>(false);
+  const [guests, setGuests] = useState<GuestInfo[]>(initialGuests);
+  const [guestOpen, setGuestOpen] = useState<GuestProps['guestOpen']>(false);
 
   return (
     <NavBarContext.Provider
@@ -48,6 +89,12 @@ function GuestNavBar() {
           setDate,
           dateOpen,
           setDateOpen,
+        },
+        guestContext: {
+          guests,
+          setGuests,
+          guestOpen,
+          setGuestOpen,
         },
       }}
     >
@@ -71,6 +118,9 @@ function GuestNavBar() {
         </div>
         <div className={`mt-4 ${dateOpen ? 'block' : 'hidden'}`}>
           <CalendarSelector />
+        </div>
+        <div className={`mt-4 ${guestOpen ? 'block' : 'hidden'}`}>
+          <GuestSelector />
         </div>
       </div>
     </NavBarContext.Provider>

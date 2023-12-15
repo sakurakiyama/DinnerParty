@@ -9,6 +9,7 @@ import { DateSelectArg } from '@fullcalendar/core/index.js';
 /*
 Remove focus styling on click of next and previous buttons
 */
+
 function CalendarSelector() {
   const { calendarContext } = useContext(NavBarContext);
   const { setDate } = calendarContext;
