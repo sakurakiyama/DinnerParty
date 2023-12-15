@@ -1,9 +1,9 @@
 import Logo from '../../assets/Logo.png';
 import SearchBar from './components/SearchBar';
-import Toggle from '../Toggle';
 import { createContext, useState } from 'react';
 import CalendarSelector from './components/CalendarSelector';
 import GuestSelector from './components/GuestSelector';
+import { useNavigate } from 'react-router-dom';
 
 interface LocationProps {
   location: string;
@@ -74,6 +74,8 @@ export const NavBarContext = createContext<NavBarContextProps>({
 });
 
 function GuestNavBar() {
+  const navigate = useNavigate();
+
   const [location, setLocation] = useState<LocationProps['location']>('');
   const [date, setDate] = useState<CalendarProps['date']>('Date');
   const [dateOpen, setDateOpen] = useState<CalendarProps['dateOpen']>(false);
@@ -98,8 +100,8 @@ function GuestNavBar() {
         },
       }}
     >
-      <div className='pl-4 pt-4 flex flex-col items-center justify-between pr-4 text-sm'>
-        <div className='flex w-full items-center justify-between border-b pb-4'>
+      <div className='pl-4 pt-4 flex flex-col items-center justify-between pr-4 text-sm border-b text-slate-700 md:min-h-[80px]'>
+        <div className='flex w-full items-center justify-between pb-4'>
           {/* Left */}
           <div className='flex flex-row w-[50%]'>
             <img className='h-[50px] mr-6' src={Logo}></img>
@@ -110,10 +112,15 @@ function GuestNavBar() {
           </div>
           {/* Right */}
           <div className='w-[50%] text-end'>
-            <Toggle />
+            <button
+              onClick={() => navigate('/host')}
+              className='hover:bg-[#F6F6F6] rounded-full p-2 ml-6'
+            >
+              Switch to hosting
+            </button>
           </div>
         </div>
-        <div className='block mt-8 md:hidden'>
+        <div className='block mt-8 md:hidden pb-4'>
           <SearchBar />
         </div>
         <div className={`mt-4 ${dateOpen ? 'block' : 'hidden'}`}>

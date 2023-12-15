@@ -15,7 +15,7 @@ function CalendarSelector() {
   const { setDate } = calendarContext;
 
   return (
-    <div className='border p-8 rounded-lg min-w-[430px] min-h-[30em] shadow-sm'>
+    <div className='border p-8 rounded-lg min-w-[430px] min-h-[30em] shadow-sm mb-8'>
       <FullCalendar
         headerToolbar={{
           left: 'today',

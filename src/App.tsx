@@ -3,6 +3,7 @@ import { createContext, useState, useEffect } from 'react';
 import HomePage from './homepage/Homepage';
 import Login from './login/Login';
 import BrowsePage from './browse/BrowsePage';
+import HostPage from './hostpage/HostPage';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -71,6 +72,7 @@ function App() {
         <Route path='/' element={<HomePage />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/browse' element={<BrowsePage />}></Route>
+        <Route path='/host' element={<HostPage />}></Route>
       </Routes>
     </UserContext.Provider>
   );

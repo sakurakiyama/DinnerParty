@@ -19,7 +19,7 @@ function GuestSelector() {
   };
 
   return (
-    <div className='border rounded-lg min-w-[430px] shadow-sm p-8'>
+    <div className='border rounded-lg min-w-[430px] shadow-sm p-8 mb-8'>
       {guests &&
         guests.map((current, index) => {
           const isLast = index === guests.length - 1;
