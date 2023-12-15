@@ -1,5 +1,6 @@
-import GuestNavBar from '../navigation/guestnav/GuestNavbar';
-import { createContext, useState } from 'react';
+import GuestNavBar from './guestnav/GuestNavbar';
+import { createContext, useState, useContext } from 'react';
+import { UserContext } from '../App';
 
 interface LocationProps {
   location: string;
@@ -76,6 +77,13 @@ function BrowsePage() {
   const [guests, setGuests] = useState<GuestInfo[]>(initialGuests);
   const [guestOpen, setGuestOpen] = useState<GuestProps['guestOpen']>(false);
 
+  const { user } = useContext(UserContext)!;
+
+  /*
+  TODO: If the user doesn't have a first name or last name, open up a modal to walk them through the profile creation process. 
+  - First name is required
+  - Last name is required 
+  */
   return (
     <BrowsePageContext.Provider
       value={{

@@ -1,8 +1,8 @@
 import { CiCircleMinus } from 'react-icons/ci';
 import { CiCirclePlus } from 'react-icons/ci';
 import { useContext } from 'react';
-import { BrowsePageContext } from '../../../browse/BrowsePage';
-import { GuestCategory } from '../../../browse/BrowsePage';
+import { BrowsePageContext } from '../../BrowsePage';
+import { GuestCategory } from '../../BrowsePage';
 function GuestSelector() {
   const { guestContext } = useContext(BrowsePageContext);
   const { guests, setGuests } = guestContext;

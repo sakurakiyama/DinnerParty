@@ -4,7 +4,7 @@ import CalendarSelector from './components/CalendarSelector';
 import GuestSelector from './components/GuestSelector';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { BrowsePageContext } from '../../browse/BrowsePage';
+import { BrowsePageContext } from '../BrowsePage';
 
 function GuestNavBar() {
   const navigate = useNavigate();

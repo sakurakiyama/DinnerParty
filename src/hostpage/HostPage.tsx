@@ -1,4 +1,4 @@
-import HostNavBar from '../navigation/hostnav/HostNavBar';
+import HostNavBar from './hostnav/HostNavBar';
 function HostPage() {
   return (
     <div>

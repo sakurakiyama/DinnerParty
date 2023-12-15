@@ -1,6 +1,6 @@
 import { FaSearch } from 'react-icons/fa';
 import { useState, useContext, useEffect } from 'react';
-import { BrowsePageContext } from '../../../browse/BrowsePage';
+import { BrowsePageContext } from '../../BrowsePage';
 import { formatDate } from '../../../utils';
 
 // TODO: Implement logic for clicking outside the calendar and the add guest div to close respective divs.
