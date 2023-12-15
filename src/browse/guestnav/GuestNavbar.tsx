@@ -5,6 +5,7 @@ import GuestSelector from './components/GuestSelector';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { BrowsePageContext } from '../BrowsePage';
+import { UserContext } from '../../App';
 
 function GuestNavBar() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function GuestNavBar() {
   const { calendarContext, guestContext } = useContext(BrowsePageContext);
   const { dateOpen } = calendarContext;
   const { guestOpen } = guestContext;
+  const { user } = useContext(UserContext)!;
 
   return (
     <div className='pl-4 pt-4 flex flex-col items-center justify-between pr-4 text-sm border-b text-slate-700 md:min-h-[80px]'>
@@ -30,7 +32,7 @@ function GuestNavBar() {
             onClick={() => navigate('/host')}
             className='hover:bg-[#F6F6F6] rounded-full p-2 ml-6'
           >
-            Switch to hosting
+            {user?.ishost ? 'Switch to hosting' : 'Become a host'}
           </button>
         </div>
       </div>

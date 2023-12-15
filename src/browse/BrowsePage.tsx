@@ -1,6 +1,7 @@
 import GuestNavBar from './guestnav/GuestNavbar';
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { UserContext } from '../App';
+import InitialProfileCard from './InitialProfileCard';
 
 interface LocationProps {
   location: string;
@@ -76,14 +77,22 @@ function BrowsePage() {
   const [dateOpen, setDateOpen] = useState<CalendarProps['dateOpen']>(false);
   const [guests, setGuests] = useState<GuestInfo[]>(initialGuests);
   const [guestOpen, setGuestOpen] = useState<GuestProps['guestOpen']>(false);
+  const [profileSetupModalOpen, setProfileSetupModalOpen] =
+    useState<boolean>(false);
 
   const { user } = useContext(UserContext)!;
 
-  /*
-  TODO: If the user doesn't have a first name or last name, open up a modal to walk them through the profile creation process. 
-  - First name is required
-  - Last name is required 
-  */
+  useEffect(() => {
+    /*
+    TODO: If the user doesn't have a first name or last name, open up a modal to walk them through the profile creation process. 
+    - First name is required
+    - Last name is required 
+    */
+    if (!user?.firstname || !user?.lastname) {
+      setProfileSetupModalOpen(true);
+    }
+  }, [user]);
+
   return (
     <BrowsePageContext.Provider
       value={{
@@ -103,6 +112,11 @@ function BrowsePage() {
       }}
     >
       <div>
+        {profileSetupModalOpen && (
+          <div className='top-0 bottom-0 left-0 right-0 fixed flex items-center justify-center bg-[#00000011] backdrop-filter backdrop-blur-sm'>
+            <InitialProfileCard />
+          </div>
+        )}
         <GuestNavBar />
       </div>
     </BrowsePageContext.Provider>

@@ -1,10 +1,9 @@
 import { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../App';
 import FoodTile from '../assets/FoodTile.png';
-import Logo from '../assets/Logo.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import OrangeHeaderCard from '../components/OrangeHeaderCard';
 type InputRef = React.RefObject<HTMLInputElement> | null;
 
 function Login() {
@@ -113,78 +112,69 @@ function Login() {
       className='justify-center items-center flex flex-col h-screen bg-cover'
       style={{ backgroundImage: `url(${FoodTile})` }}
     >
-      <div className='w-[75%] h-[70%] md:w-[350px] md:h-[60%] min-h-[550px] overflow-hidden rounded-md shadow-md flex flex-col'>
-        <div className='h-16 bg-[var(--mango-sorbet)] text-center items-center flex flex-col'>
-          <div className='bg-white shadow-md rounded-full w-16 h-16 transform translate-y-8'>
-            <img
-              className='w-10 transform translate-y-3 translate-x-3'
-              src={Logo}
-            ></img>
-          </div>
-        </div>
-        <div className='flex flex-col bg-white p-4 text-center pt-16 h-full'>
-          {!emailSubmitted && (
-            <div>
-              Enter your email address
-              <form className='pt-8 flex flex-col' onSubmit={submitEmail}>
-                <input
-                  ref={emailInputRef}
-                  className='border rounded-lg p-1 outline-[var(--light-pink)]'
-                  type='email'
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <button
-                  className='border rounded-full mt-16 w-full bg-[var(--mango-sorbet)]	text-white p-2 pl-8 pr-8 shadow-sm m-auto'
-                  type='submit'
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
-          )}
-          {emailSubmitted && (
-            <div>
-              Almost there! A six digit verification code was sent to {email}
-              <form className='pt-8' onSubmit={submitVerificationCode}>
-                {code.map((value, index) => (
+      <OrangeHeaderCard
+        cardContent={
+          <div className='text-center text-sm'>
+            {!emailSubmitted && (
+              <div>
+                Enter your email address
+                <form className='pt-8 flex flex-col' onSubmit={submitEmail}>
                   <input
-                    ref={inputRefs[index]}
-                    className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-[var(--light-pink)]'
-                    key={index}
-                    type='text'
-                    maxLength={1}
-                    value={value}
-                    onKeyDown={(e) => handleDelete(index, e)}
-                    onChange={(e) => handleCodeChange(index, e.target.value)}
-                    onPaste={(e) => handlePaste(index, e)}
+                    ref={emailInputRef}
+                    className='border rounded-lg p-1 outline-[var(--light-pink)]'
+                    type='email'
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-                ))}
-                <button
-                  className='border rounded-full mt-16 w-full bg-[var(--mango-sorbet)]	text-white p-2 pl-8 pr-8 shadow-sm m-auto'
-                  type='submit'
-                >
-                  Submit
-                </button>
-              </form>
-              <div className='pt-8 text-sm'>
-                <p>
-                  Can't find it? Check your spam/junk folder. Or
                   <button
-                    className='text-blue-500 underline cursor-pointer'
-                    onClick={submitEmail}
+                    className='border rounded-full mt-16 w-full bg-[var(--mango-sorbet)]	text-white p-2 pl-8 pr-8 shadow-sm m-auto'
+                    type='submit'
                   >
-                    request a new code
+                    Submit
                   </button>
-                  .
-                </p>
+                </form>
               </div>
-            </div>
-          )}
-          <div className='flex items-end text-xs text-gray-400 m-auto h-full'>
-            Dinner Party © 2023
+            )}
+            {emailSubmitted && (
+              <div>
+                Almost there! A six digit verification code was sent to {email}
+                <form className='pt-8' onSubmit={submitVerificationCode}>
+                  {code.map((value, index) => (
+                    <input
+                      ref={inputRefs[index]}
+                      className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-[var(--light-pink)]'
+                      key={index}
+                      type='text'
+                      maxLength={1}
+                      value={value}
+                      onKeyDown={(e) => handleDelete(index, e)}
+                      onChange={(e) => handleCodeChange(index, e.target.value)}
+                      onPaste={(e) => handlePaste(index, e)}
+                    />
+                  ))}
+                  <button
+                    className='border rounded-full mt-16 w-full bg-[var(--mango-sorbet)]	text-white p-2 pl-8 pr-8 shadow-sm m-auto'
+                    type='submit'
+                  >
+                    Submit
+                  </button>
+                </form>
+                <div className='pt-8 text-sm'>
+                  <p>
+                    Can't find it? Check your spam/junk folder. Or
+                    <button
+                      className='text-blue-500 underline cursor-pointer'
+                      onClick={submitEmail}
+                    >
+                      request a new code
+                    </button>
+                    .
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      </div>
+        }
+      />
     </div>
   );
 }
