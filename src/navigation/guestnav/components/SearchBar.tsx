@@ -3,6 +3,8 @@ import { useState, useContext, useEffect } from 'react';
 import { NavBarContext } from '../GuestNavbar';
 import { formatDate } from '../../../utils';
 
+// TODO: Implement logic for clicking outside the calendar and the add guest div to close respective divs.
+
 interface TotalGuestCount {
   totalGuests: number;
   totalInfants: number;
@@ -21,12 +23,8 @@ function SearchBar() {
   const { date, dateOpen, setDateOpen } = calendarContext;
   const { guests, guestOpen, setGuestOpen } = guestContext;
 
-  const handleLocation = (value: string) => {
-    setLocation(value);
-  };
-
   const handleSearch = () => {
-    console.log('Location is: ', location);
+    // TODO: Implement logic for searching the db for venues
   };
 
   useEffect(() => {
@@ -55,9 +53,13 @@ function SearchBar() {
           }`}
           type='text'
           value={location}
-          onClick={() => setLocationOpen(true)}
+          onClick={() => {
+            if (guestOpen) setGuestOpen(false);
+            else if (dateOpen) setDateOpen(false);
+            setLocationOpen(true);
+          }}
           onBlur={() => setLocationOpen(false)}
-          onChange={(e) => handleLocation(e.target.value)}
+          onChange={(e) => setLocation(e.target.value)}
           placeholder='Venue location'
         />
       </div>
@@ -65,6 +67,7 @@ function SearchBar() {
       <div>
         <button
           onClick={() => {
+            if (guestOpen) setGuestOpen(false);
             dateOpen ? setDateOpen(false) : setDateOpen(true);
           }}
         >
@@ -76,6 +79,7 @@ function SearchBar() {
         <button
           className='w-[100px] overflow-hidden whitespace-nowrap overflow-ellipsis'
           onClick={() => {
+            if (dateOpen) setDateOpen(false);
             guestOpen ? setGuestOpen(false) : setGuestOpen(true);
           }}
         >
