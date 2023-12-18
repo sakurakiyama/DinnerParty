@@ -2,6 +2,7 @@ import Logo from '../../assets/Logo.png';
 import SearchBar from './components/SearchBar';
 import CalendarSelector from './components/CalendarSelector';
 import GuestSelector from './components/GuestSelector';
+import UserLogo from '../../components/UserLogo';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { BrowsePageContext } from '../BrowsePage';
@@ -28,12 +29,17 @@ function GuestNavBar() {
         </div>
         {/* Right */}
         <div className='w-[50%] text-end'>
-          <button
-            onClick={() => navigate('/host')}
-            className='hover:bg-[#F6F6F6] rounded-full p-2 ml-6'
-          >
-            {user?.ishost ? 'Switch to hosting' : 'Become a host'}
-          </button>
+          <div className='flex flex-row justify-end items-center'>
+            <button
+              onClick={() => navigate('/host')}
+              className='hover:bg-[#F6F6F6] rounded-full p-2 ml-6 mr-2'
+            >
+              {user?.ishost ? 'Switch to hosting' : 'Become a host'}
+            </button>
+            <button className='rounded-full bg-[var(--salmon)] p-2 text-white'>
+              <UserLogo />
+            </button>
+          </div>
         </div>
       </div>
       <div className='block mt-8 md:hidden pb-4'>
