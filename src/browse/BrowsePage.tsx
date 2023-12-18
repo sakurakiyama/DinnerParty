@@ -85,11 +85,15 @@ function BrowsePage() {
   useEffect(() => {
     /*
     TODO: If the user doesn't have a first name or last name, open up a modal to walk them through the profile creation process. 
-    - First name is required
-    - Last name is required 
+    - First name is required. No symbols
+    - Last name is required. No symbols
     */
     if (!user?.firstname || !user?.lastname) {
       setProfileSetupModalOpen(true);
+    }
+
+    if (user?.firstname && user?.lastname) {
+      setProfileSetupModalOpen(false);
     }
   }, [user]);
 
@@ -114,7 +118,9 @@ function BrowsePage() {
       <div>
         {profileSetupModalOpen && (
           <div className='top-0 bottom-0 left-0 right-0 fixed flex items-center justify-center bg-[#00000011] backdrop-filter backdrop-blur-sm'>
-            <InitialProfileCard />
+            <InitialProfileCard
+              setProfileSetupModalOpen={setProfileSetupModalOpen}
+            />
           </div>
         )}
         <GuestNavBar />

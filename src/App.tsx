@@ -46,11 +46,14 @@ function App() {
   const [user, setUser] = useState<UserContextProps['user']>(null);
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
         const { data } = await axios.get('/auth/status');
         setUser(data);
+        setIsLoading(false);
       } catch (error: AxiosError | unknown) {
         if (error instanceof AxiosError) {
           navigate('/');
@@ -68,12 +71,14 @@ function App() {
   }, []);
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <Routes>
-        <Route path='/' element={<HomePage />}></Route>
-        <Route path='/login' element={<Login />}></Route>
-        <Route path='/browse' element={<BrowsePage />}></Route>
-        <Route path='/host' element={<HostPage />}></Route>
-      </Routes>
+      {!isLoading && (
+        <Routes>
+          <Route path='/' element={<HomePage />}></Route>
+          <Route path='/login' element={<Login />}></Route>
+          <Route path='/browse' element={<BrowsePage />}></Route>
+          <Route path='/host' element={<HostPage />}></Route>
+        </Routes>
+      )}
     </UserContext.Provider>
   );
 }

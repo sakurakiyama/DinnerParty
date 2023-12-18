@@ -12,5 +12,6 @@
 
 import getUser from './middleware/getUser.js';
 import createUser from './middleware/createUser.js';
+import addRequiredProfile from './middleware/addRequiredProfile.js';
 
-export default { getUser, createUser };
+export default { getUser, createUser, addRequiredProfile };

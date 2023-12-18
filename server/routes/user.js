@@ -25,4 +25,11 @@ router.post(
   }
 );
 
+router.patch(
+  '/requiredProfile',
+  userController.addRequiredProfile,
+  (req, res) => {
+    return res.status(200).json(res.locals.user);
+  }
+);
 export default router;
