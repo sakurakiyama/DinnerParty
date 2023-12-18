@@ -23,7 +23,6 @@ const getUser = async (req, res, next) => {
     const email = req.body.email
       ? req.body.email
       : res.locals.verification.email;
-
     const getUserQuery = `SELECT * FROM users WHERE email = $1`;
     const { rows } = await query(getUserQuery, [email]);
     let user = rows[0];

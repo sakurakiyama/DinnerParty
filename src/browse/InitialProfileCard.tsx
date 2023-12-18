@@ -57,10 +57,10 @@ function InitialProfileCard({
                 To ensure this, we're asking you to commit to the following:
               </div>
               <div className='text-xs'>
-                I agree to treat everyone in the Airbnb community—regardless of
-                their race, religion, national origin, ethnicity, disability,
-                sex, gender identity, sexual orientation, or age—with respect,
-                and without judgment or bias
+                I agree to treat everyone in the Dinner Party
+                community—regardless of their race, religion, national origin,
+                ethnicity, disability, sex, gender identity, sexual orientation,
+                or age—with respect, and without judgment or bias.
               </div>
               <button
                 onClick={handleCommitmentSubmit}

@@ -11,7 +11,7 @@ router.get(
   userController.getUser,
   (req, res) => {
     if (res.locals.user) return res.status(200).json(res.locals.user);
-    return res.status(401);
+    return res.status(401).json({});
   }
 );
 

@@ -53,7 +53,6 @@ function App() {
       try {
         const { data } = await axios.get('/auth/status');
         setUser(data);
-        setIsLoading(false);
       } catch (error: AxiosError | unknown) {
         if (error instanceof AxiosError) {
           navigate('/');
@@ -65,6 +64,7 @@ function App() {
           } else console.error('Error request:', error.request);
         } else console.error('Error while checking auth status:', error);
       }
+      setIsLoading(false);
     };
 
     checkAuthStatus();
