@@ -1,5 +1,6 @@
 import Logo from '../../assets/Logo.png';
 import HostMenu from './components/HostMenu';
+import UserLogo from '../../components/UserLogo';
 import { useNavigate } from 'react-router-dom';
 
 function HostNavBar() {
@@ -18,12 +19,17 @@ function HostNavBar() {
         </div>
         {/* Right */}
         <div className='w-[50%] text-end'>
-          <button
-            onClick={() => navigate('/browse')}
-            className='hover:bg-[#F6F6F6] rounded-full p-2 ml-6'
-          >
-            Switch to booking
-          </button>
+          <div className='flex flex-row justify-end items-center'>
+            <button
+              onClick={() => navigate('/browse')}
+              className='hover:bg-[#F6F6F6] rounded-full p-2 ml-6 mr-2'
+            >
+              Switch to booking
+            </button>
+            <button className='rounded-full bg-[var(--salmon)] p-2 text-white'>
+              <UserLogo />
+            </button>
+          </div>
         </div>
       </div>
       <div className='block mt-8 md:hidden pb-4'>
