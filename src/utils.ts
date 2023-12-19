@@ -6,7 +6,12 @@ export const formatDate = (date: Date) => {
   return month + ' ' + day;
 };
 
-export const addGuestServiceFee = (price: number) => {
+export const getGuestServiceFee = (price: number) => {
   const total = price * 0.142;
-  return Math.ceil(total) + price;
+  return Math.ceil(total);
+};
+
+export const getHostServiceFee = (price: number) => {
+  const fee = price * 0.03;
+  return Math.ceil(fee);
 };
