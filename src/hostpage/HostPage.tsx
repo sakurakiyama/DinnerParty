@@ -27,6 +27,7 @@ function HostPage() {
       setNewListingModalOpen(false);
     }
   }, []);
+
   return (
     <HostPageContext.Provider
       value={{ newListingModalOpen, setNewListingModalOpen }}

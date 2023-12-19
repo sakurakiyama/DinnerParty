@@ -5,10 +5,7 @@ import HangingLights from '../../../assets/HangingLights.png';
 /*
 TODO: Generate unique key other than index for map. 
 */
-interface NewListingStepProps {
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
-}
-function NewListingStepOne({ setCurrentStep }: NewListingStepProps) {
+function NewListingStepOne() {
   const sections = [
     {
       number: 1,
@@ -43,12 +40,14 @@ function NewListingStepOne({ setCurrentStep }: NewListingStepProps) {
           sections.map((current, index) => {
             return (
               <div className='flex flex-row items-center' key={index}>
-                <div className=''>
+                <div>
                   <div className='text-lg font-black flex'>
                     <div>{current.number}</div>
                     <div className='pl-4 font-bold'>{current.heading}</div>
                   </div>
-                  <div className='pl-6'>{current.caption}</div>
+                  <div className='pl-6 text-gray-500 mt-2'>
+                    {current.caption}
+                  </div>
                 </div>
                 <div className='ml-auto'>
                   <img className='w-[125px] h-auto' src={current.image}></img>
