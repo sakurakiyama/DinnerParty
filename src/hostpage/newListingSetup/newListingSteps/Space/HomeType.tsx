@@ -9,6 +9,7 @@ import { TbBuildingBridge2 } from 'react-icons/tb';
 import { BsBuildingUp } from 'react-icons/bs';
 import { IoBedOutline } from 'react-icons/io5';
 import { LuHotel } from 'react-icons/lu';
+import Tiles from '../../../../components/Tiles';
 
 function HomeType() {
   const allHomes = [
@@ -75,20 +76,7 @@ function HomeType() {
         <div className='font-black text-2xl md:text-3xl text-center'>
           Which of these best describes your place?
         </div>
-        <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 content-center place-items-center md:w-[500px]'>
-          {allHomes &&
-            allHomes.map((current, index) => {
-              return (
-                <div
-                  key={`${current.key}+${index}`}
-                  className='flex flex-col p-4 border rounded-md text-center w-[150px]  justify-center items-center h-[110px] hover:border-black'
-                >
-                  <div className='pb-2'>{current.image}</div>
-                  <div>{current.display}</div>
-                </div>
-              );
-            })}
-        </div>
+        <Tiles items={allHomes} />
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ function SpaceSummary() {
           "In this step, we'll ask you which type of property you have and if guests will book the entire place or just a specific room. Then let us know the location and how many guests can join."
         }
         image={Homes}
+        step={1}
       />
     </div>
   );

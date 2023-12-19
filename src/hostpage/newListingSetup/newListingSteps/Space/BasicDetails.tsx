@@ -12,8 +12,7 @@ function BasicDetails() {
     BasicSpaceDetail[]
   >([
     { count: 0, category: 'Guests' },
-    { count: 0, category: 'Kitchens' },
-    { count: 0, category: 'Dining Rooms' },
+    { count: 0, category: 'Dining areas' },
     { count: 0, category: 'Bathrooms' },
   ]);
 
