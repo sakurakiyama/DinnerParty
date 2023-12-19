@@ -6,7 +6,7 @@ import { MdOutlinePhotoLibrary } from 'react-icons/md';
 /*
 TODO: Add logic to delete photos
 TODO: Add logic to make sure there's at least 5 images
-TODO: Add logic to make sure only certain size are accepted (30MB)
+TODO: Add logic to make sure only certain size are accepted (30MB max and 50KB min)
 */
 
 function AddPhotos() {

@@ -1,6 +1,6 @@
 import { MdOutlineMeetingRoom } from 'react-icons/md';
 import { BsHouseDoor } from 'react-icons/bs';
-
+import SelectableCards from '../../../../components/SelectableCards';
 function HomeAccess() {
   const accessTypes = [
     {
@@ -23,25 +23,7 @@ function HomeAccess() {
         <div className='font-black text-2xl md:text-3xl'>
           What space will guests have access to?
         </div>
-        <div className='flex flex-col space-y-2 mt-8'>
-          {accessTypes &&
-            accessTypes.map((current, index) => {
-              return (
-                <div
-                  key={`${current.key}+${index}`}
-                  className='border p-4 rounded-md flex flex-row items-center hover:border-black'
-                >
-                  <div className='w-[80%]'>
-                    <div className='text-base font-black'>{current.header}</div>
-                    <div className='text-xs mt-2 text-gray-500'>
-                      {current.caption}
-                    </div>
-                  </div>
-                  <div className='ml-auto'>{current.image}</div>
-                </div>
-              );
-            })}
-        </div>
+        <SelectableCards cards={accessTypes} />
       </div>
     </div>
   );

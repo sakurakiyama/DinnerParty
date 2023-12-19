@@ -1,12 +1,17 @@
 import NewListingSummary from './newListingSteps/NewListingSummary';
-import SpaceSummary from './newListingSteps/Space/SpaceSummary';
-import HomeType from './newListingSteps/Space/HomeType';
-import HomeAccess from './newListingSteps/Space/HomeAccess';
-import HomeLocation from './newListingSteps/Space/HomeLocation';
-import BasicDetails from './newListingSteps/Space/BasicDetails';
-import MarketingSummary from './newListingSteps/Marketing/MarketingSummary';
-import BasicAmenities from './newListingSteps/Marketing/BasicAmenities';
-import AddPhotos from './newListingSteps/Marketing/AddPhotos';
+import SpaceSummary from './newListingSteps/space/SpaceSummary';
+import HomeType from './newListingSteps/space/HomeType';
+import HomeAccess from './newListingSteps/space/HomeAccess';
+import HomeLocation from './newListingSteps/space/HomeLocation';
+import BasicDetails from './newListingSteps/space/BasicDetails';
+import MarketingSummary from './newListingSteps/marketing/MarketingSummary';
+import BasicAmenities from './newListingSteps/marketing/BasicAmenities';
+import AddPhotos from './newListingSteps/marketing/AddPhotos';
+import AddTitle from './newListingSteps/marketing/AddTitle';
+import AddDescription from './newListingSteps/marketing/AddDescription';
+import PublishSummary from './newListingSteps/publish/PublishSummary';
+import InstantBookAccess from './newListingSteps/publish/InsantBookAccess';
+import SetPrice from './newListingSteps/publish/SetPrice';
 import Logo from '../../assets/Logo.png';
 import { useState, useContext } from 'react';
 import { HostPageContext } from '../HostPage';
@@ -35,6 +40,13 @@ function NewListingWizard() {
     <MarketingSummary />,
     <BasicAmenities />,
     <AddPhotos />,
+    <AddTitle />,
+    <AddDescription />,
+
+    // Step 3
+    <PublishSummary />,
+    <InstantBookAccess />,
+    <SetPrice />,
   ];
 
   return (
