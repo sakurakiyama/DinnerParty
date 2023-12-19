@@ -12,6 +12,8 @@ import AddDescription from './newListingSteps/marketing/AddDescription';
 import PublishSummary from './newListingSteps/publish/PublishSummary';
 import InstantBookAccess from './newListingSteps/publish/InsantBookAccess';
 import SetPrice from './newListingSteps/publish/SetPrice';
+import SecurityCheck from './newListingSteps/publish/SecurityCheck';
+import ReviewSummary from './ReviewSummary';
 import Logo from '../../assets/Logo.png';
 import { useState, useContext } from 'react';
 import { HostPageContext } from '../HostPage';
@@ -47,6 +49,8 @@ function NewListingWizard() {
     <PublishSummary />,
     <InstantBookAccess />,
     <SetPrice />,
+    <SecurityCheck />,
+    <ReviewSummary />,
   ];
 
   return (

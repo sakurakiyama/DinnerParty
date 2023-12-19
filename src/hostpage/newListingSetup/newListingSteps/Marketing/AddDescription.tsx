@@ -7,7 +7,7 @@ function AddDescription() {
 
   return (
     <div className='flex flex-col w-[550px]'>
-      <div className='font-black text-2xl md:text-3xl'>
+      <div className='font-black text-2xl md:text-3xl pt-10 md:pt-0 '>
         Next, let's describe your space
       </div>
       <div className='mt-4 md:text-base text-gray-500'>

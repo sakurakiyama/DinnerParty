@@ -7,7 +7,7 @@ function AddTitle() {
 
   return (
     <div className='flex flex-col'>
-      <div className='font-black text-2xl md:text-3xl'>
+      <div className='font-black text-2xl md:text-3xl pt-10 md:pt-0'>
         Now, let's give your house a title
       </div>
       <div className='mt-4 md:text-base text-gray-500'>

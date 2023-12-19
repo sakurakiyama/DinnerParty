@@ -110,7 +110,7 @@ function SetPrice() {
     setAllCards(defaultCards);
   }, []);
 
-  const handleToggle = () => {
+  const handleArrowToggle = () => {
     showPriceBreakdown
       ? setShowPriceBreakdown(false)
       : setShowPriceBreakdown(true);
@@ -121,7 +121,7 @@ function SetPrice() {
   };
 
   return (
-    <div className='flex flex-col w-[600px]'>
+    <div className='flex flex-col w-[600px] pt-10 md:pt-0 '>
       <div className='font-black text-2xl md:text-3xl'>Now, set your price</div>
       <div className='mt-4 md:text-base text-gray-500'>
         You can change it anytime.
@@ -154,7 +154,7 @@ function SetPrice() {
           } `}
         >
           <div>Guest price before taxes ${guestServiceFee + price}</div>
-          <div onClick={handleToggle}>
+          <div onClick={handleArrowToggle}>
             <IoIosArrowDown />
           </div>
         </div>
@@ -170,16 +170,16 @@ function SetPrice() {
                 return (
                   <PriceBreakDownCard
                     card={current}
-                    index={index}
                     isOpen={index === openCardIndex}
                     onToggle={() => handleCardToggle(index)}
+                    index={index}
                   />
                 );
               })}
           </div>
           <div className='flex flex-row items-center mt-6 space-x-2 justify-center'>
             <div>Show less</div>
-            <div onClick={handleToggle}>
+            <div onClick={handleArrowToggle}>
               <IoIosArrowUp />
             </div>
           </div>

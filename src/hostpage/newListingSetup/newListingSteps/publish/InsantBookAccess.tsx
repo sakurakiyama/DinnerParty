@@ -18,7 +18,7 @@ function InstantBookAccess() {
   ];
   return (
     <div className='flex flex-col md:space-x-8'>
-      <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10'>
+      <div className='flex flex-col pt-10 md:pt-0 '>
         <div className='font-black text-2xl md:text-3xl'>
           Decide how you’ll confirm reservations
         </div>

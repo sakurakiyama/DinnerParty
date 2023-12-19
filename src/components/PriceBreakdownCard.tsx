@@ -6,20 +6,20 @@ import {
 
 type PriceBreakDownCardProps = {
   card: Card;
-  index: number;
   isOpen: boolean;
   onToggle: () => void;
+  index: number;
 };
 
 function PriceBreakDownCard({
   card,
-  index,
   isOpen,
   onToggle,
+  index,
 }: PriceBreakDownCardProps) {
   return (
     <div
-      key={index}
+      key={`current+${index}`}
       className={`border rounded-md ${
         isOpen ? 'border-black' : 'border-gray-300'
       }`}
@@ -42,7 +42,10 @@ function PriceBreakDownCard({
         {card
           .filter((item): item is TotalItem => 'totalDescription' in item)
           .map((current, innerIndex) => (
-            <div className='flex flex-row w-full pt-4' key={innerIndex}>
+            <div
+              className='flex flex-row w-full pt-4'
+              key={`total+${innerIndex}`}
+            >
               <div className='mr-auto'>{current.totalDescription}</div>
               <div>${current.totalPrice}</div>
             </div>
