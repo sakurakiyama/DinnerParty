@@ -10,7 +10,7 @@ import { BsBuildingUp } from 'react-icons/bs';
 import { IoBedOutline } from 'react-icons/io5';
 import { LuHotel } from 'react-icons/lu';
 
-function NewListingStepThree() {
+function HomeType() {
   const allHomes = [
     {
       key: 'townhouse',
@@ -94,4 +94,4 @@ function NewListingStepThree() {
   );
 }
 
-export default NewListingStepThree;
+export default HomeType;

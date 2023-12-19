@@ -5,7 +5,7 @@ import HangingLights from '../../../assets/HangingLights.png';
 /*
 TODO: Generate unique key other than index for map. 
 */
-function NewListingStepOne() {
+function NewListingSummary() {
   const sections = [
     {
       number: 1,
@@ -60,4 +60,4 @@ function NewListingStepOne() {
   );
 }
 
-export default NewListingStepOne;
+export default NewListingSummary;

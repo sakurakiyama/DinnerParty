@@ -1,6 +1,6 @@
-import Homes from '../../../assets/Homes.png';
+import Homes from '../../../../assets/Homes.png';
 
-function NewListingStepTwo() {
+function SpaceSummary() {
   return (
     <div className='flex flex-col-reverse md:flex-row md:space-x-8 items-center justify-center'>
       <div className='md:w-[50%] flex flex-col pb-10 pt-10 md:pb-0 md:p-10 space-y-6'>
@@ -21,4 +21,4 @@ function NewListingStepTwo() {
   );
 }
 
-export default NewListingStepTwo;
+export default SpaceSummary;

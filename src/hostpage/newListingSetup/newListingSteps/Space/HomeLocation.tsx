@@ -3,10 +3,10 @@ TODO: Add a map
 TODO: Add submit logic 
 */
 
-import LabeledInput from '../../../components/LabeledInput';
+import LabeledInput from '../../../../components/LabeledInput';
 import { useState } from 'react';
 
-function NewListingStepFive() {
+function HomeLocation() {
   const [streetaddress, setStreetAddress] = useState<string>('');
   const [apt, setApt] = useState<string>('');
   const [city, setCity] = useState<string>('');
@@ -15,7 +15,7 @@ function NewListingStepFive() {
 
   return (
     <div className='flex flex-col md:space-x-8'>
-      <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10'>
+      <div className='flex flex-col pb-10 pt-10 md:pb-0 md:pt-0'>
         <div className='font-black text-2xl md:text-3xl '>
           Where's your place located?
         </div>
@@ -68,4 +68,4 @@ function NewListingStepFive() {
   );
 }
 
-export default NewListingStepFive;
+export default HomeLocation;

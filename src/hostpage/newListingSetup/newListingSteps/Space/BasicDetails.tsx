@@ -7,7 +7,7 @@ interface BasicSpaceDetail {
   category: string;
 }
 
-function NewListingStepSix() {
+function BasicDetails() {
   const [basicSpaceDetails, setBasicSpaceDetails] = useState<
     BasicSpaceDetail[]
   >([
@@ -28,11 +28,11 @@ function NewListingStepSix() {
   };
   return (
     <div className='md:w-[550px]'>
-      <div className='pb-10'>
+      <div className='pb-10 pt-10 md:pb-0 md:pt-0'>
         <div className='font-black text-2xl md:text-3xl '>
           Share some basics about your place
         </div>
-        <div className='mt-4 text-gray-500'>
+        <div className='mt-4 text-gray-500 mb-6'>
           You'll add more details later, like dining room set up.
         </div>
       </div>
@@ -71,4 +71,4 @@ function NewListingStepSix() {
   );
 }
 
-export default NewListingStepSix;
+export default BasicDetails;
