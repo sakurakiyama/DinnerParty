@@ -10,8 +10,20 @@ import { BsBuildingUp } from 'react-icons/bs';
 import { IoBedOutline } from 'react-icons/io5';
 import { LuHotel } from 'react-icons/lu';
 import Tiles from '../../../../components/Tiles';
+import { NewListingWizardContext } from '../../NewListingWizard';
+import { useContext } from 'react';
 
 function HomeType() {
+  const { spaceContext } = useContext(NewListingWizardContext);
+  const { spaceDetails, setSpaceDetails } = spaceContext;
+
+  const updateHomeType = (homeType: string) => {
+    const currentSpaceDetails = spaceDetails;
+    currentSpaceDetails.homeType = homeType;
+    setSpaceDetails(currentSpaceDetails);
+    localStorage.setItem('spaceDetails', JSON.stringify(currentSpaceDetails));
+  };
+
   const allHomes = [
     {
       key: 'townhouse',
@@ -76,7 +88,11 @@ function HomeType() {
         <div className='font-black text-2xl md:text-3xl text-center'>
           Which of these best describes your place?
         </div>
-        <Tiles items={allHomes} />
+        <Tiles
+          items={allHomes}
+          multipleSelection={false}
+          handleTileClick={updateHomeType}
+        />
       </div>
     </div>
   );
