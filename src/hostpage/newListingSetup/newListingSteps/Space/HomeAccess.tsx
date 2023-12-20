@@ -1,7 +1,20 @@
 import { MdOutlineMeetingRoom } from 'react-icons/md';
 import { BsHouseDoor } from 'react-icons/bs';
 import SelectableCards from '../../../../components/SelectableCards';
+import { NewListingWizardContext } from '../../NewListingWizard';
+import { useContext } from 'react';
+
 function HomeAccess() {
+  const { spaceContext } = useContext(NewListingWizardContext);
+  const { spaceDetails, setSpaceDetails } = spaceContext;
+
+  const updateHomeAccess = (accessType: string) => {
+    const currentSpaceDetails = spaceDetails;
+    currentSpaceDetails.accessType = accessType;
+    setSpaceDetails(currentSpaceDetails);
+    localStorage.setItem('spaceDetails', JSON.stringify(currentSpaceDetails));
+  };
+
   const accessTypes = [
     {
       key: 'entireplace',
@@ -23,7 +36,11 @@ function HomeAccess() {
         <div className='font-black text-2xl md:text-3xl'>
           What space will guests have access to?
         </div>
-        <SelectableCards cards={accessTypes} />
+        <SelectableCards
+          cards={accessTypes}
+          multipleSelection={false}
+          handleSelectableCardClick={updateHomeAccess}
+        />
       </div>
     </div>
   );
