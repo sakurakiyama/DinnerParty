@@ -14,7 +14,6 @@ function NewListingButtons() {
 
   return (
     <div className='flex justify-center mb-8 mt-auto'>
-      {/* Back button */}
       {currentView !== 0 && currentView !== pages.length - 1 && (
         <div className='flex w-full justify-between ml-4 mr-4'>
           <SalmonButton
