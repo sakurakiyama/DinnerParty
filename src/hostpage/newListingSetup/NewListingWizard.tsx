@@ -14,6 +14,7 @@ import InstantBookAccess from './newListingSteps/publish/InsantBookAccess';
 import SetPrice from './newListingSteps/publish/SetPrice';
 import SecurityCheck from './newListingSteps/publish/SecurityCheck';
 import ReviewSummary from './ReviewSummary';
+import NewListingButtons from './NewListingButtons';
 import Logo from '../../assets/Logo.png';
 import { useState, useContext, createContext } from 'react';
 import { HostPageContext } from '../HostPage';
@@ -21,9 +22,33 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 /*
-TODO: Make a component for the buttons
 TODO: Add animated transitions
 */
+
+const pages = [
+  <NewListingSummary />,
+
+  // Step 1
+  <SpaceSummary />,
+  <HomeType />,
+  <HomeAccess />,
+  <HomeLocation />,
+  <BasicDetails />,
+
+  // Step 2
+  <MarketingSummary />,
+  <BasicAmenities />,
+  <AddPhotos />,
+  <AddTitle />,
+  <AddDescription />,
+
+  // Step 3
+  <PublishSummary />,
+  <InstantBookAccess />,
+  <SetPrice />,
+  <SecurityCheck />,
+  <ReviewSummary />,
+];
 
 interface SpaceDetailProps {
   homeType: string;
@@ -42,6 +67,12 @@ interface NewListingWizardContextProps {
   spaceContext: {
     spaceDetails: SpaceDetailProps;
     setSpaceDetails: React.Dispatch<React.SetStateAction<SpaceDetailProps>>;
+  };
+  newListingButtonsContext: {
+    currentView: number;
+    setCurrentView: React.Dispatch<React.SetStateAction<number>>;
+    pages: JSX.Element[];
+    saveListing: () => void;
   };
 }
 
@@ -62,6 +93,12 @@ export const NewListingWizardContext =
       },
       setSpaceDetails: () => {},
     },
+    newListingButtonsContext: {
+      currentView: 0,
+      setCurrentView: () => {},
+      pages: pages,
+      saveListing: () => {},
+    },
   });
 
 function NewListingWizard() {
@@ -80,36 +117,6 @@ function NewListingWizard() {
     numOfBathrooms: 0,
   });
 
-  const pages = [
-    <NewListingSummary />,
-
-    // Step 1
-    <SpaceSummary />,
-    <HomeType />,
-    <HomeAccess />,
-    <HomeLocation />,
-    <BasicDetails />,
-
-    // Step 2
-    <MarketingSummary />,
-    <BasicAmenities />,
-    <AddPhotos />,
-    <AddTitle />,
-    <AddDescription />,
-
-    // Step 3
-    <PublishSummary />,
-    <InstantBookAccess />,
-    <SetPrice />,
-    <SecurityCheck />,
-    <ReviewSummary />,
-  ];
-
-  const handleView = (operation: string) => {
-    if (operation === 'Forward') setCurrentView(currentView + 1);
-    else if (operation === 'Backward') setCurrentView(currentView - 1);
-  };
-
   const saveListing = () => {
     // TODO: Send data to backend
     setNewListingModalOpen(false);
@@ -120,6 +127,12 @@ function NewListingWizard() {
       <NewListingWizardContext.Provider
         value={{
           spaceContext: { spaceDetails, setSpaceDetails },
+          newListingButtonsContext: {
+            currentView,
+            setCurrentView,
+            pages,
+            saveListing,
+          },
         }}
       >
         <div className='w-full'>
@@ -142,51 +155,7 @@ function NewListingWizard() {
                 {pages[currentView]}
               </div>
             </div>
-            <div className='flex justify-center mb-8 mt-auto'>
-              {/* Back button */}
-              {currentView !== 0 && currentView !== pages.length - 1 && (
-                <div className='flex w-full justify-between ml-4 mr-4'>
-                  <button
-                    onClick={() => handleView('Backward')}
-                    className='rounded-full p-2 pl-8 pr-8 text-white bg-[var(--salmon)]'
-                  >
-                    Back
-                  </button>
-                  {/* Next button */}
-                  <button
-                    onClick={() => handleView('Forward')}
-                    className='rounded-full p-2 pl-8 pr-8 text-white bg-[var(--salmon)]'
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
-              {currentView === 0 && (
-                <button
-                  onClick={() => handleView('Forward')}
-                  className='rounded-full p-2 pl-8 pr-8 text-white bg-[var(--salmon)]'
-                >
-                  Get started
-                </button>
-              )}
-              {currentView === pages.length - 1 && (
-                <div className='flex w-full justify-between ml-4 mr-4'>
-                  <button
-                    onClick={() => handleView('Backward')}
-                    className='rounded-full p-2 pl-8 pr-8 text-white bg-[var(--salmon)]'
-                  >
-                    Back
-                  </button>
-                  {/* Finish button */}
-                  <button
-                    onClick={saveListing}
-                    className='rounded-full p-2 pl-8 pr-8 text-white bg-[var(--salmon)]'
-                  >
-                    Let's go
-                  </button>
-                </div>
-              )}
-            </div>
+            <NewListingButtons />
           </div>
         </div>
       </NewListingWizardContext.Provider>
