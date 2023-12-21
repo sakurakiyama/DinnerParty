@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface LabeledInputProps {
   required: boolean;
   id: string;
   display: string;
-  setterFunc: React.Dispatch<React.SetStateAction<string>>;
+  setterFunc: (value: string) => void;
   value: string;
 }
 
@@ -17,16 +17,17 @@ function LabeledInput({
 }: LabeledInputProps) {
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
-  const handleBlur = () => {
-    if (!value) setIsFocused(false);
-    return;
-  };
+  useEffect(() => {
+    if (value) setIsFocused(true);
+    else {
+      setIsFocused(false);
+    }
+  }, [value]);
 
   return (
     <div className='relative'>
       <input
         onFocus={() => setIsFocused(true)}
-        onBlur={handleBlur}
         onChange={(e) => setterFunc(e.target.value)}
         value={value}
         id={id}
