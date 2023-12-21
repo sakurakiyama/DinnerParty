@@ -14,7 +14,6 @@ import InstantBookAccess from './newListingSteps/publish/InsantBookAccess';
 import SetPrice from './newListingSteps/publish/SetPrice';
 import SecurityCheck from './newListingSteps/publish/SecurityCheck';
 import ReviewSummary from './ReviewSummary';
-import NewListingButtons from './NewListingButtons';
 import Logo from '../../assets/Logo.png';
 import { useState, useContext, createContext } from 'react';
 import { HostPageContext } from '../HostPage';
@@ -38,9 +37,9 @@ const pages = [
   // Step 2
   <MarketingSummary />,
   <BasicAmenities />,
-  <AddPhotos />,
   <AddTitle />,
   <AddDescription />,
+  <AddPhotos />,
 
   // Step 3
   <PublishSummary />,
@@ -57,10 +56,23 @@ interface SpaceDetailProps {
   apt: string;
   city: string;
   state: string;
-  zipcode: string;
-  maxNumOfGuests: number;
-  numOfDiningAreas: number;
-  numOfBathrooms: number;
+  zipCode: string;
+  guests: number;
+  diningAreas: number;
+  bathrooms: number;
+}
+
+interface MarketingDetailProps {
+  amenities: string[];
+  photos: (string | ArrayBuffer | null)[];
+  title: string;
+  description: string;
+}
+
+interface PublishingDetailProps {
+  instantBook: boolean;
+  security: string[];
+  basePrice: number;
 }
 
 interface NewListingWizardContextProps {
@@ -74,6 +86,18 @@ interface NewListingWizardContextProps {
     pages: JSX.Element[];
     saveListing: () => void;
   };
+  marketingContext: {
+    marketingDetails: MarketingDetailProps;
+    setMarketingDetails: React.Dispatch<
+      React.SetStateAction<MarketingDetailProps>
+    >;
+  };
+  publishingContext: {
+    publishingDetails: PublishingDetailProps;
+    setPublishingDetails: React.Dispatch<
+      React.SetStateAction<PublishingDetailProps>
+    >;
+  };
 }
 
 export const NewListingWizardContext =
@@ -86,10 +110,10 @@ export const NewListingWizardContext =
         apt: '',
         city: '',
         state: '',
-        zipcode: '',
-        maxNumOfGuests: 0,
-        numOfDiningAreas: 0,
-        numOfBathrooms: 0,
+        zipCode: '',
+        guests: 0,
+        diningAreas: 0,
+        bathrooms: 0,
       },
       setSpaceDetails: () => {},
     },
@@ -98,6 +122,23 @@ export const NewListingWizardContext =
       setCurrentView: () => {},
       pages: pages,
       saveListing: () => {},
+    },
+    marketingContext: {
+      marketingDetails: {
+        amenities: [],
+        photos: [],
+        title: '',
+        description: '',
+      },
+      setMarketingDetails: () => {},
+    },
+    publishingContext: {
+      publishingDetails: {
+        instantBook: false,
+        security: [],
+        basePrice: 100,
+      },
+      setPublishingDetails: () => {},
     },
   });
 
@@ -111,11 +152,26 @@ function NewListingWizard() {
     apt: '',
     city: '',
     state: '',
-    zipcode: '',
-    maxNumOfGuests: 0,
-    numOfDiningAreas: 0,
-    numOfBathrooms: 0,
+    zipCode: '',
+    guests: 0,
+    diningAreas: 0,
+    bathrooms: 0,
   });
+
+  const [marketingDetails, setMarketingDetails] =
+    useState<MarketingDetailProps>({
+      amenities: [],
+      photos: [],
+      title: '',
+      description: '',
+    });
+
+  const [publishingDetails, setPublishingDetails] =
+    useState<PublishingDetailProps>({
+      instantBook: false,
+      security: [],
+      basePrice: 100,
+    });
 
   const saveListing = () => {
     // TODO: Send data to backend
@@ -133,6 +189,8 @@ function NewListingWizard() {
             pages,
             saveListing,
           },
+          marketingContext: { marketingDetails, setMarketingDetails },
+          publishingContext: { publishingDetails, setPublishingDetails },
         }}
       >
         <div className='w-full'>
@@ -150,12 +208,7 @@ function NewListingWizard() {
                 Save & exit
               </button>
             </div>
-            <div className='md:m-auto overflow-auto'>
-              <div className='m-8 flex justify-center items-center'>
-                {pages[currentView]}
-              </div>
-            </div>
-            <NewListingButtons />
+            {pages[currentView]}
           </div>
         </div>
       </NewListingWizardContext.Provider>
