@@ -1,16 +1,47 @@
 import HomesExtra from '../../../../assets/HomesExtra.png';
 import NewListingWizardSummary from '../../../../components/NewListingWizardSummary';
+import { useContext } from 'react';
+import { NewListingWizardContext } from '../../NewListingWizard';
+import SalmonButton from '../../../../components/SalmonButton';
+
 function SpaceSummary() {
+  const { newListingButtonsContext } = useContext(NewListingWizardContext);
+  const { currentView, setCurrentView } = newListingButtonsContext;
+
+  const handleView = (operation?: string) => {
+    if (operation === 'Forward') {
+      setCurrentView(currentView + 1);
+    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+  };
+
   return (
-    <div>
-      <NewListingWizardSummary
-        header={'Make your place stand out'}
-        description={
-          'In this step, you’ll add some of the amenities your place offers, plus 5 or more photos. Then, you’ll create a title and description.'
-        }
-        image={HomesExtra}
-        step={2}
-      />
+    <div className='flex flex-col h-full overflow-auto'>
+      <div className='mt-10 md:mt-auto'>
+        <NewListingWizardSummary
+          header={'Make your place stand out'}
+          description={
+            'In this step, you’ll add some of the amenities your place offers, plus 5 or more photos. Then, you’ll create a title and description.'
+          }
+          image={HomesExtra}
+          step={2}
+        />
+      </div>
+      <div className='flex justify-center mb-8 mt-auto pt-6'>
+        <div className='flex w-full justify-between ml-4 mr-4'>
+          <SalmonButton
+            display={'Back'}
+            handleClick={handleView}
+            operation={'Backward'}
+            disabled={false}
+          />
+          <SalmonButton
+            display={'Next'}
+            handleClick={handleView}
+            operation={'Forward'}
+            disabled={false}
+          />
+        </div>
+      </div>
     </div>
   );
 }
