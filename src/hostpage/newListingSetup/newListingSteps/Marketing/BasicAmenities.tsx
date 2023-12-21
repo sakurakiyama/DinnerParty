@@ -13,8 +13,31 @@ import { RiAlarmWarningLine } from 'react-icons/ri';
 import { RiFirstAidKitLine } from 'react-icons/ri';
 import { PiFireExtinguisher } from 'react-icons/pi';
 import { GiRingingAlarm } from 'react-icons/gi';
+import SalmonButton from '../../../../components/SalmonButton';
+import { NewListingWizardContext } from '../../NewListingWizard';
+import { useContext } from 'react';
 
 function BasicAmenities() {
+  const { marketingContext, newListingButtonsContext } = useContext(
+    NewListingWizardContext
+  );
+  const { marketingDetails, setMarketingDetails } = marketingContext;
+  const { currentView, setCurrentView } = newListingButtonsContext;
+
+  const updateAmenenities = (amenity: string) => {
+    setMarketingDetails({
+      ...marketingDetails,
+      amenities: [...marketingDetails.amenities, amenity],
+    });
+  };
+
+  const handleView = (operation?: string) => {
+    localStorage.setItem('marketingDetails', JSON.stringify(marketingDetails));
+    if (operation === 'Forward') {
+      setCurrentView(currentView + 1);
+    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+  };
+
   const safetyItems = [
     {
       key: 'smokealarm',
@@ -94,23 +117,53 @@ function BasicAmenities() {
     },
   ];
   return (
-    <div className='flex flex-col md:space-x-8 items-center justify-center '>
-      <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10'>
-        <div className='font-black text-2xl md:text-3xl'>
-          Tell guests what your place has to offer
+    <div className='flex flex-col h-full overflow-auto'>
+      <div className='flex flex-col md:space-x-8 items-center justify-center '>
+        <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10'>
+          <div className='font-black text-2xl md:text-3xl'>
+            Tell guests what your place has to offer
+          </div>
+          <div className='mt-4 md:text-base text-gray-500'>
+            You can add more amenities after you publish your listing.
+          </div>
+          <Tiles
+            items={basicItems}
+            multipleSelection={true}
+            handleTileClick={updateAmenenities}
+          />
+          <div className='font-black md:text-base pt-8'>
+            Do you have any standout amenities?
+          </div>
+          <Tiles
+            items={standoutItems}
+            multipleSelection={true}
+            handleTileClick={updateAmenenities}
+          />
+          <div className='font-black md:text-base pt-8'>
+            Do you have any of these safety items?
+          </div>
+          <Tiles
+            items={safetyItems}
+            multipleSelection={true}
+            handleTileClick={updateAmenenities}
+          />
         </div>
-        <div className='mt-4 md:text-base text-gray-500'>
-          You can add more amenities after you publish your listing.
+      </div>
+      <div className='flex justify-center mb-8 mt-auto pt-6'>
+        <div className='flex w-full justify-between ml-4 mr-4'>
+          <SalmonButton
+            display={'Back'}
+            handleClick={handleView}
+            operation={'Backward'}
+            disabled={false}
+          />
+          <SalmonButton
+            display={'Next'}
+            handleClick={handleView}
+            operation={'Forward'}
+            disabled={false}
+          />
         </div>
-        <Tiles items={basicItems} />
-        <div className='font-black md:text-base pt-8'>
-          Do you have any standout amenities?
-        </div>
-        <Tiles items={standoutItems} />
-        <div className='font-black md:text-base pt-8'>
-          Do you have any of these safety items?
-        </div>
-        <Tiles items={safetyItems} />
       </div>
     </div>
   );
