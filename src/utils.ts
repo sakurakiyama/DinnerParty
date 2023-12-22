@@ -15,3 +15,25 @@ export const getHostServiceFee = (price: number) => {
   const fee = price * 0.03;
   return Math.ceil(fee);
 };
+
+export const isAlphaWithSpacesAndAccents = (inputValue: string) => {
+  const pattern = /^[\p{L}\s]+$/u;
+  return pattern.test(inputValue);
+};
+
+export const isAlphaWithSpacesAccentsAndNumbers = (inputValue: string) => {
+  const pattern = /^[\p{L}\d\s]+$/u;
+  return pattern.test(inputValue);
+};
+
+export const isBlankString = (inputValue: string) => {
+  return inputValue.trim().length === 0;
+};
+
+export const convertToMB = (size: number) => {
+  return size / (1024 * 1024);
+};
+
+export const convertToKB = (size: number) => {
+  return size / 1024;
+};
