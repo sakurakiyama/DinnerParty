@@ -25,7 +25,6 @@ function HomeAccess() {
   };
 
   const handleView = (operation?: string) => {
-    localStorage.setItem('spaceDetails', JSON.stringify(spaceDetails));
     if (operation === 'Forward') {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);

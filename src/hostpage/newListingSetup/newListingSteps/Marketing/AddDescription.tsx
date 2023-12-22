@@ -1,9 +1,8 @@
 import { useState, useContext, useEffect } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
-/*
-TODO: Add logic for erroring when longer than 500 chars 
-*/
+import { isBlankString } from '../../../../utils';
+
 function AddDescription() {
   const { marketingContext, newListingButtonsContext } = useContext(
     NewListingWizardContext
@@ -19,7 +18,7 @@ function AddDescription() {
 
   useEffect(() => {
     if (
-      marketingDetails.description &&
+      !isBlankString(marketingDetails.description) &&
       marketingDetails.description.length <= 500
     )
       setNotValidated(false);
@@ -27,7 +26,6 @@ function AddDescription() {
   }, [marketingDetails]);
 
   const handleView = (operation?: string) => {
-    localStorage.setItem('marketingDetails', JSON.stringify(marketingDetails));
     if (operation === 'Forward') {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);
@@ -46,12 +44,13 @@ function AddDescription() {
           className={`mt-8 border rounded-md p-2 whitespace-normal h-48  ${
             marketingDetails.description.length > 500
               ? 'outline-rose-800 bg-rose-800/20'
-              : 'outline-[var(--light-pink)]'
+              : 'outline-slate-500'
           }`}
-          id='title'
+          id='description'
+          value={marketingDetails.description}
           onChange={handleDescription}
         ></textarea>
-        <label htmlFor='title'></label>
+        <label htmlFor='description'></label>
         <div
           className={`font-black mt-3  ${
             marketingDetails.description.length > 500

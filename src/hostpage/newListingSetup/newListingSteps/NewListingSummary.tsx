@@ -5,9 +5,6 @@ import SalmonButton from '../../../components/SalmonButton';
 import { NewListingWizardContext } from '../NewListingWizard';
 import { useContext } from 'react';
 
-/*
-TODO: Generate unique key other than index for map. 
-*/
 function NewListingSummary() {
   const { newListingButtonsContext } = useContext(NewListingWizardContext);
   const { currentView, setCurrentView } = newListingButtonsContext;

@@ -40,7 +40,6 @@ function BasicAmenities() {
       });
     } else {
       setSelected([...selected, amenity]);
-
       setMarketingDetails({
         ...marketingDetails,
         amenities: [...marketingDetails.amenities, amenity],
@@ -49,7 +48,6 @@ function BasicAmenities() {
   };
 
   const handleView = (operation?: string) => {
-    localStorage.setItem('marketingDetails', JSON.stringify(marketingDetails));
     if (operation === 'Forward') {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);

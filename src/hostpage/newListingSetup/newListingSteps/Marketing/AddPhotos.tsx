@@ -1,24 +1,33 @@
 import { useDrop } from 'react-dnd';
 import { NativeTypes } from 'react-dnd-html5-backend';
 import { useState, useContext, useEffect } from 'react';
-import { MdOutlinePhotoLibrary } from 'react-icons/md';
+import { HiOutlinePhoto } from 'react-icons/hi2';
 import SalmonButton from '../../../../components/SalmonButton';
+import FileInput from '../../../../components/FileInput';
 import { NewListingWizardContext } from '../../NewListingWizard';
+import { MdDeleteOutline } from 'react-icons/md';
+import { convertToKB, convertToMB } from '../../../../utils';
+import { MdErrorOutline } from 'react-icons/md';
 
 /*
-TODO: Add logic to delete photos
-TODO: Add logic to make sure there's at least 5 images
-TODO: Add logic to make sure only certain size are accepted (30MB max and 50KB min)
-TODO: Currently not saving photos in local storage due to size. Figure out a good solution. 
+TODO: Add functionality to drag photos once dropped
 */
 
 function AddPhotos() {
   const [notValidated, setNotValidated] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const { marketingContext, newListingButtonsContext } = useContext(
     NewListingWizardContext
   );
   const { marketingDetails, setMarketingDetails } = marketingContext;
   const { currentView, setCurrentView } = newListingButtonsContext;
+
+  useEffect(() => {
+    if (marketingDetails.photos.length >= 5) setNotValidated(false);
+    else {
+      setNotValidated(true);
+    }
+  }, [marketingDetails]);
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
@@ -41,26 +50,51 @@ function AddPhotos() {
     });
   };
 
-  useEffect(() => {
-    if (marketingDetails.photos.length >= 5) setNotValidated(false);
-  }, [marketingDetails]);
+  const handleDeletePhoto = (deletionIndex: number) => {
+    setMarketingDetails((prevState) => {
+      const currentState = { ...prevState };
+      currentState.photos = currentState.photos.filter(
+        (_, index) => index !== deletionIndex
+      );
+      return currentState;
+    });
+  };
+
+  const processValid = async (files: File[]) => {
+    const newFiles = await Promise.all(
+      files.map(async (file) => readAsDataURL(file))
+    );
+
+    setMarketingDetails((prevState) => {
+      const currentState = { ...prevState };
+      currentState.photos = [...currentState.photos, ...newFiles];
+      return currentState;
+    });
+  };
+
+  const handlePhotosFromDevice = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files) {
+      const files = Array.from(event.target.files);
+      for (const file of files) {
+        const { valid } = await validateDrop(file);
+        if (!valid) return;
+      }
+      processValid(files);
+    }
+  };
 
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: [NativeTypes.FILE],
       drop: async (item: { files: File[] }) => {
         if (item) {
-          const type = item.files[0].type;
-          if (type === 'image/png' || type === 'image/jpeg') {
-            const newFiles = await Promise.all(
-              item.files.map(async (file) => await readAsDataURL(file))
-            );
-            setMarketingDetails((prevState) => {
-              const currentState = { ...prevState };
-              currentState.photos = [...currentState.photos, ...newFiles];
-              return currentState;
-            });
+          for (const file of item.files) {
+            const { valid } = await validateDrop(file);
+            if (!valid) return;
           }
+          processValid(item.files);
         }
       },
       collect: (monitor) => ({
@@ -69,6 +103,32 @@ function AddPhotos() {
     }),
     []
   );
+
+  const validateDrop = async (file: File) => {
+    const type = file.type;
+    const KBSize = convertToKB(file.size);
+    const MBSize = convertToMB(file.size);
+
+    if (type !== 'image/png' && type !== 'image/jpeg') {
+      setErrorMessage(
+        'Invalid file format. Please upload a photo in PNG or JPEG format.'
+      );
+      return { valid: false };
+    } else if (KBSize < 50) {
+      setErrorMessage(
+        'Photo size is too small. Please upload a photo larger than 50KB.'
+      );
+      return { valid: false };
+    } else if (MBSize > 10) {
+      setErrorMessage(
+        'Photo size exceeds the maximum limit. Please upload a photo less than 10MB.'
+      );
+      return { valid: false };
+    } else {
+      setErrorMessage('');
+      return { valid: true };
+    }
+  };
 
   return (
     <div className='flex flex-col h-full overflow-auto'>
@@ -90,41 +150,74 @@ function AddPhotos() {
                   : 'flex flex-col'
               } ${
                 isOver
-                  ? 'animate-pulse border-dotted border-2 border-[var(--light-pink)] items-center'
+                  ? 'animate-pulse border-dotted border-2 border-slate-500  items-center'
                   : 'border border-2'
               }`}
             >
               {!marketingDetails.photos.length && (
-                <div className='flex flex-col justify-center items-center m-auto'>
-                  <div className='mb-2'>
-                    <MdOutlinePhotoLibrary size={60} />
+                <div className='flex flex-col justify-center items-center m-auto space-y-2'>
+                  <div>
+                    <HiOutlinePhoto size={60} />
                   </div>
-                  <div className='text-base font-black'>
+                  <div className='text-xl font-black'>
                     Drag your photos here
                   </div>
-                  <div className=''>Choose at least 5 photos</div>
+                  <div>Choose at least 5 photos</div>
+                  <div className='pt-6'>
+                    <FileInput
+                      handleChange={(
+                        event: React.ChangeEvent<HTMLInputElement>
+                      ) => handlePhotosFromDevice(event)}
+                      display={'Click here to upload photos'}
+                      accept={'image/png, image/jpeg'}
+                      multiple={true}
+                    />
+                  </div>
                 </div>
               )}
-              {marketingDetails.photos &&
+              {marketingDetails.photos.length > 0 &&
                 marketingDetails.photos.map((dataUrl, index) => {
                   return (
                     <div
                       className='border h-[150px] md:h-[200px] md:w-[300px] bg-white rounded-md shadow-sm'
                       key={index}
                     >
-                      {dataUrl ? (
-                        <img
-                          className='object-cover w-full h-full rounded-md'
-                          src={dataUrl as string}
-                          alt={`Preview ${index}`}
-                        />
-                      ) : (
-                        <span>Unable to preview</span>
+                      {dataUrl && (
+                        <div
+                          className='p-2 relative bg-cover w-full h-full'
+                          style={{
+                            backgroundImage: `url(${dataUrl as string})`,
+                          }}
+                        >
+                          <button
+                            onClick={() => handleDeletePhoto(index)}
+                            className='absolute bottom-0 right-0 m-2 bg-white rounded-full w-[30px] h-[30px] flex justify-center items-center shadow-md'
+                          >
+                            <MdDeleteOutline size={20} />
+                          </button>
+                        </div>
                       )}
                     </div>
                   );
                 })}
+              {marketingDetails.photos.length > 0 && (
+                <div className='flex border h-[150px] md:h-[200px] md:w-[300px] bg-white rounded-md shadow-sm justify-center items-center'>
+                  <FileInput
+                    handleChange={(
+                      event: React.ChangeEvent<HTMLInputElement>
+                    ) => handlePhotosFromDevice(event)}
+                    display={'Add more'}
+                    accept={'image/png, image/jpeg'}
+                    multiple={true}
+                  />
+                </div>
+              )}
             </div>
+            {errorMessage && (
+              <div className='text-center text-rose-800 flex justify-center items-center pt-2'>
+                <MdErrorOutline size={20} className='pr-1' /> {errorMessage}
+              </div>
+            )}
           </div>
         </div>
       </div>

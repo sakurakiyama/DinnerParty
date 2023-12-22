@@ -1,10 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
-
-/*
-TODO: Add logic for erroring when longer than 32 chars 
-*/
+import { isBlankString } from '../../../../utils';
 
 function AddTitle() {
   const { marketingContext, newListingButtonsContext } = useContext(
@@ -20,13 +17,15 @@ function AddTitle() {
   };
 
   useEffect(() => {
-    if (marketingDetails.title && marketingDetails.title.length <= 32)
+    if (
+      !isBlankString(marketingDetails.title) &&
+      marketingDetails.title.length <= 32
+    )
       setNotValidated(false);
     else setNotValidated(true);
   }, [marketingDetails]);
 
   const handleView = (operation?: string) => {
-    localStorage.setItem('marketingDetails', JSON.stringify(marketingDetails));
     if (operation === 'Forward') {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);
@@ -46,9 +45,10 @@ function AddTitle() {
           className={`mt-8 border rounded-md p-2 whitespace-normal h-20 ${
             marketingDetails.title.length > 32
               ? 'outline-rose-800 bg-rose-800/20'
-              : 'outline-[var(--light-pink)]'
+              : 'outline-slate-500'
           }`}
           id='title'
+          value={marketingDetails.title}
           onChange={handleTitleUpdate}
         ></textarea>
         <label htmlFor='title'></label>

@@ -70,7 +70,7 @@ interface MarketingDetailProps {
 }
 
 interface PublishingDetailProps {
-  instantBook: boolean;
+  instantBook: string;
   security: string[];
   basePrice: number;
 }
@@ -134,7 +134,7 @@ export const NewListingWizardContext =
     },
     publishingContext: {
       publishingDetails: {
-        instantBook: false,
+        instantBook: '',
         security: [],
         basePrice: 100,
       },
@@ -168,7 +168,7 @@ function NewListingWizard() {
 
   const [publishingDetails, setPublishingDetails] =
     useState<PublishingDetailProps>({
-      instantBook: false,
+      instantBook: '',
       security: [],
       basePrice: 100,
     });

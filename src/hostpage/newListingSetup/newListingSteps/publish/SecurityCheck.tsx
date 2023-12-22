@@ -25,20 +25,28 @@ function SecurityCheck() {
   };
 
   const handleView = (operation?: string) => {
-    localStorage.setItem(
-      'publishingDetails',
-      JSON.stringify(publishingDetails)
-    );
     if (operation === 'Forward') {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);
   };
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPublishingDetails({
-      ...publishingDetails,
-      security: [...publishingDetails.security, e.target.value],
-    });
+    const selectedValue = e.target.value;
+    const isSelected = publishingDetails.security.includes(selectedValue);
+
+    if (isSelected) {
+      setPublishingDetails({
+        ...publishingDetails,
+        security: publishingDetails.security.filter(
+          (item) => item !== selectedValue
+        ),
+      });
+    } else {
+      setPublishingDetails({
+        ...publishingDetails,
+        security: [...publishingDetails.security, selectedValue],
+      });
+    }
   };
 
   return (
@@ -92,6 +100,10 @@ function SecurityCheck() {
           <div className='pt-8'>
             {items &&
               items.map((current) => {
+                const isChecked = publishingDetails.security.includes(
+                  current.title
+                );
+
                 return (
                   <div
                     className='flex flex-row w-full pb-4  checked:bg-green-500'
@@ -105,6 +117,7 @@ function SecurityCheck() {
                       id={current.key}
                       name={current.key}
                       value={current.title}
+                      checked={isChecked}
                     ></input>
                   </div>
                 );

@@ -24,17 +24,21 @@ export type Card = (CardItem | TotalItem)[];
 type CardsArray = Card[];
 
 function SetPrice() {
-  const editableRef = useRef<EditableDivRef>(null);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [guestServiceFee, setGuestServiceFee] = useState<number>(14);
-  const [showPriceBreakdown, setShowPriceBreakdown] = useState<boolean>(false);
-  const [hostServiceFee, setHostServiceFee] = useState<number>(3);
-  const [allCards, setAllCards] = useState<CardsArray>([]);
-  const [openCardIndex, setOpenCardIndex] = useState<number>(0);
   const { publishingContext, newListingButtonsContext } = useContext(
     NewListingWizardContext
   );
   const { publishingDetails, setPublishingDetails } = publishingContext;
+  const editableRef = useRef<EditableDivRef>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [guestServiceFee, setGuestServiceFee] = useState<number>(
+    getGuestServiceFee(publishingDetails.basePrice)
+  );
+  const [showPriceBreakdown, setShowPriceBreakdown] = useState<boolean>(false);
+  const [hostServiceFee, setHostServiceFee] = useState<number>(
+    getHostServiceFee(publishingDetails.basePrice)
+  );
+  const [allCards, setAllCards] = useState<CardsArray>([]);
+  const [openCardIndex, setOpenCardIndex] = useState<number>(0);
   const { currentView, setCurrentView } = newListingButtonsContext;
   const [notValidated, setNotValidated] = useState<boolean>(false);
 
@@ -55,10 +59,6 @@ function SetPrice() {
   };
 
   const handleView = (operation?: string) => {
-    localStorage.setItem(
-      'publishingDetails',
-      JSON.stringify(publishingDetails)
-    );
     if (operation === 'Forward') {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);
@@ -78,15 +78,15 @@ function SetPrice() {
         { item: 'Guest service fee', price: totalGuestServiceFee },
         {
           totalDescription: 'Guest price before taxes',
-          totalPrice: totalGuestServiceFee + publishingDetails.basePrice,
+          totalPrice: totalGuestServiceFee + value,
         },
       ],
       [
-        { item: 'Base price', price: publishingDetails.basePrice },
+        { item: 'Base price', price: value },
         { item: 'Host service fee', price: totalHostServiceFee },
         {
           totalDescription: 'You earn',
-          totalPrice: publishingDetails.basePrice - totalHostServiceFee,
+          totalPrice: value - totalHostServiceFee,
         },
       ],
     ];
@@ -104,8 +104,9 @@ function SetPrice() {
 
   // Instantiate content editable's ref to be a default value.
   useEffect(() => {
-    if (editableRef.current) editableRef.current.innerText = '100';
-
+    if (editableRef.current) {
+      editableRef.current.innerText = `${publishingDetails.basePrice}`;
+    }
     const defaultCards = [
       [
         { item: 'Base price', price: publishingDetails.basePrice },

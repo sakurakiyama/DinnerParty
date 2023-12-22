@@ -18,32 +18,36 @@ function BasicDetails() {
   const { currentView, setCurrentView } = newListingButtonsContext;
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
-  const handleCount = (category: keyof SpaceDetailProps, operation: string) => {
+  const handleCount = (key: keyof SpaceDetailProps, operation: string) => {
     const currentSpaceDetails = { ...spaceDetails };
 
-    if (category in currentSpaceDetails) {
-      currentSpaceDetails[category] =
+    if (key in currentSpaceDetails) {
+      currentSpaceDetails[key] =
         operation === 'Add'
-          ? currentSpaceDetails[category] + 1
-          : Math.max(0, currentSpaceDetails[category] - 1);
+          ? currentSpaceDetails[key] + 1
+          : Math.max(0, currentSpaceDetails[key] - 1);
     }
     setSpaceDetails(currentSpaceDetails);
   };
 
+  const items: { key: keyof SpaceDetailProps; category: string }[] = [
+    { key: 'guests', category: 'Guests' },
+    { key: 'diningAreas', category: 'Dining Areas' },
+    { key: 'bathrooms', category: 'Bathrooms' },
+  ];
+
   useEffect(() => {
     if (spaceDetails.guests) setNotValidated(false);
+    else {
+      setNotValidated(true);
+    }
   }, [spaceDetails]);
 
   const handleView = (operation?: string) => {
-    localStorage.setItem('spaceDetails', JSON.stringify(spaceDetails));
     if (operation === 'Forward') {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);
   };
-
-  function capitalizeFirstLetter(str: string) {
-    return str.replace(/\b\w/g, (char: string) => char.toUpperCase());
-  }
 
   return (
     <div className='flex flex-col h-full overflow-auto'>
@@ -57,46 +61,38 @@ function BasicDetails() {
           </div>
         </div>
 
-        {Object.keys(spaceDetails)
-          .filter((key) => ['diningAreas', 'bathrooms', 'guests'].includes(key))
-          .map((key, index) => {
-            const isLast = index === Object.keys(spaceDetails).length - 1;
-            const isFirst = index === 0;
-
-            const spaceDetailKey = key as keyof SpaceDetailProps;
-
-            return (
-              <div
-                key={`${spaceDetailKey}+${index}`}
-                className={`border-b pb-4 pt-4 flex flex-row justify-between ${
-                  isFirst && 'pt-0'
-                } ${isLast && 'pb-0 border-b-0'}`}
-              >
-                <div className='flex flex-col'>
-                  <div className='text-sm'>
-                    {capitalizeFirstLetter(spaceDetailKey)}
-                  </div>
-                </div>
-                <div className='flex justify-center items-center'>
-                  <button
-                    className={`${
-                      spaceDetails[spaceDetailKey] === 0 ? 'text-slate-300' : ''
-                    }`}
-                    disabled={spaceDetails[spaceDetailKey] === 0}
-                    onClick={() => handleCount(spaceDetailKey, 'Subtract')}
-                  >
-                    <CiCircleMinus className='pr-2 w-[35px] h-[35px]' />
-                  </button>
-                  <div className='w-[20px] text-center'>
-                    {spaceDetails[spaceDetailKey]}
-                  </div>
-                  <button onClick={() => handleCount(spaceDetailKey, 'Add')}>
-                    <CiCirclePlus className='pl-2 w-[35px] h-[35px]' />
-                  </button>
-                </div>
+        {items.map((currentItem, index) => {
+          const isLast = index === items.length - 1;
+          return (
+            <div
+              key={`${currentItem.key}+${index}`}
+              className={`flex flex-row justify-between p-2 items-center ${
+                isLast ? '' : 'border-b'
+              }`}
+            >
+              <div className='flex flex-col'>
+                <div className='text-sm'>{currentItem.category}</div>
               </div>
-            );
-          })}
+              <div className='flex justify-center items-center'>
+                <button
+                  className={`${
+                    spaceDetails[currentItem.key] === 0 ? 'text-slate-300' : ''
+                  }`}
+                  disabled={spaceDetails[currentItem.key] === 0}
+                  onClick={() => handleCount(currentItem.key, 'Subtract')}
+                >
+                  <CiCircleMinus className='pr-2 w-[35px] h-[35px]' />
+                </button>
+                <div className='w-[20px] text-center'>
+                  {spaceDetails[currentItem.key]}
+                </div>
+                <button onClick={() => handleCount(currentItem.key, 'Add')}>
+                  <CiCirclePlus className='pl-2 w-[35px] h-[35px]' />
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
       <div className='flex justify-center mb-8 mt-auto pt-6'>
         <div className='flex w-full justify-between ml-4 mr-4'>
