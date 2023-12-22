@@ -26,12 +26,10 @@ function HomeType() {
   const updateHomeType = (homeType: string) => {
     if (selected === homeType) {
       setSelected('');
-      setNotValidated(true);
       setSpaceDetails({ ...spaceDetails, homeType: '' });
     } else {
       setSelected(homeType);
       setSpaceDetails({ ...spaceDetails, homeType });
-      setNotValidated(false);
     }
   };
 
@@ -44,7 +42,10 @@ function HomeType() {
 
   useEffect(() => {
     if (spaceDetails.homeType) setNotValidated(false);
-  }, []);
+    else {
+      setNotValidated(true);
+    }
+  }, [spaceDetails]);
 
   const allHomes = [
     {

@@ -19,12 +19,10 @@ function InstantBookAccess() {
   const updateBookingType = (bookingType: string) => {
     if (selected === bookingType) {
       setSelected('');
-      setNotValidated(true);
       setPublishingDetails({ ...publishingDetails, instantBook: '' });
     } else {
       setSelected(bookingType);
       setPublishingDetails({ ...publishingDetails, instantBook: bookingType });
-      setNotValidated(false);
     }
   };
 
@@ -40,7 +38,8 @@ function InstantBookAccess() {
 
   useEffect(() => {
     if (publishingDetails.instantBook) setNotValidated(false);
-  }, []);
+    else setNotValidated(true);
+  }, [publishingDetails]);
 
   const accessTypes = [
     {

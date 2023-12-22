@@ -17,12 +17,10 @@ function HomeAccess() {
   const updateHomeAccess = (accessType: string) => {
     if (selected === accessType) {
       setSelected('');
-      setNotValidated(true);
       setSpaceDetails({ ...spaceDetails, accessType: '' });
     } else {
       setSelected(accessType);
       setSpaceDetails({ ...spaceDetails, accessType });
-      setNotValidated(false);
     }
   };
 
@@ -35,7 +33,8 @@ function HomeAccess() {
 
   useEffect(() => {
     if (spaceDetails.accessType) setNotValidated(false);
-  }, []);
+    else setNotValidated(true);
+  }, [spaceDetails]);
 
   const accessTypes = [
     {
