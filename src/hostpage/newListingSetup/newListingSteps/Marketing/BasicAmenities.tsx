@@ -15,7 +15,7 @@ import { PiFireExtinguisher } from 'react-icons/pi';
 import { GiRingingAlarm } from 'react-icons/gi';
 import SalmonButton from '../../../../components/SalmonButton';
 import { NewListingWizardContext } from '../../NewListingWizard';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 function BasicAmenities() {
   const { marketingContext, newListingButtonsContext } = useContext(
@@ -23,12 +23,29 @@ function BasicAmenities() {
   );
   const { marketingDetails, setMarketingDetails } = marketingContext;
   const { currentView, setCurrentView } = newListingButtonsContext;
+  const [selected, setSelected] = useState<string[]>(
+    marketingDetails.amenities
+  );
 
   const updateAmenenities = (amenity: string) => {
-    setMarketingDetails({
-      ...marketingDetails,
-      amenities: [...marketingDetails.amenities, amenity],
-    });
+    if (selected.includes(amenity)) {
+      const currentSelected = selected;
+      const afterUnselect = currentSelected.filter((item) => {
+        return item !== amenity;
+      });
+      setSelected(afterUnselect);
+      setMarketingDetails({
+        ...marketingDetails,
+        amenities: afterUnselect,
+      });
+    } else {
+      setSelected([...selected, amenity]);
+
+      setMarketingDetails({
+        ...marketingDetails,
+        amenities: [...marketingDetails.amenities, amenity],
+      });
+    }
   };
 
   const handleView = (operation?: string) => {
@@ -128,24 +145,27 @@ function BasicAmenities() {
           </div>
           <Tiles
             items={basicItems}
-            multipleSelection={true}
+            // multipleSelection={true}
             handleTileClick={updateAmenenities}
+            currentSelection={selected}
           />
           <div className='font-black md:text-base pt-8'>
             Do you have any standout amenities?
           </div>
           <Tiles
             items={standoutItems}
-            multipleSelection={true}
+            // multipleSelection={true}
             handleTileClick={updateAmenenities}
+            currentSelection={selected}
           />
           <div className='font-black md:text-base pt-8'>
             Do you have any of these safety items?
           </div>
           <Tiles
             items={safetyItems}
-            multipleSelection={true}
+            // multipleSelection={true}
             handleTileClick={updateAmenenities}
+            currentSelection={selected}
           />
         </div>
       </div>

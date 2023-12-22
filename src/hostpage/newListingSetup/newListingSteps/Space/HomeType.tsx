@@ -11,8 +11,9 @@ import { IoBedOutline } from 'react-icons/io5';
 import { LuHotel } from 'react-icons/lu';
 import Tiles from '../../../../components/Tiles';
 import { NewListingWizardContext } from '../../NewListingWizard';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
+
 function HomeType() {
   const { spaceContext, newListingButtonsContext } = useContext(
     NewListingWizardContext
@@ -20,10 +21,18 @@ function HomeType() {
   const { spaceDetails, setSpaceDetails } = spaceContext;
   const { currentView, setCurrentView } = newListingButtonsContext;
   const [notValidated, setNotValidated] = useState<boolean>(true);
+  const [selected, setSelected] = useState<string>(spaceDetails.homeType);
 
   const updateHomeType = (homeType: string) => {
-    setSpaceDetails({ ...spaceDetails, homeType });
-    setNotValidated(false);
+    if (selected === homeType) {
+      setSelected('');
+      setNotValidated(true);
+      setSpaceDetails({ ...spaceDetails, homeType: '' });
+    } else {
+      setSelected(homeType);
+      setSpaceDetails({ ...spaceDetails, homeType });
+      setNotValidated(false);
+    }
   };
 
   const handleView = (operation?: string) => {
@@ -32,6 +41,10 @@ function HomeType() {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);
   };
+
+  useEffect(() => {
+    if (spaceDetails.homeType) setNotValidated(false);
+  }, []);
 
   const allHomes = [
     {
@@ -100,8 +113,8 @@ function HomeType() {
           </div>
           <Tiles
             items={allHomes}
-            multipleSelection={false}
             handleTileClick={updateHomeType}
+            currentSelection={selected}
           />
         </div>
       </div>

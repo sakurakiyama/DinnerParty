@@ -2,8 +2,9 @@ import { RxLightningBolt } from 'react-icons/rx';
 import { PiChats } from 'react-icons/pi';
 import SelectableCards from '../../../../components/SelectableCards';
 import { NewListingWizardContext } from '../../NewListingWizard';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
+
 function InstantBookAccess() {
   const { publishingContext, newListingButtonsContext } = useContext(
     NewListingWizardContext
@@ -11,14 +12,20 @@ function InstantBookAccess() {
   const { publishingDetails, setPublishingDetails } = publishingContext;
   const { currentView, setCurrentView } = newListingButtonsContext;
   const [notValidated, setNotValidated] = useState<boolean>(true);
+  const [selected, setSelected] = useState<string>(
+    publishingDetails.instantBook
+  );
 
   const updateBookingType = (bookingType: string) => {
-    if (bookingType === 'Use instant book')
-      setPublishingDetails({ ...publishingDetails, instantBook: true });
-    else if (bookingType === 'Approve or decline requests')
-      setPublishingDetails({ ...publishingDetails, instantBook: false });
-
-    setNotValidated(false);
+    if (selected === bookingType) {
+      setSelected('');
+      setNotValidated(true);
+      setPublishingDetails({ ...publishingDetails, instantBook: '' });
+    } else {
+      setSelected(bookingType);
+      setPublishingDetails({ ...publishingDetails, instantBook: bookingType });
+      setNotValidated(false);
+    }
   };
 
   const handleView = (operation?: string) => {
@@ -30,6 +37,10 @@ function InstantBookAccess() {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);
   };
+
+  useEffect(() => {
+    if (publishingDetails.instantBook) setNotValidated(false);
+  }, []);
 
   const accessTypes = [
     {
@@ -54,8 +65,8 @@ function InstantBookAccess() {
           </div>
           <SelectableCards
             cards={accessTypes}
-            multipleSelection={false}
             handleSelectableCardClick={updateBookingType}
+            currentSelection={selected}
           />
         </div>
       </div>

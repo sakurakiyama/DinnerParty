@@ -2,7 +2,7 @@ import { MdOutlineMeetingRoom } from 'react-icons/md';
 import { BsHouseDoor } from 'react-icons/bs';
 import SelectableCards from '../../../../components/SelectableCards';
 import { NewListingWizardContext } from '../../NewListingWizard';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
 
 function HomeAccess() {
@@ -12,10 +12,18 @@ function HomeAccess() {
   const { spaceDetails, setSpaceDetails } = spaceContext;
   const { currentView, setCurrentView } = newListingButtonsContext;
   const [notValidated, setNotValidated] = useState<boolean>(true);
+  const [selected, setSelected] = useState<string>(spaceDetails.accessType);
 
   const updateHomeAccess = (accessType: string) => {
-    setSpaceDetails({ ...spaceDetails, accessType });
-    setNotValidated(false);
+    if (selected === accessType) {
+      setSelected('');
+      setNotValidated(true);
+      setSpaceDetails({ ...spaceDetails, accessType: '' });
+    } else {
+      setSelected(accessType);
+      setSpaceDetails({ ...spaceDetails, accessType });
+      setNotValidated(false);
+    }
   };
 
   const handleView = (operation?: string) => {
@@ -24,6 +32,10 @@ function HomeAccess() {
       setCurrentView(currentView + 1);
     } else if (operation === 'Backward') setCurrentView(currentView - 1);
   };
+
+  useEffect(() => {
+    if (spaceDetails.accessType) setNotValidated(false);
+  }, []);
 
   const accessTypes = [
     {
@@ -49,8 +61,8 @@ function HomeAccess() {
           </div>
           <SelectableCards
             cards={accessTypes}
-            multipleSelection={false}
             handleSelectableCardClick={updateHomeAccess}
+            currentSelection={selected}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 
 type Card = {
   key: string;
@@ -9,37 +9,42 @@ type Card = {
 
 interface CardProps {
   cards: Card[];
-  multipleSelection: boolean;
+  // multipleSelection: boolean;
   handleSelectableCardClick: (display: string) => void;
+  currentSelection: string[] | string;
 }
 
 function SelectableCards({
   cards,
-  multipleSelection,
+  // multipleSelection,
   handleSelectableCardClick,
+  currentSelection,
 }: CardProps) {
-  const [selected, setSelected] = useState<string[] | string>(['']);
+  // const [selected, setSelected] = useState<string[] | string>(['']);
 
-  const handleClick = (header: string) => {
-    if (multipleSelection) {
-      const allSelected = [...selected, header];
-      setSelected(allSelected);
-    } else {
-      setSelected(header);
-    }
-    handleSelectableCardClick(header);
-  };
+  // const handleClick = (header: string) => {
+  //   if (multipleSelection) {
+  //     const allSelected = [...selected, header];
+  //     setSelected(allSelected);
+  //   } else {
+  //     setSelected(header);
+  //   }
+  //   handleSelectableCardClick(header);
+  // };
 
   return (
     <div className='flex flex-col space-y-2 mt-8'>
       {cards &&
         cards.map((current, index) => {
+          const isSelected = Array.isArray(currentSelection)
+            ? currentSelection.includes(current.header)
+            : currentSelection === current.header;
           return (
             <div
-              onClick={() => handleClick(current.header)}
+              onClick={() => handleSelectableCardClick(current.header)}
               key={`${current.key}+${index}`}
               className={`border p-4 rounded-md flex flex-row items-center hover:border-black ${
-                selected.includes(current.header) ? 'border-black' : ''
+                isSelected ? 'border-black' : ''
               }`}
             >
               <div className='w-[80%]'>

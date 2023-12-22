@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 type Item = {
   key: string;
   image: JSX.Element;
@@ -8,33 +6,25 @@ type Item = {
 
 interface TilesProps {
   items: Item[];
-  multipleSelection: boolean;
   handleTileClick: (display: string) => void;
+  currentSelection: string[] | string;
 }
 
-function Tiles({ items, multipleSelection, handleTileClick }: TilesProps) {
-  const [selected, setSelected] = useState<string[] | string>(['']);
-
-  const handleClick = (display: string) => {
-    if (multipleSelection) {
-      const allSelected = [...selected, display];
-      setSelected(allSelected);
-    } else {
-      setSelected(display);
-    }
-    handleTileClick(display);
-  };
-
+function Tiles({ items, handleTileClick, currentSelection }: TilesProps) {
   return (
     <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 content-center place-items-center md:w-[620px]'>
       {items &&
         items.map((current, index) => {
+          const isSelected = Array.isArray(currentSelection)
+            ? currentSelection.includes(current.display)
+            : currentSelection === current.display;
+
           return (
             <div
-              onClick={() => handleClick(current.display)}
+              onClick={() => handleTileClick(current.display)}
               key={`${current.key}+${index}`}
               className={`flex flex-col p-4 border rounded-md text-center w-[200px] justify-center items-center h-[110px] hover:border-black ${
-                selected.includes(current.display) ? 'border-black' : ''
+                isSelected ? 'border-black' : ''
               }`}
             >
               <div className='pb-2'>{current.image}</div>
