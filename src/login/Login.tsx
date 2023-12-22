@@ -121,7 +121,7 @@ function Login() {
                 <form className='pt-8 flex flex-col' onSubmit={submitEmail}>
                   <input
                     ref={emailInputRef}
-                    className='border rounded-lg p-1 outline-[var(--light-pink)]'
+                    className='border rounded-lg p-1 outline-slate-500'
                     type='email'
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -141,7 +141,7 @@ function Login() {
                   {code.map((value, index) => (
                     <input
                       ref={inputRefs[index]}
-                      className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-[var(--light-pink)]'
+                      className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-slate-500'
                       key={index}
                       type='text'
                       maxLength={1}

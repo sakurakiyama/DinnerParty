@@ -80,13 +80,13 @@ function InitialProfileCard({
               <form className='pt-8 flex flex-col' onSubmit={handleSubmit}>
                 Enter your first name
                 <input
-                  className='border rounded-lg p-1 outline-[var(--light-pink)] mt-4 mb-4'
+                  className='border rounded-lg p-1 outline-slate-500 mt-4 mb-4'
                   type='text'
                   onChange={(e) => setFirstName(e.target.value)}
                 />
                 & your last name
                 <input
-                  className='border rounded-lg p-1 outline-[var(--light-pink)] mt-4'
+                  className='border rounded-lg p-1 outline-slate-500 mt-4'
                   type='text'
                   onChange={(e) => setLastName(e.target.value)}
                 />

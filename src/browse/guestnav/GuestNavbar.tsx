@@ -8,6 +8,10 @@ import { useContext } from 'react';
 import { BrowsePageContext } from '../BrowsePage';
 import { UserContext } from '../../App';
 
+/*
+TODO: [] Adjust view for mobile
+*/
+
 function GuestNavBar() {
   const navigate = useNavigate();
 
