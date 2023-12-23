@@ -2,21 +2,67 @@ import { useContext, useEffect, useState, createContext } from 'react';
 import { UserContext } from '../App';
 import HostNavBar from './hostnav/HostNavBar';
 import NewListingWizard from './newListingSetup/NewListingWizard';
+import axios from 'axios';
 
-interface NewListingSetupProps {
+interface Listing {
+  listingid: number;
+  hostid: number;
+  listingname: null | string;
+  description: null | string;
+  neighborhooddescription: null | string;
+  gettingarounddescription: null | string;
+  listingsize: null | string;
+  amenities: string[] | [];
+  streetaddress: null | string;
+  city: null | string;
+  zipcode: null | string;
+  type: null | string;
+  unavailable: Date[] | [];
+  published: boolean;
+  requireddetails: boolean;
+}
+
+interface Host {
+  hostid: number;
+  userid: number;
+}
+
+interface ListingModalProps {
   newListingModalOpen: boolean;
   setNewListingModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const HostPageContext = createContext<NewListingSetupProps>({
-  newListingModalOpen: false,
-  setNewListingModalOpen: () => {},
+interface HostProps {
+  host: null | Host;
+  setHost: React.Dispatch<React.SetStateAction<Host | null>>;
+  hostListings: Listing[];
+  setHostListings: React.Dispatch<React.SetStateAction<Listing[]>>;
+}
+
+interface HostPageContextProps {
+  listingModalContext: ListingModalProps;
+  hostContext: HostProps;
+}
+
+export const HostPageContext = createContext<HostPageContextProps>({
+  listingModalContext: {
+    newListingModalOpen: false,
+    setNewListingModalOpen: () => {},
+  },
+  hostContext: {
+    host: null,
+    setHost: () => {},
+    hostListings: [],
+    setHostListings: () => {},
+  },
 });
 
 function HostPage() {
   const { user } = useContext(UserContext)!;
   const [newListingModalOpen, setNewListingModalOpen] =
     useState<boolean>(false);
+  const [hostListings, setHostListings] = useState<Listing[]>([]);
+  const [host, setHost] = useState<Host | null>(null);
 
   useEffect(() => {
     if (!user?.ishost) {
@@ -25,12 +71,29 @@ function HostPage() {
 
     if (user?.ishost) {
       setNewListingModalOpen(false);
+      const getHostData = async () => {
+        const { data } = await axios.get(`/api/host/getHostData`);
+        setHost(data.host);
+        setHostListings(data.listings);
+      };
+      getHostData();
     }
   }, []);
 
   return (
     <HostPageContext.Provider
-      value={{ newListingModalOpen, setNewListingModalOpen }}
+      value={{
+        listingModalContext: {
+          newListingModalOpen,
+          setNewListingModalOpen,
+        },
+        hostContext: {
+          host,
+          setHost,
+          hostListings,
+          setHostListings,
+        },
+      }}
     >
       <div>
         {newListingModalOpen && (

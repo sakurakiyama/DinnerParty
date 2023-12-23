@@ -14,6 +14,7 @@ function BasicDetails() {
   const { spaceContext, newListingButtonsContext } = useContext(
     NewListingWizardContext
   );
+
   const { spaceDetails, setSpaceDetails } = spaceContext;
   const { currentView, setCurrentView } = newListingButtonsContext;
   const [notValidated, setNotValidated] = useState<boolean>(true);

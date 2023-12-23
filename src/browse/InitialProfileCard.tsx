@@ -30,7 +30,7 @@ function InitialProfileCard({
     e.preventDefault();
 
     try {
-      const { data } = await axios.patch('/user/requiredProfile', {
+      const { data } = await axios.patch('/api/user/requiredProfile', {
         communityCommitmentAgreed,
         firstName,
         lastName,

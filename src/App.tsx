@@ -51,7 +51,7 @@ function App() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const { data } = await axios.get('/auth/status');
+        const { data } = await axios.get('/api/auth/status');
         setUser(data);
       } catch (error: AxiosError | unknown) {
         if (error instanceof AxiosError) {
@@ -76,7 +76,7 @@ function App() {
           <Route path='/' element={<HomePage />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/browse' element={<BrowsePage />}></Route>
-          <Route path='/host' element={<HostPage />}></Route>
+          <Route path='/hosting' element={<HostPage />}></Route>
         </Routes>
       )}
     </UserContext.Provider>

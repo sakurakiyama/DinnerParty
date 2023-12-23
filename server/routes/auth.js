@@ -15,16 +15,6 @@ router.get(
   }
 );
 
-// Not currently in use, keeping for future use
-router.post(
-  '/code',
-  authController.generateTempCode,
-  authController.sendTempCode,
-  (req, res) => {
-    return res.status(200).json(res.locals.message);
-  }
-);
-
 router.post(
   '/verifycode',
   authController.verifyTempCode,

@@ -86,7 +86,7 @@ function Login() {
   const submitVerificationCode = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('/auth/verifycode', {
+      const { data } = await axios.post('/api/auth/verifycode', {
         email,
         code: code.join(''),
       });

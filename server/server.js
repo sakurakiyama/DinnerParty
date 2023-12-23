@@ -4,14 +4,16 @@ const PORT = 8080;
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js';
 import userRouter from './routes/user.js';
+import hostRouter from './routes/host.js';
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // route handlers
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/host', hostRouter);
 
 // catch-all error handler
 app.get('*', (req, res) => {

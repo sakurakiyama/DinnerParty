@@ -15,10 +15,12 @@ import SetPrice from './newListingSteps/publish/SetPrice';
 import SecurityCheck from './newListingSteps/publish/SecurityCheck';
 import ReviewSummary from './ReviewSummary';
 import Logo from '../../assets/Logo.png';
-import { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext, useEffect } from 'react';
+import { UserContext } from '../../App';
 import { HostPageContext } from '../HostPage';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import axios from 'axios';
 
 /*
 TODO: Add animated transitions
@@ -143,7 +145,8 @@ export const NewListingWizardContext =
   });
 
 function NewListingWizard() {
-  const { setNewListingModalOpen } = useContext(HostPageContext)!;
+  const { listingModalContext } = useContext(HostPageContext)!;
+  const { setNewListingModalOpen } = listingModalContext;
   const [currentView, setCurrentView] = useState<number>(0);
   const [spaceDetails, setSpaceDetails] = useState<SpaceDetailProps>({
     homeType: '',
@@ -172,6 +175,18 @@ function NewListingWizard() {
       security: [],
       basePrice: 100,
     });
+
+  const { setUser } = useContext(UserContext)!;
+
+  useEffect(() => {
+    const createListing = async () => {
+      const { data } = await axios.post('/api/host/createListing');
+      setUser(data.user);
+      // update host context once you have it.
+    };
+
+    createListing();
+  }, []);
 
   const saveListing = () => {
     // TODO: Send data to backend
