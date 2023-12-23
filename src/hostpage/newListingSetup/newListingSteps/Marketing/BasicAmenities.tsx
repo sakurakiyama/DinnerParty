@@ -18,11 +18,8 @@ import { NewListingWizardContext } from '../../NewListingWizard';
 import { useContext, useState } from 'react';
 
 function BasicAmenities() {
-  const { marketingContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-  const { marketingDetails, setMarketingDetails } = marketingContext;
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { marketingDetails, setMarketingDetails, currentView, setCurrentView } =
+    useContext(NewListingWizardContext)!;
   const [selected, setSelected] = useState<string[]>(
     marketingDetails.amenities
   );

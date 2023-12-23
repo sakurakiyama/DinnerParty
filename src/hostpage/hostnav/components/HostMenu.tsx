@@ -1,17 +1,39 @@
+import { useNavigate } from 'react-router-dom';
+
 function HostMenu() {
-  const titles = ['Today', 'Calendar', 'Listings', 'Inbox', 'More'];
+  const navigate = useNavigate();
+
+  const pages = [
+    {
+      display: 'Today',
+      navigate: () => navigate('/hosting'),
+    },
+    {
+      display: 'Calendar',
+      navigate: () => navigate('/hosting/calendar'),
+    },
+    {
+      display: 'Listings',
+      navigate: () => navigate('/hosting/listings'),
+    },
+    {
+      display: 'Inbox',
+      navigate: () => navigate('/hosting/inbox'),
+    },
+  ];
 
   return (
     <div className='flex flex-row space-x-6'>
-      {titles.map((current, index) => {
-        return (
-          <div key={`${current}+${index}`}>
-            <button className='hover:bg-[#F6F6F6] rounded-full p-2'>
-              {current}
-            </button>
-          </div>
-        );
-      })}
+      {pages.map((current, index) => (
+        <div key={`${current.display}+${index}`}>
+          <button
+            onClick={current.navigate}
+            className='hover:bg-[#F6F6F6] rounded-full p-2'
+          >
+            {current.display}
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

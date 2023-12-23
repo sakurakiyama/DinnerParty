@@ -16,11 +16,8 @@ TODO: Add functionality to drag photos once dropped
 function AddPhotos() {
   const [notValidated, setNotValidated] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { marketingContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-  const { marketingDetails, setMarketingDetails } = marketingContext;
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { marketingDetails, setMarketingDetails, currentView, setCurrentView } =
+    useContext(NewListingWizardContext)!;
 
   useEffect(() => {
     if (marketingDetails.photos.length >= 5) setNotValidated(false);

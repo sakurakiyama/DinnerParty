@@ -5,8 +5,7 @@ import { useContext } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 
 function SpaceSummary() {
-  const { newListingButtonsContext } = useContext(NewListingWizardContext);
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { currentView, setCurrentView } = useContext(NewListingWizardContext)!;
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {

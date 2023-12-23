@@ -16,8 +16,7 @@ import SecurityCheck from './newListingSteps/publish/SecurityCheck';
 import ReviewSummary from './ReviewSummary';
 import Logo from '../../assets/Logo.png';
 import { useState, useContext, createContext, useEffect } from 'react';
-import { UserContext } from '../../App';
-import { HostPageContext } from '../HostPage';
+import { UserContext, HostContext } from '../../App';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import axios from 'axios';
@@ -51,7 +50,7 @@ const pages = [
   <ReviewSummary />,
 ];
 
-interface SpaceDetailProps {
+type SpaceDetails = {
   homeType: string;
   accessType: string;
   streetAddress: string;
@@ -62,93 +61,42 @@ interface SpaceDetailProps {
   guests: number;
   diningAreas: number;
   bathrooms: number;
-}
+};
 
-interface MarketingDetailProps {
+type MarketingDetails = {
   amenities: string[];
   photos: (string | ArrayBuffer | null)[];
   title: string;
   description: string;
-}
+};
 
-interface PublishingDetailProps {
+type PublishingDetails = {
   instantBook: string;
   security: string[];
   basePrice: number;
-}
+};
 
 interface NewListingWizardContextProps {
-  spaceContext: {
-    spaceDetails: SpaceDetailProps;
-    setSpaceDetails: React.Dispatch<React.SetStateAction<SpaceDetailProps>>;
-  };
-  newListingButtonsContext: {
-    currentView: number;
-    setCurrentView: React.Dispatch<React.SetStateAction<number>>;
-    pages: JSX.Element[];
-    saveListing: () => void;
-  };
-  marketingContext: {
-    marketingDetails: MarketingDetailProps;
-    setMarketingDetails: React.Dispatch<
-      React.SetStateAction<MarketingDetailProps>
-    >;
-  };
-  publishingContext: {
-    publishingDetails: PublishingDetailProps;
-    setPublishingDetails: React.Dispatch<
-      React.SetStateAction<PublishingDetailProps>
-    >;
-  };
+  spaceDetails: SpaceDetails;
+  setSpaceDetails: React.Dispatch<React.SetStateAction<SpaceDetails>>;
+  currentView: number;
+  setCurrentView: React.Dispatch<React.SetStateAction<number>>;
+  pages: JSX.Element[];
+  saveListing: () => void;
+  marketingDetails: MarketingDetails;
+  setMarketingDetails: React.Dispatch<React.SetStateAction<MarketingDetails>>;
+  publishingDetails: PublishingDetails;
+  setPublishingDetails: React.Dispatch<React.SetStateAction<PublishingDetails>>;
 }
 
 export const NewListingWizardContext =
-  createContext<NewListingWizardContextProps>({
-    spaceContext: {
-      spaceDetails: {
-        homeType: '',
-        accessType: '',
-        streetAddress: '',
-        apt: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        guests: 0,
-        diningAreas: 0,
-        bathrooms: 0,
-      },
-      setSpaceDetails: () => {},
-    },
-    newListingButtonsContext: {
-      currentView: 0,
-      setCurrentView: () => {},
-      pages: pages,
-      saveListing: () => {},
-    },
-    marketingContext: {
-      marketingDetails: {
-        amenities: [],
-        photos: [],
-        title: '',
-        description: '',
-      },
-      setMarketingDetails: () => {},
-    },
-    publishingContext: {
-      publishingDetails: {
-        instantBook: '',
-        security: [],
-        basePrice: 100,
-      },
-      setPublishingDetails: () => {},
-    },
-  });
+  createContext<NewListingWizardContextProps | null>(null);
 
 function NewListingWizard() {
-  const { listingModalContext } = useContext(HostPageContext)!;
-  const { setNewListingModalOpen } = listingModalContext;
-  const [currentView, setCurrentView] = useState<number>(0);
-  const [spaceDetails, setSpaceDetails] = useState<SpaceDetailProps>({
+  const { setNewListingModalOpen } = useContext(HostContext)!;
+  const [currentView, setCurrentView] =
+    useState<NewListingWizardContextProps['currentView']>(0);
+  const [spaceDetails, setSpaceDetails] = useState<SpaceDetails>({
     homeType: '',
     accessType: '',
     streetAddress: '',
@@ -161,20 +109,20 @@ function NewListingWizard() {
     bathrooms: 0,
   });
 
-  const [marketingDetails, setMarketingDetails] =
-    useState<MarketingDetailProps>({
-      amenities: [],
-      photos: [],
-      title: '',
-      description: '',
-    });
+  const [marketingDetails, setMarketingDetails] = useState<MarketingDetails>({
+    amenities: [],
+    photos: [],
+    title: '',
+    description: '',
+  });
 
-  const [publishingDetails, setPublishingDetails] =
-    useState<PublishingDetailProps>({
+  const [publishingDetails, setPublishingDetails] = useState<PublishingDetails>(
+    {
       instantBook: '',
       security: [],
       basePrice: 100,
-    });
+    }
+  );
 
   const { setUser } = useContext(UserContext)!;
 
@@ -197,15 +145,16 @@ function NewListingWizard() {
     <DndProvider backend={HTML5Backend}>
       <NewListingWizardContext.Provider
         value={{
-          spaceContext: { spaceDetails, setSpaceDetails },
-          newListingButtonsContext: {
-            currentView,
-            setCurrentView,
-            pages,
-            saveListing,
-          },
-          marketingContext: { marketingDetails, setMarketingDetails },
-          publishingContext: { publishingDetails, setPublishingDetails },
+          spaceDetails,
+          setSpaceDetails,
+          currentView,
+          setCurrentView,
+          pages,
+          saveListing,
+          marketingDetails,
+          setMarketingDetails,
+          publishingDetails,
+          setPublishingDetails,
         }}
       >
         <div className='w-full'>

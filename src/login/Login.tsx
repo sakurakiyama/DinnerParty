@@ -100,7 +100,7 @@ function Login() {
   const submitEmail = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      await axios.post('/user/sendCode', { email });
+      await axios.post('/api/user/sendCode', { email });
     } catch (error) {
       console.error(error);
     }

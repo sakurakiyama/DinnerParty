@@ -6,11 +6,12 @@ import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
 
 function InstantBookAccess() {
-  const { publishingContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-  const { publishingDetails, setPublishingDetails } = publishingContext;
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const {
+    publishingDetails,
+    setPublishingDetails,
+    currentView,
+    setCurrentView,
+  } = useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>(
     publishingDetails.instantBook

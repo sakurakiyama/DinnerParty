@@ -24,10 +24,12 @@ export type Card = (CardItem | TotalItem)[];
 type CardsArray = Card[];
 
 function SetPrice() {
-  const { publishingContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-  const { publishingDetails, setPublishingDetails } = publishingContext;
+  const {
+    publishingDetails,
+    setPublishingDetails,
+    currentView,
+    setCurrentView,
+  } = useContext(NewListingWizardContext)!;
   const editableRef = useRef<EditableDivRef>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [guestServiceFee, setGuestServiceFee] = useState<number>(
@@ -39,7 +41,6 @@ function SetPrice() {
   );
   const [allCards, setAllCards] = useState<CardsArray>([]);
   const [openCardIndex, setOpenCardIndex] = useState<number>(0);
-  const { currentView, setCurrentView } = newListingButtonsContext;
   const [notValidated, setNotValidated] = useState<boolean>(false);
 
   const handleEditLogoClick = () => {

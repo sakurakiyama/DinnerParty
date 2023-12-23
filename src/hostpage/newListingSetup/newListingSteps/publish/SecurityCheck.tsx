@@ -5,11 +5,12 @@ import SalmonButton from '../../../../components/SalmonButton';
 import { NewListingWizardContext } from '../../NewListingWizard';
 
 function SecurityCheck() {
-  const { publishingContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-  const { publishingDetails, setPublishingDetails } = publishingContext;
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const {
+    publishingDetails,
+    setPublishingDetails,
+    currentView,
+    setCurrentView,
+  } = useContext(NewListingWizardContext)!;
   const [securityModalOpen, setSecurityModalOpen] = useState<boolean>(false);
 
   const items = [

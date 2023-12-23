@@ -15,11 +15,8 @@ TODO: [] Should validate if it's a real address using external API
 */
 
 function HomeLocation() {
-  const { spaceContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-  const { spaceDetails, setSpaceDetails } = spaceContext;
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { spaceDetails, setSpaceDetails, currentView, setCurrentView } =
+    useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
   const handleView = (operation?: string) => {

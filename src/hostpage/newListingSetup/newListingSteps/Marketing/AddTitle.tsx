@@ -4,11 +4,8 @@ import SalmonButton from '../../../../components/SalmonButton';
 import { isBlankString } from '../../../../utils';
 
 function AddTitle() {
-  const { marketingContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-  const { marketingDetails, setMarketingDetails } = marketingContext;
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { marketingDetails, setMarketingDetails, currentView, setCurrentView } =
+    useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
   const handleTitleUpdate = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

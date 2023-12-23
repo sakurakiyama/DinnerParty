@@ -5,8 +5,7 @@ import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
 
 function SpaceSummary() {
-  const { newListingButtonsContext } = useContext(NewListingWizardContext);
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { currentView, setCurrentView } = useContext(NewListingWizardContext)!;
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {

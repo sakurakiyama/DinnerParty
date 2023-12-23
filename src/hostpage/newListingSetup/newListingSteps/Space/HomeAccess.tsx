@@ -6,11 +6,8 @@ import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
 
 function HomeAccess() {
-  const { spaceContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-  const { spaceDetails, setSpaceDetails } = spaceContext;
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { spaceDetails, setSpaceDetails, currentView, setCurrentView } =
+    useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>(spaceDetails.accessType);
 

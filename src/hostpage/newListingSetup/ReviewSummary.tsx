@@ -6,8 +6,9 @@ import { useContext } from 'react';
 import { NewListingWizardContext } from './NewListingWizard';
 
 function ReviewSummary() {
-  const { newListingButtonsContext } = useContext(NewListingWizardContext);
-  const { currentView, setCurrentView, saveListing } = newListingButtonsContext;
+  const { currentView, setCurrentView, saveListing } = useContext(
+    NewListingWizardContext
+  )!;
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {

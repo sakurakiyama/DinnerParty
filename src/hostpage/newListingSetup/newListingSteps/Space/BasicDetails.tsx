@@ -11,12 +11,8 @@ type SpaceDetailProps = {
 };
 
 function BasicDetails() {
-  const { spaceContext, newListingButtonsContext } = useContext(
-    NewListingWizardContext
-  );
-
-  const { spaceDetails, setSpaceDetails } = spaceContext;
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { spaceDetails, setSpaceDetails, currentView, setCurrentView } =
+    useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
   const handleCount = (key: keyof SpaceDetailProps, operation: string) => {

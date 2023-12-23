@@ -4,46 +4,75 @@ import HomePage from './homepage/Homepage';
 import Login from './login/Login';
 import BrowsePage from './browse/BrowsePage';
 import HostPage from './hostpage/HostPage';
+import ListingsPage from './hostpage/listings/ListingsPage';
+import CalendarPage from './hostpage/hostnav/calendar/CalendarPage';
+import InboxPage from './hostpage/hostnav/inbox/InboxPage';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import './App.css';
 
+type Listing = {
+  listingid: number;
+  hostid: number;
+  listingname: null | string;
+  description: null | string;
+  neighborhooddescription: null | string;
+  gettingarounddescription: null | string;
+  listingsize: null | string;
+  amenities: string[] | [];
+  streetaddress: null | string;
+  city: null | string;
+  zipcode: null | string;
+  type: null | string;
+  unavailable: Date[] | [];
+  published: boolean;
+  requireddetails: boolean;
+} | null;
+
+type Host = {
+  hostid: number;
+  userid: number;
+} | null;
+
+interface HostContextProps {
+  hostListings: Listing[];
+  setHostListings: React.Dispatch<React.SetStateAction<Listing[]>>;
+  host: Host | null;
+  setHost: React.Dispatch<React.SetStateAction<Host | null>>;
+  newListingModalOpen: boolean;
+  setNewListingModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+type User = {
+  bio: string | null;
+  city: string | null;
+  email: string | null;
+  firstname: string | null;
+  ishost: boolean;
+  lastname: string | null;
+  phonenumber: string | null;
+  profilepicture: ArrayBuffer | null;
+  tempcode: string | null;
+  tempcodedate: string | null;
+  userid: number;
+} | null;
+
 interface UserContextProps {
-  user: {
-    bio: string | null;
-    city: string | null;
-    email: string | null;
-    firstname: string | null;
-    ishost: boolean;
-    lastname: string | null;
-    phonenumber: string | null;
-    profilepicture: ArrayBuffer | null;
-    tempcode: string | null;
-    tempcodedate: string | null;
-    userid: number;
-  } | null;
-  setUser: React.Dispatch<
-    React.SetStateAction<{
-      bio: string | null;
-      city: string | null;
-      email: string | null;
-      firstname: string | null;
-      ishost: boolean;
-      lastname: string | null;
-      phonenumber: string | null;
-      profilepicture: ArrayBuffer | null;
-      tempcode: string | null;
-      tempcodedate: string | null;
-      userid: number;
-    } | null>
-  >;
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 }
 
 export const UserContext = createContext<UserContextProps | null>(null);
+export const HostContext = createContext<HostContextProps | null>(null);
 
 function App() {
-  const [user, setUser] = useState<UserContextProps['user']>(null);
+  const [user, setUser] = useState<User>(null);
+  const [newListingModalOpen, setNewListingModalOpen] =
+    useState<HostContextProps['newListingModalOpen']>(false);
+  const [hostListings, setHostListings] = useState<Listing[]>([]);
+  const [host, setHost] = useState<Host>(null);
+
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -69,16 +98,31 @@ function App() {
 
     checkAuthStatus();
   }, []);
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {!isLoading && (
-        <Routes>
-          <Route path='/' element={<HomePage />}></Route>
-          <Route path='/login' element={<Login />}></Route>
-          <Route path='/browse' element={<BrowsePage />}></Route>
-          <Route path='/hosting' element={<HostPage />}></Route>
-        </Routes>
-      )}
+      <HostContext.Provider
+        value={{
+          hostListings,
+          setHostListings,
+          host,
+          setHost,
+          newListingModalOpen,
+          setNewListingModalOpen,
+        }}
+      >
+        {!isLoading && (
+          <Routes>
+            <Route path='/' element={<HomePage />}></Route>
+            <Route path='/login' element={<Login />}></Route>
+            <Route path='/browse' element={<BrowsePage />}></Route>
+            <Route path='/hosting' element={<HostPage />}></Route>
+            <Route path='/hosting/listings' element={<ListingsPage />}></Route>
+            <Route path='/hosting/inbox' element={<InboxPage />}></Route>
+            <Route path='/hosting/calendar' element={<CalendarPage />}></Route>
+          </Routes>
+        )}
+      </HostContext.Provider>
     </UserContext.Provider>
   );
 }

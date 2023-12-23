@@ -6,8 +6,7 @@ import { NewListingWizardContext } from '../NewListingWizard';
 import { useContext } from 'react';
 
 function NewListingSummary() {
-  const { newListingButtonsContext } = useContext(NewListingWizardContext);
-  const { currentView, setCurrentView } = newListingButtonsContext;
+  const { currentView, setCurrentView } = useContext(NewListingWizardContext)!;
 
   const handleView = () => {
     setCurrentView(currentView + 1);
