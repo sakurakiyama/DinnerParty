@@ -97,6 +97,7 @@ function NewListingWizard() {
   const {
     setNewListingModalOpen,
     currentHostListing,
+    setCurrentHostListing,
     setHostListings,
     setHost,
   } = useContext(HostContext)!;
@@ -137,6 +138,7 @@ function NewListingWizard() {
       const { data } = await axios.post('/api/host/createListing');
       setUser(data.user);
       setHost(data.host);
+      setCurrentHostListing(data.listing);
     };
 
     if (currentHostListing) {
@@ -182,6 +184,7 @@ function NewListingWizard() {
     });
     setHostListings(data.listings);
     setNewListingModalOpen(false);
+    setCurrentHostListing(null);
   };
 
   return (

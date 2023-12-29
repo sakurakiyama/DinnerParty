@@ -2,12 +2,14 @@ import { useContext, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 import { BsHourglassSplit } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
+import { MdNoPhotography } from 'react-icons/md';
 import HostNavBar from '../hostnav/HostNavBar';
 import { HostContext } from '../../App';
 import axios from 'axios';
 import { MdPendingActions } from 'react-icons/md';
 import { Listing } from '../../types';
 import NewListingWizard from '../newListingSetup/NewListingWizard';
+import { Buffer } from 'buffer';
 
 function ListingsPage() {
   const {
@@ -40,6 +42,11 @@ function ListingsPage() {
       setNewListingModalOpen(true);
     }
   };
+
+  const createNewListing = () => {
+    setNewListingModalOpen(true);
+  };
+
   return (
     <div>
       {newListingModalOpen && (
@@ -59,7 +66,10 @@ function ListingsPage() {
                 {hostListings.length === 1 ? ' Listing' : ' Listings'}
               </div>
               <div className='flex'>
-                <button className='flex justify-center items-center text-sm border p-2 pr-4 pl-4 rounded-md'>
+                <button
+                  className='flex justify-center items-center text-sm border p-2 pr-4 pl-4 rounded-md'
+                  onClick={createNewListing}
+                >
                   <FaPlus size={17} className='pr-2' /> Create listing
                 </button>
               </div>
@@ -78,6 +88,15 @@ function ListingsPage() {
                 })}
               </tr>
               {hostListings.map((listing) => {
+                let coverPhoto;
+
+                if (listing?.photos && listing?.photos.length > 0) {
+                  const base64 = Buffer.from(listing.photos[0]).toString(
+                    'base64'
+                  );
+                  coverPhoto = `data:image/jpeg;base64,${base64}`;
+                }
+
                 let listingStatus;
 
                 switch (listing?.status) {
@@ -117,7 +136,21 @@ function ListingsPage() {
                     }}
                   >
                     <td className='py-2'>
-                      {listing?.title ? listing.title : 'Untitled'}
+                      <div className='flex flex-row items-center space-x-2'>
+                        {!coverPhoto ? (
+                          <div className='hidden md:flex w-[150px] h-[100px] border rounded-md justify-center items-center'>
+                            <MdNoPhotography size={30} />
+                          </div>
+                        ) : (
+                          <div
+                            className='hidden md:block w-[150px] h-[100px] border bg-cover rounded-md'
+                            style={{
+                              backgroundImage: `url(${coverPhoto as string})`,
+                            }}
+                          ></div>
+                        )}
+                        <div>{listing?.title ? listing?.title : 'Unknown'}</div>
+                      </div>
                     </td>
                     <td className='py-2'>{listingStatus}</td>
                     <td className='py-2'>
