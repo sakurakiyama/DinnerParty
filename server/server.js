@@ -1,4 +1,5 @@
 import express, { json, urlencoded } from 'express';
+import formidable from 'express-formidable';
 const app = express();
 const PORT = 8080;
 import cookieParser from 'cookie-parser';
@@ -6,8 +7,20 @@ import authRouter from './routes/auth.js';
 import userRouter from './routes/user.js';
 import hostRouter from './routes/host.js';
 
-app.use(json());
-app.use(urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  if (req.is('multipart/form-data')) {
+    formidable({
+      encoding: 'utf-8',
+      multiples: true,
+      keepExtensions: true,
+    })(req, res, next);
+  } else {
+    return next();
+  }
+});
+
+app.use(json({ limit: '50mb' }));
+app.use(urlencoded({ extended: true, limit: '50mb' }));
 app.use(cookieParser());
 
 // route handlers

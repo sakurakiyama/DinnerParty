@@ -13,18 +13,21 @@ function InstantBookAccess() {
     setCurrentView,
   } = useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
-  const [selected, setSelected] = useState<string>(
-    publishingDetails.instantBook
-  );
+  const [selected, setSelected] = useState<string>('');
 
   const updateBookingType = (bookingType: string) => {
-    if (selected === bookingType) {
-      setSelected('');
-      setPublishingDetails({ ...publishingDetails, instantBook: '' });
-    } else {
-      setSelected(bookingType);
-      setPublishingDetails({ ...publishingDetails, instantBook: bookingType });
-    }
+    const instantBookValue =
+      bookingType === 'Use instant book'
+        ? true
+        : bookingType === 'Approve or decline requests'
+        ? false
+        : '';
+
+    setSelected(bookingType === selected ? '' : bookingType);
+    setPublishingDetails({
+      ...publishingDetails,
+      instantBook: bookingType === selected ? '' : instantBookValue,
+    });
   };
 
   const handleView = (operation?: string) => {
@@ -34,8 +37,17 @@ function InstantBookAccess() {
   };
 
   useEffect(() => {
-    if (publishingDetails.instantBook) setNotValidated(false);
-    else setNotValidated(true);
+    if (publishingDetails.instantBook !== '') {
+      setSelected(
+        publishingDetails.instantBook
+          ? 'Use instant book'
+          : 'Approve or decline requests'
+      );
+      setNotValidated(false);
+    } else {
+      setSelected('');
+      setNotValidated(true);
+    }
   }, [publishingDetails]);
 
   const accessTypes = [

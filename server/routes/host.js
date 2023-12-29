@@ -21,6 +21,22 @@ router.post(
   }
 );
 
+router.post(
+  '/updateListing',
+  authController.getToken,
+  authController.verifyToken,
+  userController.getUser,
+  hostController.createOrGetHost,
+  hostController.updateListing,
+  hostController.getHostListings,
+  (req, res) => {
+    return res.status(200).json({
+      listings: res.locals.listings,
+      host: res.locals.host,
+    });
+  }
+);
+
 router.get(
   '/getHostData',
   authController.getToken,

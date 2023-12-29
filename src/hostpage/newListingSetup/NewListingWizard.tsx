@@ -20,6 +20,7 @@ import { UserContext, HostContext } from '../../App';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import axios from 'axios';
+import { Buffer } from 'buffer';
 
 /*
 TODO: Add animated transitions
@@ -71,7 +72,7 @@ type MarketingDetails = {
 };
 
 type PublishingDetails = {
-  instantBook: string;
+  instantBook: string | boolean;
   security: string[];
   basePrice: number;
 };
@@ -93,7 +94,12 @@ export const NewListingWizardContext =
   createContext<NewListingWizardContextProps | null>(null);
 
 function NewListingWizard() {
-  const { setNewListingModalOpen } = useContext(HostContext)!;
+  const {
+    setNewListingModalOpen,
+    currentHostListing,
+    setHostListings,
+    setHost,
+  } = useContext(HostContext)!;
   const [currentView, setCurrentView] =
     useState<NewListingWizardContextProps['currentView']>(0);
   const [spaceDetails, setSpaceDetails] = useState<SpaceDetails>({
@@ -130,14 +136,54 @@ function NewListingWizard() {
     const createListing = async () => {
       const { data } = await axios.post('/api/host/createListing');
       setUser(data.user);
-      // update host context once you have it.
+      setHost(data.host);
     };
 
-    createListing();
+    if (currentHostListing) {
+      const base64Photos = currentHostListing.photos?.map((photo) => {
+        const base64 = Buffer.from(photo).toString('base64');
+        return `data:image/jpeg;base64,${base64}`;
+      });
+
+      setSpaceDetails({
+        homeType: currentHostListing.hometype || '',
+        accessType: currentHostListing.accesstype || '',
+        streetAddress: currentHostListing.streetaddress || '',
+        apt: currentHostListing.apt || '',
+        city: currentHostListing.city || '',
+        state: currentHostListing.state || '',
+        zipCode: currentHostListing.zipcode || '',
+        guests: currentHostListing.guests || 0,
+        diningAreas: currentHostListing.diningareas || 0,
+        bathrooms: currentHostListing.bathrooms || 0,
+      });
+
+      setMarketingDetails({
+        amenities: currentHostListing.amenities || [],
+        photos: base64Photos || [],
+        title: currentHostListing.title || '',
+        description: currentHostListing.description || '',
+      });
+
+      setPublishingDetails({
+        instantBook: currentHostListing.instantbook || '',
+        security: currentHostListing.security || [],
+        basePrice: currentHostListing.baseprice,
+      });
+    } else createListing();
   }, []);
 
-  const saveListing = () => {
-    // TODO: Send data to backend
+  const saveListing = async () => {
+    // TODO: Send other details
+    console.log(marketingDetails);
+    const { data } = await axios.post('/api/host/updateListing', {
+      marketingDetails,
+      spaceDetails,
+      publishingDetails,
+      listingID: currentHostListing?.listingid,
+    });
+    console.log(data);
+    setHostListings(data.listings);
     setNewListingModalOpen(false);
   };
 
@@ -166,7 +212,7 @@ function NewListingWizard() {
               </div>
               {/* Right */}
               <button
-                onClick={() => setNewListingModalOpen(false)}
+                onClick={saveListing}
                 className='border hover:bg-[#F6F6F6] rounded-full p-2 pl-4 pr-4 ml-6 mr-2'
               >
                 Save & exit
