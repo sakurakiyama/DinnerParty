@@ -15,19 +15,21 @@ import './App.css';
 type Listing = {
   listingid: number;
   hostid: number;
-  listingname: null | string;
+  title: null | string;
   description: null | string;
-  neighborhooddescription: null | string;
-  gettingarounddescription: null | string;
+  neighborhood: null | string;
+  gettingaround: null | string;
   listingsize: null | string;
   amenities: string[] | [];
   streetaddress: null | string;
   city: null | string;
   zipcode: null | string;
-  type: null | string;
+  hometype: null | string;
   unavailable: Date[] | [];
   published: boolean;
-  requireddetails: boolean;
+  status: string;
+  instantbook: boolean;
+  state: null | string;
 } | null;
 
 type Host = {

@@ -26,7 +26,6 @@ function HostPage() {
         const { data } = await axios.get(`/api/host/getHostData`);
         setHost(data.host);
         setHostListings(data.listings);
-        console.log(data.listings);
       };
       getHostData();
     }
