@@ -174,15 +174,12 @@ function NewListingWizard() {
   }, []);
 
   const saveListing = async () => {
-    // TODO: Send other details
-    console.log(marketingDetails);
     const { data } = await axios.post('/api/host/updateListing', {
       marketingDetails,
       spaceDetails,
       publishingDetails,
       listingID: currentHostListing?.listingid,
     });
-    console.log(data);
     setHostListings(data.listings);
     setNewListingModalOpen(false);
   };

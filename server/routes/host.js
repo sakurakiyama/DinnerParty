@@ -2,6 +2,7 @@ import { Router } from 'express';
 import userController from '../controllers/userController/index.js';
 import hostController from '../controllers/hostController/index.js';
 import authController from '../controllers/authController/index.js';
+import listingController from '../controllers/listingController/index.js';
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.post(
   authController.verifyToken,
   userController.getUser,
   hostController.createOrGetHost,
+  listingController.getListing,
   hostController.updateListing,
   hostController.getHostListings,
   (req, res) => {

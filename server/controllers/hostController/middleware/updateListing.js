@@ -22,6 +22,7 @@ const updateListing = async (req, res, next) => {
   try {
     const { marketingDetails, spaceDetails, publishingDetails, listingID } =
       req.body;
+    const { status } = res.locals.listing;
 
     const {
       homeType,
@@ -47,8 +48,41 @@ const updateListing = async (req, res, next) => {
 
     const { hostid } = res.locals.host;
 
+    let updatedStatus;
+
+    if (
+      [
+        homeType,
+        accessType,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+        guests,
+        diningAreas,
+        bathrooms,
+        amenities,
+        photos,
+        title,
+        description,
+        instantBook,
+        security,
+        basePrice,
+      ].every(
+        (value) =>
+          value !== null &&
+          value !== '' &&
+          value !== undefined &&
+          !(Array.isArray(value) && value.length === 0)
+      )
+    ) {
+      if (status === 'In progress') updatedStatus = 'Ready';
+    } else {
+      updatedStatus = 'In progress';
+    }
+
     const updateListingQuery =
-      'UPDATE listings SET hometype = $1, accesstype = $2, streetaddress = $3, apt = $4, city = $5, state = $6, zipcode = $7, guests = $8, diningareas = $9, bathrooms = $10, photos = $11, amenities = $12, title = $13, description = $14, instantbook = $15, security = $16, baseprice = $17 WHERE listingid = $18 AND hostid = $19 RETURNING *';
+      'UPDATE listings SET hometype = $1, accesstype = $2, streetaddress = $3, apt = $4, city = $5, state = $6, zipcode = $7, guests = $8, diningareas = $9, bathrooms = $10, photos = $11, amenities = $12, title = $13, description = $14, instantbook = $15, security = $16, baseprice = $17, status = $18 WHERE listingid = $19 AND hostid = $20 RETURNING *';
 
     const { rows } = await query(updateListingQuery, [
       homeType || null,
@@ -68,6 +102,7 @@ const updateListing = async (req, res, next) => {
       instantBook,
       security,
       basePrice,
+      updatedStatus,
       listingID,
       hostid,
     ]);
@@ -78,7 +113,7 @@ const updateListing = async (req, res, next) => {
     return next({
       log: `Error occurred in hostController.updateListing middleware: ${error}`,
       status: 400,
-      message: { error: 'Unable to create a listing.' },
+      message: { error: 'Unable to update a listing.' },
     });
   }
 };
