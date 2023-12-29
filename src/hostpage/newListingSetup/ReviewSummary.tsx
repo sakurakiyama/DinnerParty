@@ -6,14 +6,17 @@ import { useContext } from 'react';
 import { NewListingWizardContext } from './NewListingWizard';
 
 function ReviewSummary() {
-  const { currentView, setCurrentView, saveListing } = useContext(
+  const { currentView, setCurrentView, saveListing, setSlideIn } = useContext(
     NewListingWizardContext
   )!;
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   const nextSteps = [
@@ -41,7 +44,8 @@ function ReviewSummary() {
   ];
 
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div className='flex flex-col h-full overflow-auto animate-slideInRight'>
+      {' '}
       <div className='flex flex-col pt-10 md:pt-0 md:w-[800px] md:mt-auto md:mx-auto'>
         <div className='font-black text-2xl md:text-3xl'>
           Review your listing

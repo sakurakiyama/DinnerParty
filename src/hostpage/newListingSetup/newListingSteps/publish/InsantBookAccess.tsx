@@ -11,6 +11,8 @@ function InstantBookAccess() {
     setPublishingDetails,
     currentView,
     setCurrentView,
+    setSlideIn,
+    slideIn,
   } = useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>('');
@@ -32,8 +34,12 @@ function InstantBookAccess() {
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   useEffect(() => {
@@ -65,7 +71,11 @@ function InstantBookAccess() {
     },
   ];
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
       <div className='flex flex-col md:space-x-8 md:mt-auto justify-center items-center'>
         <div className='flex flex-col pt-10 md:pt-0 '>
           <div className='font-black text-2xl md:text-3xl'>

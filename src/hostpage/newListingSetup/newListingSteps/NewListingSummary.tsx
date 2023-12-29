@@ -6,9 +6,12 @@ import { NewListingWizardContext } from '../NewListingWizard';
 import { useContext } from 'react';
 
 function NewListingSummary() {
-  const { currentView, setCurrentView } = useContext(NewListingWizardContext)!;
+  const { currentView, setCurrentView, setSlideIn } = useContext(
+    NewListingWizardContext
+  )!;
 
   const handleView = () => {
+    setSlideIn('Right');
     setCurrentView(currentView + 1);
   };
 

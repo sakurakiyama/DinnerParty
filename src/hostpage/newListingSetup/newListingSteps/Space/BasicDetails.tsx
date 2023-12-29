@@ -11,8 +11,14 @@ type SpaceDetailProps = {
 };
 
 function BasicDetails() {
-  const { spaceDetails, setSpaceDetails, currentView, setCurrentView } =
-    useContext(NewListingWizardContext)!;
+  const {
+    spaceDetails,
+    setSpaceDetails,
+    currentView,
+    setCurrentView,
+    setSlideIn,
+    slideIn,
+  } = useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
   const handleCount = (key: keyof SpaceDetailProps, operation: string) => {
@@ -42,12 +48,19 @@ function BasicDetails() {
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
-
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
       <div className='md:w-[550px] md:mt-auto justify-center items-center md:mx-auto'>
         <div className='pb-10 pt-10 md:pb-0 md:pt-0'>
           <div className='font-black text-2xl md:text-3xl '>

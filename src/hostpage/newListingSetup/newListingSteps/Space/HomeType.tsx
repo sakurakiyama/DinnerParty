@@ -15,8 +15,14 @@ import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
 
 function HomeType() {
-  const { spaceDetails, setSpaceDetails, currentView, setCurrentView } =
-    useContext(NewListingWizardContext)!;
+  const {
+    spaceDetails,
+    setSpaceDetails,
+    currentView,
+    setCurrentView,
+    setSlideIn,
+    slideIn,
+  } = useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>(spaceDetails.homeType);
 
@@ -32,8 +38,12 @@ function HomeType() {
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   useEffect(() => {
@@ -102,7 +112,11 @@ function HomeType() {
   ];
 
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
       <div className='flex flex-col md:space-x-8 items-center justify-center md:mt-auto'>
         <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10 items-center'>
           <div className='font-black text-2xl md:text-3xl text-center'>

@@ -4,8 +4,14 @@ import SalmonButton from '../../../../components/SalmonButton';
 import { isBlankString } from '../../../../utils';
 
 function AddDescription() {
-  const { marketingDetails, setMarketingDetails, currentView, setCurrentView } =
-    useContext(NewListingWizardContext)!;
+  const {
+    marketingDetails,
+    setMarketingDetails,
+    currentView,
+    setCurrentView,
+    setSlideIn,
+    slideIn,
+  } = useContext(NewListingWizardContext)!;
 
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
@@ -25,12 +31,21 @@ function AddDescription() {
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   return (
-    <div className='flex flex-col h-full overflow-auto w-full'>
+    <div
+      className={`flex flex-col h-full overflow-auto w-full ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
+      {' '}
       <div className='flex flex-col md:mt-auto mx-auto w-full md:w-[600px]'>
         <div className='font-black text-2xl md:text-3xl pt-10 md:pt-0 '>
           Next, let's describe your space

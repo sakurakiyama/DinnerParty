@@ -88,6 +88,8 @@ interface NewListingWizardContextProps {
   setMarketingDetails: React.Dispatch<React.SetStateAction<MarketingDetails>>;
   publishingDetails: PublishingDetails;
   setPublishingDetails: React.Dispatch<React.SetStateAction<PublishingDetails>>;
+  slideIn: string;
+  setSlideIn: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const NewListingWizardContext =
@@ -103,6 +105,9 @@ function NewListingWizard() {
   } = useContext(HostContext)!;
   const [currentView, setCurrentView] =
     useState<NewListingWizardContextProps['currentView']>(0);
+  const [slideIn, setSlideIn] =
+    useState<NewListingWizardContextProps['slideIn']>('Right');
+
   const [spaceDetails, setSpaceDetails] = useState<SpaceDetails>({
     homeType: '',
     accessType: '',
@@ -201,6 +206,8 @@ function NewListingWizard() {
           setMarketingDetails,
           publishingDetails,
           setPublishingDetails,
+          slideIn,
+          setSlideIn,
         }}
       >
         <div className='w-full'>

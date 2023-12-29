@@ -18,8 +18,14 @@ import { NewListingWizardContext } from '../../NewListingWizard';
 import { useContext, useState } from 'react';
 
 function BasicAmenities() {
-  const { marketingDetails, setMarketingDetails, currentView, setCurrentView } =
-    useContext(NewListingWizardContext)!;
+  const {
+    marketingDetails,
+    setMarketingDetails,
+    currentView,
+    setCurrentView,
+    setSlideIn,
+    slideIn,
+  } = useContext(NewListingWizardContext)!;
   const [selected, setSelected] = useState<string[]>(
     marketingDetails.amenities
   );
@@ -46,8 +52,12 @@ function BasicAmenities() {
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   const safetyItems = [
@@ -129,7 +139,11 @@ function BasicAmenities() {
     },
   ];
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
       <div className='flex flex-col md:space-x-8 items-center justify-center '>
         <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10'>
           <div className='font-black text-2xl md:text-3xl'>

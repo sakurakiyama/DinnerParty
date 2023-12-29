@@ -29,6 +29,8 @@ function SetPrice() {
     setPublishingDetails,
     currentView,
     setCurrentView,
+    setSlideIn,
+    slideIn,
   } = useContext(NewListingWizardContext)!;
   const editableRef = useRef<EditableDivRef>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -61,8 +63,12 @@ function SetPrice() {
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   const handlePriceChange = (e: React.FormEvent<HTMLDivElement>) => {
@@ -141,7 +147,12 @@ function SetPrice() {
   };
 
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
+      {' '}
       <div className='flex flex-col pt-10 mx-auto w-full md:w-[700px]'>
         <div className='font-black text-2xl md:text-3xl'>
           Now, set your price

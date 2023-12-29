@@ -5,16 +5,26 @@ import { useContext } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 
 function SpaceSummary() {
-  const { currentView, setCurrentView } = useContext(NewListingWizardContext)!;
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
       <div className='mt-10 md:mt-auto'>
         <NewListingWizardSummary
           header={'Finish up and publish'}

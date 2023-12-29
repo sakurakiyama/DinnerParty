@@ -15,14 +15,24 @@ TODO: [] Should validate if it's a real address using external API
 */
 
 function HomeLocation() {
-  const { spaceDetails, setSpaceDetails, currentView, setCurrentView } =
-    useContext(NewListingWizardContext)!;
+  const {
+    spaceDetails,
+    setSpaceDetails,
+    currentView,
+    setCurrentView,
+    setSlideIn,
+    slideIn,
+  } = useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   useEffect(() => {
@@ -115,7 +125,11 @@ function HomeLocation() {
   ];
 
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
       <div className='flex flex-col md:space-x-8 justify-center items-center md:mt-auto'>
         <div className='flex flex-col pb-10 pt-10 md:pb-0 md:pt-0'>
           <div className='font-black text-2xl md:text-3xl '>

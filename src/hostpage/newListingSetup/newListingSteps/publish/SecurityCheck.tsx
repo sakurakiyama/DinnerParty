@@ -10,6 +10,8 @@ function SecurityCheck() {
     setPublishingDetails,
     currentView,
     setCurrentView,
+    setSlideIn,
+    slideIn,
   } = useContext(NewListingWizardContext)!;
   const [securityModalOpen, setSecurityModalOpen] = useState<boolean>(false);
 
@@ -27,8 +29,12 @@ function SecurityCheck() {
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +57,11 @@ function SecurityCheck() {
   };
 
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
       <div className=' md:mt-auto mx-auto w-full md:w-[564px]'>
         {securityModalOpen && (
           <div className='top-0 bottom-0 left-0 right-0 fixed flex items-center justify-center bg-[#00000044]'>

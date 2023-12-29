@@ -16,8 +16,14 @@ TODO: Add functionality to drag photos once dropped
 function AddPhotos() {
   const [notValidated, setNotValidated] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { marketingDetails, setMarketingDetails, currentView, setCurrentView } =
-    useContext(NewListingWizardContext)!;
+  const {
+    marketingDetails,
+    setMarketingDetails,
+    currentView,
+    setCurrentView,
+    setSlideIn,
+    slideIn,
+  } = useContext(NewListingWizardContext)!;
 
   useEffect(() => {
     if (marketingDetails.photos.length >= 5) setNotValidated(false);
@@ -28,8 +34,12 @@ function AddPhotos() {
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
+      setSlideIn('Right');
       setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') setCurrentView(currentView - 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
   };
 
   const readAsDataURL = async (
@@ -128,7 +138,11 @@ function AddPhotos() {
   };
 
   return (
-    <div className='flex flex-col h-full overflow-auto'>
+    <div
+      className={`flex flex-col h-full overflow-auto ${
+        slideIn === 'Left' ? 'animate-slideInLeft' : 'animate-slideInRight'
+      }`}
+    >
       <div>
         <div className='flex flex-col md:space-x-8 items-center justify-center '>
           <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10'>
