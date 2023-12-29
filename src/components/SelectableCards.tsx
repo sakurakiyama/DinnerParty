@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 
 type Card = {
   key: string;
@@ -9,40 +9,26 @@ type Card = {
 
 interface CardProps {
   cards: Card[];
-  // multipleSelection: boolean;
   handleSelectableCardClick: (display: string) => void;
   currentSelection: string[] | string;
 }
 
 function SelectableCards({
   cards,
-  // multipleSelection,
   handleSelectableCardClick,
   currentSelection,
 }: CardProps) {
-  // const [selected, setSelected] = useState<string[] | string>(['']);
-
-  // const handleClick = (header: string) => {
-  //   if (multipleSelection) {
-  //     const allSelected = [...selected, header];
-  //     setSelected(allSelected);
-  //   } else {
-  //     setSelected(header);
-  //   }
-  //   handleSelectableCardClick(header);
-  // };
-
   return (
     <div className='flex flex-col space-y-2 mt-8'>
       {cards &&
-        cards.map((current, index) => {
+        cards.map((current) => {
           const isSelected = Array.isArray(currentSelection)
             ? currentSelection.includes(current.header)
             : currentSelection === current.header;
           return (
             <div
               onClick={() => handleSelectableCardClick(current.header)}
-              key={`${current.key}+${index}`}
+              key={uuid()}
               className={`border p-4 rounded-md flex flex-row items-center hover:border-black ${
                 isSelected ? 'border-black' : ''
               }`}

@@ -3,6 +3,8 @@ import { CiCirclePlus } from 'react-icons/ci';
 import { useContext } from 'react';
 import { BrowsePageContext } from '../../BrowsePage';
 import { GuestCategory } from '../../BrowsePage';
+import { v4 as uuid } from 'uuid';
+
 function GuestSelector() {
   const { guestContext } = useContext(BrowsePageContext);
   const { guests, setGuests } = guestContext;
@@ -26,7 +28,7 @@ function GuestSelector() {
           const isFirst = index === 0;
           return (
             <div
-              key={`${current.category}+${index}`}
+              key={uuid()}
               className={`border-b pb-4 pt-4 flex flex-row justify-between ${
                 isFirst && 'pt-0'
               } ${isLast && 'pb-0 border-b-0'}`}

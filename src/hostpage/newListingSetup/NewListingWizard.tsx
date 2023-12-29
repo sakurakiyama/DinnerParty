@@ -22,10 +22,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 
-/*
-TODO: Add animated transitions
-*/
-
 const pages = [
   <NewListingSummary />,
 

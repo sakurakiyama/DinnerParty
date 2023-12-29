@@ -10,6 +10,7 @@ import { MdPendingActions } from 'react-icons/md';
 import { Listing } from '../../types';
 import NewListingWizard from '../newListingSetup/NewListingWizard';
 import { Buffer } from 'buffer';
+import { v4 as uuid } from 'uuid';
 
 function ListingsPage() {
   const {
@@ -41,6 +42,7 @@ function ListingsPage() {
       setCurrentHostListing(listing);
       setNewListingModalOpen(true);
     }
+    // TODO: Otherwise, it's either listed or ready and you should display a different component
   };
 
   const createNewListing = () => {
@@ -74,96 +76,105 @@ function ListingsPage() {
                 </button>
               </div>
             </div>
-            <table className='w-full text-sm mt-6'>
-              <tr>
-                {headers.map((header, index) => {
+            <table className='w-full text-xs md:text-sm mt-6'>
+              <tbody>
+                <tr>
+                  {headers.map((header) => {
+                    return (
+                      <th
+                        key={uuid()}
+                        className='text-start text-xs border-b py-2'
+                      >
+                        {header}
+                      </th>
+                    );
+                  })}
+                </tr>
+                {hostListings.map((listing) => {
+                  let coverPhoto;
+
+                  if (listing?.photos && listing?.photos.length > 0) {
+                    const base64 = Buffer.from(listing.photos[0]).toString(
+                      'base64'
+                    );
+                    coverPhoto = `data:image/jpeg;base64,${base64}`;
+                  }
+
+                  let listingStatus;
+
+                  switch (listing?.status) {
+                    case 'In progress':
+                      listingStatus = (
+                        <div className='flex items-center'>
+                          <BsHourglassSplit size={20} className='pr-2' />
+                          <div className='hidden md:block'>In Progress</div>
+                        </div>
+                      );
+                      break;
+
+                    case 'Listed':
+                      listingStatus = (
+                        <div className='flex items-center'>
+                          <FaCircle
+                            size={20}
+                            color={'green'}
+                            className='pr-2'
+                          />
+                          <div className='hidden md:block'>Listed</div>
+                        </div>
+                      );
+                      break;
+
+                    case 'Ready':
+                      listingStatus = (
+                        <div className='flex items-center'>
+                          <MdPendingActions size={22} className='pr-2' />
+                          <div className='hidden md:block'>Ready</div>
+                        </div>
+                      );
+                      break;
+                  }
+
                   return (
-                    <th
-                      className='text-start text-xs border-b py-2'
-                      key={index}
+                    <tr
+                      className='border-b hover:bg-[#F6F6F6] cursor-pointer'
+                      onClick={() => {
+                        openListing(listing);
+                      }}
+                      key={uuid()}
                     >
-                      {header}
-                    </th>
+                      <td className='py-2'>
+                        <div className='flex flex-row items-center md:space-x-2'>
+                          {!coverPhoto ? (
+                            <div className='hidden md:flex w-[150px] h-[100px] border rounded-md justify-center items-center'>
+                              <MdNoPhotography size={30} />
+                            </div>
+                          ) : (
+                            <div
+                              className='hidden md:block w-[150px] h-[100px] border bg-cover rounded-md'
+                              style={{
+                                backgroundImage: `url(${coverPhoto as string})`,
+                              }}
+                            ></div>
+                          )}
+                          <div className='max-w-[160px] md:max-w-full'>
+                            {listing?.title ? listing?.title : 'Unknown'}
+                          </div>
+                        </div>
+                      </td>
+                      <td className='py-2'>{listingStatus}</td>
+                      <td className='py-2'>
+                        {listing?.instantbook ? 'On' : 'Off'}
+                      </td>
+                      <td className='py-2'>
+                        {listing?.city && listing?.state
+                          ? `${listing.city}, ${listing.state}`
+                          : 'Unknown'}
+                      </td>
+                    </tr>
                   );
                 })}
-              </tr>
-              {hostListings.map((listing) => {
-                let coverPhoto;
-
-                if (listing?.photos && listing?.photos.length > 0) {
-                  const base64 = Buffer.from(listing.photos[0]).toString(
-                    'base64'
-                  );
-                  coverPhoto = `data:image/jpeg;base64,${base64}`;
-                }
-
-                let listingStatus;
-
-                switch (listing?.status) {
-                  case 'In progress':
-                    listingStatus = (
-                      <div className='flex items-center'>
-                        <BsHourglassSplit size={20} className='pr-2' /> In
-                        Progress
-                      </div>
-                    );
-                    break;
-
-                  case 'Listed':
-                    listingStatus = (
-                      <div className='flex items-center'>
-                        <FaCircle size={20} color={'green'} className='pr-2' />{' '}
-                        Listed
-                      </div>
-                    );
-                    break;
-
-                  case 'Ready':
-                    listingStatus = (
-                      <div className='flex items-center'>
-                        <MdPendingActions size={22} className='pr-2' />
-                        Ready
-                      </div>
-                    );
-                    break;
-                }
-
-                return (
-                  <tr
-                    className='border-b hover:bg-[#F6F6F6]'
-                    onClick={() => {
-                      openListing(listing);
-                    }}
-                  >
-                    <td className='py-2'>
-                      <div className='flex flex-row items-center space-x-2'>
-                        {!coverPhoto ? (
-                          <div className='hidden md:flex w-[150px] h-[100px] border rounded-md justify-center items-center'>
-                            <MdNoPhotography size={30} />
-                          </div>
-                        ) : (
-                          <div
-                            className='hidden md:block w-[150px] h-[100px] border bg-cover rounded-md'
-                            style={{
-                              backgroundImage: `url(${coverPhoto as string})`,
-                            }}
-                          ></div>
-                        )}
-                        <div>{listing?.title ? listing?.title : 'Unknown'}</div>
-                      </div>
-                    </td>
-                    <td className='py-2'>{listingStatus}</td>
-                    <td className='py-2'>
-                      {listing?.instantbook ? 'On' : 'Off'}
-                    </td>
-                    <td className='py-2'>
-                      {listing?.city && listing?.state
-                        ? `${listing.city}, ${listing.state}`
-                        : 'Unknown'}
-                    </td>
-                  </tr>
-                );
-              })}
+              </tbody>
             </table>
           </div>
         </div>

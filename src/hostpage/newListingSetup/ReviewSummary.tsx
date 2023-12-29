@@ -4,6 +4,7 @@ import { MdOutlineModeEditOutline } from 'react-icons/md';
 import SalmonButton from '../../components/SalmonButton';
 import { useContext } from 'react';
 import { NewListingWizardContext } from './NewListingWizard';
+import { v4 as uuid } from 'uuid';
 
 function ReviewSummary() {
   const { currentView, setCurrentView, saveListing, setSlideIn } = useContext(
@@ -59,12 +60,9 @@ function ReviewSummary() {
           </div>
           <div className='m-4 md:w-[50%] p-4 justify-center items-center space-y-6'>
             {nextSteps &&
-              nextSteps.map((current, index) => {
+              nextSteps.map((current) => {
                 return (
-                  <div
-                    key={`${current.key}+${index}`}
-                    className='flex flex-row space-x-4'
-                  >
+                  <div key={uuid()} className='flex flex-row space-x-4'>
                     <div>{current.image}</div>
                     <div>
                       <div className='font-black text-base pb-1'>

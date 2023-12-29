@@ -4,6 +4,8 @@ import FoodTile from '../assets/FoodTile.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import OrangeHeaderCard from '../components/OrangeHeaderCard';
+import { v4 as uuid } from 'uuid';
+
 type InputRef = React.RefObject<HTMLInputElement> | null;
 
 function Login() {
@@ -142,7 +144,7 @@ function Login() {
                     <input
                       ref={inputRefs[index]}
                       className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-slate-500'
-                      key={index}
+                      key={uuid()}
                       type='text'
                       maxLength={1}
                       value={value}

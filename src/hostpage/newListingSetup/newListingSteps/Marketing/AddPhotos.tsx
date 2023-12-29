@@ -8,6 +8,7 @@ import { NewListingWizardContext } from '../../NewListingWizard';
 import { MdDeleteOutline } from 'react-icons/md';
 import { convertToKB, convertToMB } from '../../../../utils';
 import { MdErrorOutline } from 'react-icons/md';
+import { v4 as uuid } from 'uuid';
 
 /*
 TODO: Add functionality to drag photos once dropped
@@ -191,7 +192,7 @@ function AddPhotos() {
                   return (
                     <div
                       className='border h-[150px] md:h-[200px] md:w-[300px] bg-white rounded-md shadow-sm'
-                      key={index}
+                      key={uuid()}
                     >
                       {dataUrl && (
                         <div

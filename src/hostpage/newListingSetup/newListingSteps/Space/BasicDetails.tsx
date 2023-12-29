@@ -3,6 +3,7 @@ import { CiCirclePlus } from 'react-icons/ci';
 import { useContext, useState, useEffect } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
+import { v4 as uuid } from 'uuid';
 
 type SpaceDetailProps = {
   guests: number;
@@ -75,7 +76,7 @@ function BasicDetails() {
           const isLast = index === items.length - 1;
           return (
             <div
-              key={`${currentItem.key}+${index}`}
+              key={uuid()}
               className={`flex flex-row justify-between p-2 items-center ${
                 isLast ? '' : 'border-b'
               }`}

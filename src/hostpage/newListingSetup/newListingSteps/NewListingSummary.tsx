@@ -4,6 +4,7 @@ import HangingLights from '../../../assets/HangingLights.png';
 import SalmonButton from '../../../components/SalmonButton';
 import { NewListingWizardContext } from '../NewListingWizard';
 import { useContext } from 'react';
+import { v4 as uuid } from 'uuid';
 
 function NewListingSummary() {
   const { currentView, setCurrentView, setSlideIn } = useContext(
@@ -49,9 +50,9 @@ function NewListingSummary() {
             </div>
             <div className='md:w-[50%] space-y-8'>
               {sections &&
-                sections.map((current, index) => {
+                sections.map((current) => {
                   return (
-                    <div className='flex flex-row items-center' key={index}>
+                    <div className='flex flex-row items-center' key={uuid()}>
                       <div>
                         <div className='text-lg font-black flex'>
                           <div>{current.number}</div>

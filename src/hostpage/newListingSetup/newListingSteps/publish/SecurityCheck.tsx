@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import OrangeHeaderCard from '../../../../components/OrangeHeaderCard';
 import SalmonButton from '../../../../components/SalmonButton';
 import { NewListingWizardContext } from '../../NewListingWizard';
+import { v4 as uuid } from 'uuid';
 
 function SecurityCheck() {
   const {
@@ -118,7 +119,7 @@ function SecurityCheck() {
                 return (
                   <div
                     className='flex flex-row w-full pb-4  checked:bg-green-500'
-                    key={current.key}
+                    key={uuid()}
                   >
                     <div className='mr-auto'>{current.title}</div>
                     <input
