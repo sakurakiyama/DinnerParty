@@ -5,6 +5,7 @@ import Login from './login/Login';
 import BrowsePage from './browse/BrowsePage';
 import HostPage from './hostpage/HostPage';
 import ListingsPage from './hostpage/listings/ListingsPage';
+import ManageListing from './hostpage/listings/manageListing/ManageListing';
 import CalendarPage from './hostpage/hostnav/calendar/CalendarPage';
 import InboxPage from './hostpage/hostnav/inbox/InboxPage';
 import axios, { AxiosError } from 'axios';
@@ -88,6 +89,10 @@ function App() {
             <Route path='/browse' element={<BrowsePage />}></Route>
             <Route path='/hosting' element={<HostPage />}></Route>
             <Route path='/hosting/listings' element={<ListingsPage />}></Route>
+            <Route
+              path='/hosting/listings/manage-your-space'
+              element={<ManageListing />}
+            ></Route>
             <Route path='/hosting/inbox' element={<InboxPage />}></Route>
             <Route path='/hosting/calendar' element={<CalendarPage />}></Route>
           </Routes>

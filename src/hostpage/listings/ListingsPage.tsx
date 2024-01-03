@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 import { BsHourglassSplit } from 'react-icons/bs';
 import { FaCircle } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 import { MdNoPhotography } from 'react-icons/md';
 import HostNavBar from '../hostnav/HostNavBar';
 import { HostContext } from '../../App';
@@ -11,6 +12,7 @@ import { Listing } from '../../types';
 import NewListingWizard from '../newListingSetup/NewListingWizard';
 import { Buffer } from 'buffer';
 import { v4 as uuid } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 function ListingsPage() {
   const {
@@ -20,9 +22,10 @@ function ListingsPage() {
     setHost,
     newListingModalOpen,
     setNewListingModalOpen,
-    // currentHostListing,
     setCurrentHostListing,
   } = useContext(HostContext)!;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!host) {
@@ -38,11 +41,12 @@ function ListingsPage() {
   const headers = ['LISTING', 'STATUS', 'INSTANT BOOK', 'LOCATION'];
 
   const openListing = (listing: Listing) => {
+    setCurrentHostListing(listing);
     if (listing?.status === 'In progress') {
-      setCurrentHostListing(listing);
       setNewListingModalOpen(true);
+    } else {
+      navigate('/hosting/listings/manage-your-space');
     }
-    // TODO: Otherwise, it's either listed or ready and you should display a different component
   };
 
   const createNewListing = () => {
@@ -144,27 +148,37 @@ function ListingsPage() {
                       key={uuid()}
                     >
                       <td className='py-2'>
-                        <div className='flex flex-row items-center md:space-x-2'>
+                        <div className='flex flex-row items-center md:space-x-6'>
                           {!coverPhoto ? (
-                            <div className='hidden md:flex w-[150px] h-[100px] border rounded-md justify-center items-center'>
+                            <div className='hidden md:flex w-[125px] h-[75px] border rounded-md justify-center items-center'>
                               <MdNoPhotography size={30} />
                             </div>
                           ) : (
                             <div
-                              className='hidden md:block w-[150px] h-[100px] border bg-cover rounded-md'
+                              className='hidden md:block w-[125px] h-[75px] border bg-cover rounded-md'
                               style={{
                                 backgroundImage: `url(${coverPhoto as string})`,
                               }}
                             ></div>
                           )}
-                          <div className='max-w-[160px] md:max-w-full'>
+                          <div className='max-w-[160px] md:max-w-full font-black'>
                             {listing?.title ? listing?.title : 'Unknown'}
                           </div>
                         </div>
                       </td>
                       <td className='py-2'>{listingStatus}</td>
                       <td className='py-2'>
-                        {listing?.instantbook ? 'On' : 'Off'}
+                        {listing?.instantbook ? (
+                          <div className='flex flex-row items-center space-x-2'>
+                            <FaCheckCircle color={'green'} />
+                            <div>On</div>
+                          </div>
+                        ) : (
+                          <div className='flex flex-row items-center space-x-2'>
+                            <FaCheckCircle color={'#D3D3D3'} />
+                            <div>Off</div>
+                          </div>
+                        )}
                       </td>
                       <td className='py-2'>
                         {listing?.city && listing?.state
