@@ -1,10 +1,12 @@
 import { useState, useContext, useRef, useEffect } from 'react';
 import { UserContext } from '../App';
-import FoodTile from '../assets/FoodTile.png';
+import DinnerSetting from '../assets/DinnerSetting.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import OrangeHeaderCard from '../components/OrangeHeaderCard';
 import { v4 as uuid } from 'uuid';
+
+// TODO: Currently race condition issue being handled by settimeout. Refactor to a better solution.
 
 type InputRef = React.RefObject<HTMLInputElement> | null;
 
@@ -36,7 +38,12 @@ function Login() {
     newCode[index] = value;
     setCode(newCode);
     const next = index + 1;
-    if (index !== inputRefs.length - 1) inputRefs[next]?.current?.focus();
+
+    if (index !== inputRefs.length - 1) {
+      setTimeout(() => {
+        inputRefs[next]?.current?.focus();
+      }, 50);
+    }
   };
 
   const handleDelete = (
@@ -112,7 +119,7 @@ function Login() {
   return (
     <div
       className='justify-center items-center flex flex-col h-screen bg-cover'
-      style={{ backgroundImage: `url(${FoodTile})` }}
+      style={{ backgroundImage: `url(${DinnerSetting})` }}
     >
       <OrangeHeaderCard
         cardContent={
