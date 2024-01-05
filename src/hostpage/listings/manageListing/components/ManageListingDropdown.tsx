@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ManageListingContext, Subsection } from './ManageListing';
+import { ManageListingContext, Subsection } from '../ManageListing';
 
 interface ManageListingDropdownProps {
   subsections: Subsection[];

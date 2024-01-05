@@ -177,11 +177,11 @@ function ManageListing() {
             </button>
           </div>
           {/* Sidebar and Dashboard */}
-          <div className='flex flex-col md:flex-row pt-8'>
-            <div className='md:min-w-[300px]'>
+          <div className='flex flex-col md:flex-row pt-8 w-full md:space-x-16'>
+            <div className='md:min-w-[200px] md:w-[30%]'>
               <Sidebar />
             </div>
-            <div className='w-full'>
+            <div className='w-full overflow-x-hidden'>
               <ListingDashboard />
             </div>
           </div>

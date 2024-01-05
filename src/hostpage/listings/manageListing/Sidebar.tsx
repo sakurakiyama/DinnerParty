@@ -1,4 +1,4 @@
-import ManageListingDropdown from './ManageListingDropdown';
+import ManageListingDropdown from './components/ManageListingDropdown';
 import { useContext } from 'react';
 import { ManageListingContext } from './ManageListing';
 

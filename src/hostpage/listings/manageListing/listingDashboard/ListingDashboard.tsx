@@ -9,14 +9,7 @@ function ListingDashboard() {
     useContext(ManageListingContext)!;
 
   return (
-    <div>
-      <div>{JSON.stringify(sections[currentOpenSection].sectionHeader)}</div>
-      <br />
-      <div>
-        {JSON.stringify(
-          sections[currentOpenSection].subsections[currentSubSection].header
-        )}
-      </div>
+    <div className='w-full'>
       <ListingDetails />
     </div>
   );
