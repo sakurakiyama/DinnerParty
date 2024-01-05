@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer';
+
 export const formatDate = (date: Date) => {
   const utcString = date.toUTCString();
   const month = utcString.split(' ')[2];
@@ -36,4 +38,12 @@ export const convertToMB = (size: number) => {
 
 export const convertToKB = (size: number) => {
   return size / 1024;
+};
+
+export const convertToBase64 = (photos: Buffer[]) => {
+  const base64Photos = photos.map((photo) => {
+    const base64 = Buffer.from(photo).toString('base64');
+    return `data:image/jpeg;base64,${base64}`;
+  });
+  return base64Photos;
 };

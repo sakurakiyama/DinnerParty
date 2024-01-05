@@ -26,6 +26,7 @@ function AddPhotos() {
     slideIn,
   } = useContext(NewListingWizardContext)!;
 
+  console.log('marketing details: ', marketingDetails);
   useEffect(() => {
     if (marketingDetails.photos.length >= 5) setNotValidated(false);
     else {
