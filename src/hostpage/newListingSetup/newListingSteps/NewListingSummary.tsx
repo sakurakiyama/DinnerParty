@@ -1,6 +1,6 @@
-import Plate from '../../../assets/Plate.png';
-import WinePour from '../../../assets/WinePour.png';
-import HangingLights from '../../../assets/HangingLights.png';
+import Menu from '../../../assets/Menu.png';
+import DinnerTable from '../../../assets/DinnerTable.png';
+import Cocktail from '../../../assets/Cocktail.png';
 import SalmonButton from '../../../components/SalmonButton';
 import { NewListingWizardContext } from '../NewListingWizard';
 import { useContext } from 'react';
@@ -22,21 +22,21 @@ function NewListingSummary() {
       heading: 'Tell us about your space',
       caption:
         'Share some basic info, like where it is and how many guests can join.',
-      image: HangingLights,
+      image: DinnerTable,
     },
     {
       number: 2,
       heading: 'Make it stand out',
       caption:
         'Add 5 or more photos plus a title and description—we’ll help you out.',
-      image: WinePour,
+      image: Cocktail,
     },
     {
       number: 3,
       heading: 'Finish up and publish',
       caption:
         "Set a starting price and publish your listing when you're ready.",
-      image: Plate,
+      image: Menu,
     },
   ];
 

@@ -6,7 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import OrangeHeaderCard from '../components/OrangeHeaderCard';
 import { v4 as uuid } from 'uuid';
 
-// TODO: Currently race condition issue being handled by settimeout. Refactor to a better solution.
+/* 
+TODO: Currently race condition issue being handled by settimeout. Refactor to a better solution.
+TODO: Add error message for unsuccessful passcode
+*/
 
 type InputRef = React.RefObject<HTMLInputElement> | null;
 
