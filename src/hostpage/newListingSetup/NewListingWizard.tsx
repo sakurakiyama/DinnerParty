@@ -20,7 +20,7 @@ import { UserContext, HostContext } from '../../App';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import axios from 'axios';
-import { Buffer } from 'buffer';
+import { convertToBase64 } from '../../utils';
 
 const pages = [
   <NewListingSummary />,
@@ -143,10 +143,10 @@ function NewListingWizard() {
     };
 
     if (currentHostListing) {
-      const base64Photos = currentHostListing.photos?.map((photo) => {
-        const base64 = Buffer.from(photo).toString('base64');
-        return `data:image/jpeg;base64,${base64}`;
-      });
+      let base64Photos: string[] = [];
+      if (currentHostListing?.photos) {
+        base64Photos = convertToBase64(currentHostListing?.photos);
+      }
 
       setSpaceDetails({
         homeType: currentHostListing.hometype || '',
@@ -163,7 +163,7 @@ function NewListingWizard() {
 
       setMarketingDetails({
         amenities: currentHostListing.amenities || [],
-        photos: base64Photos || [],
+        photos: base64Photos,
         title: currentHostListing.title || '',
         description: currentHostListing.description || '',
       });
@@ -216,7 +216,7 @@ function NewListingWizard() {
               {/* Right */}
               <button
                 onClick={saveListing}
-                className='border hover:bg-[#F6F6F6] rounded-full p-2 pl-4 pr-4 ml-6 mr-2'
+                className='border hover:bg-[var(--light-grey)] rounded-full p-2 pl-4 pr-4 ml-6 mr-2'
               >
                 Save & exit
               </button>

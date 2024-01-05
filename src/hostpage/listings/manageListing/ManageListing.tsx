@@ -1,37 +1,139 @@
 import HostNavBar from '../../hostnav/HostNavBar';
-import { useContext, useEffect } from 'react';
+import Sidebar from './Sidebar';
+import ListingDashboard from './listingDashboard/ListingDashboard';
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { HostContext } from '../../../App';
 import axios from 'axios';
 import { FaCircle } from 'react-icons/fa';
 import { MdPendingActions } from 'react-icons/md';
 import { FaBoltLightning } from 'react-icons/fa6';
-import Sidebar from './sidebar/Sidebar';
+import ListingDetails from './listingDashboard/listingDetails/ListingDetails';
+import Photos from './listingDashboard/listingDetails/Photos';
+import ListingBasics from './listingDashboard/listingDetails/ListingBasics';
+import Amenities from './listingDashboard/listingDetails/Amenities';
+import Location from './listingDashboard/listingDetails/Location';
+import PropertyAndRooms from './listingDashboard/listingDetails/PropertyAndRooms';
+import Accessibility from './listingDashboard/listingDetails/Accessibility';
+import GuestSafety from './listingDashboard/listingDetails/GuestSafety';
+import PoliciesAndRules from './listingDashboard/policiesAndRules/PoliciesAndRules';
+import GuestRequirements from './listingDashboard/policiesAndRules/GuestRequirements';
+import HouseRules from './listingDashboard/policiesAndRules/HouseRules';
+import LawsAndRegulations from './listingDashboard/policiesAndRules/LawsAndRegulations';
+import Policies from './listingDashboard/policiesAndRules/Policies';
+import InfoForGuests from './listingDashboard/infoForGuests/InfoForGuests';
+import AfterBooking from './listingDashboard/infoForGuests/AfterBooking';
+import BeforeBooking from './listingDashboard/infoForGuests/BeforeBooking';
+
+export type Subsection = {
+  header: string;
+  component: React.ReactNode;
+};
+
+interface Section {
+  sectionHeader: string;
+  sectionComponent: React.ReactNode;
+  subsections: Subsection[];
+}
+
+interface ManageListingProps {
+  currentOpenSection: number;
+  setCurrentOpenSection: React.Dispatch<React.SetStateAction<number>>;
+  currentSubSection: number;
+  setCurrentSubSection: React.Dispatch<React.SetStateAction<number>>;
+  sections: Section[];
+}
+
+export const ManageListingContext = createContext<ManageListingProps | null>(
+  null
+);
 
 function ManageListing() {
   const { setHostListings, host, setHost, currentHostListing } =
     useContext(HostContext)!;
 
-  let listingStatus;
+  const [currentOpenSection, setCurrentOpenSection] = useState<number>(0);
+  const [currentSubSection, setCurrentSubSection] = useState<number>(0);
+  const [listingStatus, setListingStatus] = useState<ReactNode | undefined>(
+    undefined
+  );
+  const [instantBook, setInstantBook] = useState<ReactNode | undefined>(
+    undefined
+  );
 
-  switch (currentHostListing?.status) {
-    case 'Listed':
-      listingStatus = (
-        <div className='flex items-center'>
-          <FaCircle size={20} color={'green'} className='pr-2' />
-          <div className='hidden md:block'>Listed</div>
-        </div>
-      );
-      break;
+  const sections = [
+    {
+      sectionHeader: 'Listing Details',
+      sectionComponent: <ListingDetails />,
+      subsections: [
+        { header: 'Photos', component: <Photos /> },
+        { header: 'Listing basics', component: <ListingBasics /> },
+        { header: 'Amenities', component: <Amenities /> },
+        { header: 'Location', component: <Location /> },
+        { header: 'Property and rooms', component: <PropertyAndRooms /> },
+        { header: 'Accessibility', component: <Accessibility /> },
+        { header: 'Guest safety', component: <GuestSafety /> },
+      ],
+    },
+    {
+      sectionHeader: 'Policies and Rules',
+      sectionComponent: <PoliciesAndRules />,
+      subsections: [
+        { header: 'Policies', component: <Policies /> },
+        { header: 'House rules', component: <HouseRules /> },
+        { header: 'Guest requirements', component: <GuestRequirements /> },
+        { header: 'Laws and regulations', component: <LawsAndRegulations /> },
+      ],
+    },
+    {
+      sectionHeader: 'Info for guests',
+      sectionComponent: <InfoForGuests />,
+      subsections: [
+        { header: 'Before booking', component: <BeforeBooking /> },
+        { header: 'After booking', component: <AfterBooking /> },
+      ],
+    },
+  ];
 
-    case 'Ready':
-      listingStatus = (
-        <div className='flex items-center'>
-          <MdPendingActions size={22} className='pr-2' />
-          <div className='hidden md:block'>Ready</div>
+  useEffect(() => {
+    switch (currentHostListing?.status) {
+      case 'Listed':
+        setListingStatus(
+          <div className='flex items-center'>
+            <FaCircle size={20} color={'green'} className='pr-2' />
+            <div>Listed</div>
+          </div>
+        );
+        break;
+
+      case 'Ready':
+        setListingStatus(
+          <div className='flex items-center'>
+            <MdPendingActions size={22} className='pr-2' />
+            <div>Ready</div>
+          </div>
+        );
+        break;
+    }
+
+    const color = currentHostListing?.instantbook ? 'green' : '#D3D3D3';
+
+    setInstantBook(
+      <div className='flex flex-row items-center'>
+        <FaBoltLightning size={18} className='pr-2' color={color} />
+        <div>
+          {currentHostListing?.instantbook
+            ? 'Instant Book on'
+            : 'Instant Book off'}
         </div>
-      );
-      break;
-  }
+      </div>
+    );
+  }, [currentHostListing]);
 
   useEffect(() => {
     if (!host) {
@@ -45,38 +147,47 @@ function ManageListing() {
   }, []);
 
   return (
-    <div>
+    <ManageListingContext.Provider
+      value={{
+        currentOpenSection,
+        setCurrentOpenSection,
+        sections,
+        currentSubSection,
+        setCurrentSubSection,
+      }}
+    >
       <div>
-        <HostNavBar />
-      </div>
-      <div className='p-6 text-slate-700'>
-        <div className='flex flex-row w-full'>
-          <div className='text-xl mr-auto'>{currentHostListing?.title}</div>
-          <div className='flex flex-row space-x-6 items-center text-sm'>
-            <div>
-              {currentHostListing?.instantbook ? (
-                <div className='flex flex-row items-center space-x-2'>
-                  <FaBoltLightning color={'green'} />
-                  <div>Instant Book on</div>
-                </div>
-              ) : (
-                <div className='flex flex-row items-center space-x-2'>
-                  <FaBoltLightning color={'#D3D3D3'} />
-                  <div>Instant Book off</div>
-                </div>
-              )}
+        <div>
+          <HostNavBar />
+        </div>
+        <div className='p-6 text-slate-700'>
+          {/* Listing Header */}
+          <div className='flex flex-col space-y-4 md:space-y-0 md:flex-row w-full'>
+            <div className='text-2xl mr-auto font-black'>
+              {currentHostListing?.title}
             </div>
-            <div>{listingStatus}</div>
-            <button className='flex justify-center items-center border p-2 pr-4 pl-4 rounded-md'>
+            {/* Insant Book and Status */}
+            <div className='flex flex-row space-x-6 items-center text-sm mr-6 pt-4 md:pt-0'>
+              {instantBook}
+              {listingStatus}
+            </div>
+            {/* Preview Button */}
+            <button className='hover:bg-[var(--light-grey)] flex justify-center items-center border border-black p-2 pr-4 pl-4 rounded-md text-sm w-fit'>
               Preview Listing
             </button>
           </div>
-        </div>
-        <div className='w-[300px] bg-red-200'>
-          <Sidebar />
+          {/* Sidebar and Dashboard */}
+          <div className='flex flex-col md:flex-row pt-8'>
+            <div className='md:min-w-[300px]'>
+              <Sidebar />
+            </div>
+            <div className='w-full'>
+              <ListingDashboard />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </ManageListingContext.Provider>
   );
 }
 
