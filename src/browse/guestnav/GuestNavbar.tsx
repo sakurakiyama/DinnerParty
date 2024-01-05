@@ -36,7 +36,7 @@ function GuestNavBar() {
           <div className='flex flex-row justify-end items-center'>
             <button
               onClick={() => navigate('/hosting')}
-              className='hover:bg-[#F6F6F6] rounded-full p-2 ml-6 mr-2'
+              className='hover:bg-[var(--light-grey)] rounded-full p-2 ml-6 mr-2'
             >
               {user?.ishost ? 'Switch to hosting' : 'Become a host'}
             </button>

@@ -141,7 +141,7 @@ function ListingsPage() {
 
                   return (
                     <tr
-                      className='border-b hover:bg-[#F6F6F6] cursor-pointer'
+                      className='border-b hover:bg-[var(--light-grey)] cursor-pointer'
                       onClick={() => {
                         openListing(listing);
                       }}

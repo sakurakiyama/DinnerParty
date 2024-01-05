@@ -29,7 +29,7 @@ function HostMenu() {
         <div key={uuid()}>
           <button
             onClick={current.navigate}
-            className='hover:bg-[#F6F6F6] rounded-full p-2'
+            className='hover:bg-[var(--light-grey)]  rounded-full p-2'
           >
             {current.display}
           </button>

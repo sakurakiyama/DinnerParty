@@ -89,7 +89,7 @@ function SecurityCheck() {
                   <div className='flex justify-center'>
                     <button
                       onClick={handleSecurityModal}
-                      className='border hover:bg-[#F6F6F6] rounded-full p-2 pl-8 pr-8'
+                      className='border hover:bg-[var(--light-grey)] rounded-full p-2 pl-8 pr-8'
                     >
                       Done
                     </button>
