@@ -42,7 +42,7 @@ function ManageListingDropdown({
                     currentSubSection === index
                       ? 'border-l-2 border-l-black'
                       : 'border-l-2 border-l-transparent'
-                  } flex flex-col cursor-pointer `}
+                  } flex flex-col cursor-pointer`}
                   onClick={() => handleChangeSubSection(index)}
                 >
                   <span className='pl-4'>{subsection.header}</span>

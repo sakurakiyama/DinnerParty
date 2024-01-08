@@ -1,3 +1,8 @@
+type WifiDetails = {
+  password: string;
+  networkname: string;
+};
+
 export type Listing = {
   listingid: number;
   hostid: number;
@@ -27,8 +32,14 @@ export type Listing = {
   spacedescription: string | null;
   guestaccessdescription: string | null;
   otherdescription: string | null;
-  interactiondescription: string | null;
   accessibility: string[] | [];
+  cancellationpolicy: string | null;
+  smokingallowed: boolean | null;
+  filmingallowed: boolean | null;
+  petsallowed: boolean | null;
+  additionalrules: string | null;
+  guestinteraction: string | null;
+  wifidetails: WifiDetails | null;
 } | null;
 
 export type Host = {

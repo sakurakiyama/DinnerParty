@@ -3,6 +3,10 @@ import { useContext } from 'react';
 import { ManageListingContext } from './ManageListing';
 import { v4 as uuid } from 'uuid';
 
+/*
+[] TODO: Adjust scroll to component to use Refs
+*/
+
 function Sidebar() {
   const {
     sections,
@@ -20,6 +24,10 @@ function Sidebar() {
 
   const handleChangeSubSection = (subSectionIndex: number) => {
     setCurrentSubSection(subSectionIndex);
+    const subSectionId =
+      sections[currentOpenSection].subsections[subSectionIndex].id;
+    const element = document.getElementById(subSectionId);
+    element?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -45,7 +53,7 @@ function Sidebar() {
             <div className='p-4' key={uuid()}>
               <button
                 className='hover:border-b hover:border-black'
-                onClick={() => handleChangeSubSection(index)}
+                onClick={() => handleChangeSection(index)}
               >
                 {section.sectionHeader}
               </button>

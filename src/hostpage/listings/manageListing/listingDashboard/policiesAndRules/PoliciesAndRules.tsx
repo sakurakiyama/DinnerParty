@@ -1,7 +1,11 @@
+import HouseRules from './HouseRules';
+import Policies from './Policies';
+
 function PoliciesAndRules() {
   return (
-    <div>
-      <div>PoliciesAndRules</div>
+    <div className='w-full'>
+      <Policies />
+      <HouseRules />
     </div>
   );
 }

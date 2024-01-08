@@ -10,7 +10,7 @@ function ManageListingListBlock({
   return (
     <div className='flex'>
       {contents && (
-        <div className='flex mr-auto w-[95%]'>
+        <div className='flex mr-auto w-full pr-2 pt-6'>
           <div className='text-sm text-slate-500 w-[50%]'>
             {contents &&
               contents
@@ -26,10 +26,16 @@ function ManageListingListBlock({
         </div>
       )}
       {!contents && (
-        <div className='text-sm text-slate-500 italic w-[95%]'>{caption}</div>
+        <div className='text-sm text-slate-500 italic w-full pr-2'>
+          {caption}
+        </div>
       )}
 
-      <div className='text-sm underline font-black'>Edit</div>
+      <div
+        className={`text-sm underline font-black ${contents ? 'pt-6' : 'pt-0'}`}
+      >
+        Edit
+      </div>
     </div>
   );
 }

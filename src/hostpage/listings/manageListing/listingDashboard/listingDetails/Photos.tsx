@@ -19,7 +19,7 @@ function Photos() {
   }, [currentHostListing]);
 
   return (
-    <div className='border-b w-full pb-8'>
+    <div className='border-b w-full pb-8' id='photoBlock'>
       <div className='pb-6 font-black text-lg'>Photos</div>
       <div className='flex flex-row space-x-4 w-full'>
         {photos &&

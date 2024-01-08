@@ -15,24 +15,12 @@ import { FaCircle } from 'react-icons/fa';
 import { MdPendingActions } from 'react-icons/md';
 import { FaBoltLightning } from 'react-icons/fa6';
 import ListingDetails from './listingDashboard/listingDetails/ListingDetails';
-import Photos from './listingDashboard/listingDetails/Photos';
-import ListingBasics from './listingDashboard/listingDetails/ListingBasics';
-import Amenities from './listingDashboard/listingDetails/Amenities';
-import Location from './listingDashboard/listingDetails/Location';
-import PropertyAndRooms from './listingDashboard/listingDetails/PropertyAndRooms';
-import Accessibility from './listingDashboard/listingDetails/Accessibility';
 import PoliciesAndRules from './listingDashboard/policiesAndRules/PoliciesAndRules';
-import GuestRequirements from './listingDashboard/policiesAndRules/GuestRequirements';
-import HouseRules from './listingDashboard/policiesAndRules/HouseRules';
-import LawsAndRegulations from './listingDashboard/policiesAndRules/LawsAndRegulations';
-import Policies from './listingDashboard/policiesAndRules/Policies';
 import InfoForGuests from './listingDashboard/infoForGuests/InfoForGuests';
-import AfterBooking from './listingDashboard/infoForGuests/AfterBooking';
-import BeforeBooking from './listingDashboard/infoForGuests/BeforeBooking';
 
 export type Subsection = {
   header: string;
-  component: React.ReactNode;
+  id: string;
 };
 
 interface Section {
@@ -78,30 +66,43 @@ function ManageListing() {
       sectionHeader: 'Listing Details',
       sectionComponent: <ListingDetails />,
       subsections: [
-        { header: 'Photos', component: <Photos /> },
-        { header: 'Listing basics', component: <ListingBasics /> },
-        { header: 'Amenities', component: <Amenities /> },
-        { header: 'Location', component: <Location /> },
-        { header: 'Property and rooms', component: <PropertyAndRooms /> },
-        { header: 'Accessibility', component: <Accessibility /> },
+        { header: 'Photos', id: 'photoBlock' },
+        {
+          header: 'Listing basics',
+          id: 'listingBasicsBlock',
+        },
+        { header: 'Amenities', id: 'amenitiesBlock' },
+        { header: 'Location', id: 'locationBlock' },
+        {
+          header: 'Property and rooms',
+          id: 'propertyAndRoomsBlock',
+        },
+        {
+          header: 'Accessibility',
+          id: 'accessibilityBlock',
+        },
       ],
     },
     {
       sectionHeader: 'Policies and Rules',
       sectionComponent: <PoliciesAndRules />,
       subsections: [
-        { header: 'Policies', component: <Policies /> },
-        { header: 'House rules', component: <HouseRules /> },
-        { header: 'Guest requirements', component: <GuestRequirements /> },
-        { header: 'Laws and regulations', component: <LawsAndRegulations /> },
+        { header: 'Policies', id: 'policiesBlock' },
+        { header: 'House rules', id: 'houseRulesBlock' },
       ],
     },
     {
       sectionHeader: 'Info for guests',
       sectionComponent: <InfoForGuests />,
       subsections: [
-        { header: 'Before booking', component: <BeforeBooking /> },
-        { header: 'After booking', component: <AfterBooking /> },
+        {
+          header: 'Before booking',
+          id: 'beforeBookingBlock',
+        },
+        {
+          header: 'After booking',
+          id: 'afterBookingBlock',
+        },
       ],
     },
   ];

@@ -5,8 +5,8 @@ import ManageListingListBlock from '../../components/ManageListingListBlock';
 function Accessibility() {
   const { currentHostListing } = useContext(HostContext)!;
   return (
-    <div className='border-b w-full pt-8 pb-8'>
-      <div className='pb-6 font-black text-lg'>Accessibility</div>
+    <div className='border-b w-full pt-8 pb-8' id='accessibilityBlock'>
+      <div className='font-black text-lg'>Accessibility</div>
       <ManageListingListBlock
         contents={
           currentHostListing?.accessibility &&

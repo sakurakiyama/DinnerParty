@@ -5,7 +5,7 @@ import ManageListingInfoBlock from '../../components/ManageListingInfoBlock';
 function Location() {
   const { currentHostListing } = useContext(HostContext)!;
   return (
-    <div className='border-b w-full pt-8 pb-8'>
+    <div className='border-b w-full pt-8 pb-8' id='locationBlock'>
       <div className='pb-6 font-black text-lg'>Location</div>
       <div className='space-y-8'>
         <ManageListingInfoBlock

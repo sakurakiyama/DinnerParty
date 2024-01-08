@@ -1,7 +1,11 @@
+import BeforeBooking from './BeforeBooking';
+import AfterBooking from './AfterBooking';
+
 function InfoForGuests() {
   return (
-    <div>
-      <div>InfoForGuests</div>
+    <div className='w-full'>
+      <BeforeBooking />
+      <AfterBooking />
     </div>
   );
 }
