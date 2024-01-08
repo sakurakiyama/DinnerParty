@@ -50,12 +50,10 @@ function ListingBasics() {
     }
   }, [currentHostListing]);
 
-  if (!currentHostListing) return;
-
   const handleCount = (operation: number) => {
-    const existingHostListing = { ...currentHostListing };
+    if (currentHostListing) {
+      const existingHostListing = { ...currentHostListing };
 
-    if (existingHostListing?.guests && existingHostListing.listingid) {
       existingHostListing.guests = Math.max(
         0,
         existingHostListing?.guests + operation
@@ -94,6 +92,9 @@ function ListingBasics() {
         <ManageListingInfoBlock
           display={'Listing status'}
           contents={statusElement}
+          caption={
+            'When unlisted, guests can’t book your listing or find it in search results. When listed, guests can find your listing in search results and request or book available dates. '
+          }
         />
         {/* Guests */}
         <div className='flex flex-row items-center'>
@@ -102,7 +103,7 @@ function ListingBasics() {
             isMinusDisabled={currentHostListing?.guests === 0}
             onMinusClick={() => handleCount(-1)}
             onPlusClick={() => handleCount(+1)}
-            displayValue={currentHostListing?.guests}
+            displayValue={currentHostListing?.guests || 0}
           />
         </div>
       </div>

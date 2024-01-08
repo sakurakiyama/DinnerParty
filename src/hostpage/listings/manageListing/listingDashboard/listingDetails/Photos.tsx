@@ -22,24 +22,30 @@ function Photos() {
     <div className='border-b w-full pb-8' id='photoBlock'>
       <div className='pb-6 font-black text-lg'>Photos</div>
       <div className='flex flex-row space-x-4 w-full'>
-        {photos &&
-          photos.map((dataUrl) => {
-            return (
+        {!currentHostListing
+          ? Array.from({ length: 6 }).map((_, index) => (
               <div
-                className='min-w-[200px] min-h-[125px] blurred-right'
-                key={uuid()}
-              >
-                {dataUrl && (
-                  <div
-                    className='p-2 bg-cover w-full h-full rounded-md'
-                    style={{
-                      backgroundImage: `url(${dataUrl as string})`,
-                    }}
-                  ></div>
-                )}
-              </div>
-            );
-          })}
+                key={index}
+                className='min-w-[200px] min-h-[125px] bg-gray-100 animate-pulse rounded-md'
+              ></div>
+            ))
+          : photos.map((dataUrl) => {
+              return (
+                <div
+                  className='min-w-[200px] min-h-[125px] blurred-right'
+                  key={uuid()}
+                >
+                  {dataUrl && (
+                    <div
+                      className='p-2 bg-cover w-full h-full rounded-md'
+                      style={{
+                        backgroundImage: `url(${dataUrl as string})`,
+                      }}
+                    ></div>
+                  )}
+                </div>
+              );
+            })}
       </div>
     </div>
   );

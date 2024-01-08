@@ -125,7 +125,6 @@ function AddPhotos() {
     () => ({
       accept: [NativeTypes.FILE],
       drop: async (item: { files: File[] }) => {
-        console.log('drop happened');
         if (item) {
           for (const file of item.files) {
             const { valid } = await validateDrop(file);

@@ -20,7 +20,7 @@ import query from '../../../models/db.js';
 
 const getListing = async (req, res, next) => {
   try {
-    const listingID = req.body.currentHostListing.listingid
+    const listingID = req.body.currentHostListing
       ? req.body.currentHostListing.listingid
       : req.params.listingid;
 

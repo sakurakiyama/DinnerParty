@@ -35,7 +35,7 @@ function Policies() {
         />
         {/* Instant Book */}
         <ManageListingInfoBlock
-          display={'Cancellation Policy'}
+          display={'Instant Book Policy'}
           contents={instantBookMessage}
           caption={'Choose the policy that will apply to all bookings.'}
         />

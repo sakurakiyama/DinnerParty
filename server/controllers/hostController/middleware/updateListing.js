@@ -84,7 +84,6 @@ const updateListing = async (req, res, next) => {
         title,
         description,
         instantbook,
-        security,
         baseprice,
       ].every(
         (value) =>

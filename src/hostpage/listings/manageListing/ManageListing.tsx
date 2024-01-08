@@ -35,6 +35,7 @@ interface ManageListingProps {
   currentSubSection: number;
   setCurrentSubSection: React.Dispatch<React.SetStateAction<number>>;
   sections: Section[];
+  isLoading: boolean;
 }
 
 export const ManageListingContext = createContext<ManageListingProps | null>(
@@ -58,6 +59,7 @@ function ManageListing() {
   const [instantBook, setInstantBook] = useState<ReactNode | undefined>(
     undefined
   );
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { listingid } = useParams();
 
@@ -158,6 +160,7 @@ function ManageListing() {
           `/api/host/getListing/${listingid}`
         );
         setCurrentHostListing(currentListing);
+        setIsLoading(false);
       };
       getListing();
     }
@@ -171,6 +174,7 @@ function ManageListing() {
         sections,
         currentSubSection,
         setCurrentSubSection,
+        isLoading,
       }}
     >
       <div>
