@@ -90,7 +90,7 @@ function App() {
             <Route path='/hosting' element={<HostPage />}></Route>
             <Route path='/hosting/listings' element={<ListingsPage />}></Route>
             <Route
-              path='/hosting/listings/manage-your-space'
+              path='/hosting/listings/manage-your-space/:listingid'
               element={<ManageListing />}
             ></Route>
             <Route path='/hosting/inbox' element={<InboxPage />}></Route>

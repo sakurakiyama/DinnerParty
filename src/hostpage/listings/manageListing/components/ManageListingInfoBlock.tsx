@@ -1,10 +1,12 @@
 interface ManageListingInfoBlockProps {
   display: string;
-  contents: string | undefined | null;
+  contents?: string | null | JSX.Element;
+  caption?: string;
 }
 function ManageListingInfoBlock({
   display,
-  contents,
+  contents = '',
+  caption = '',
 }: ManageListingInfoBlockProps) {
   return (
     <div>
@@ -12,7 +14,12 @@ function ManageListingInfoBlock({
         <div className='mr-auto'>{display}</div>
         <div className='text-sm underline font-black'>Edit</div>
       </div>
-      <div className='text-sm text-slate-600'>{contents}</div>
+      {contents && (
+        <div className='text-sm text-slate-500 w-[95%]'>{contents}</div>
+      )}
+      {!contents && (
+        <div className='text-sm text-slate-500 italic w-[95%]'>{caption}</div>
+      )}
     </div>
   );
 }

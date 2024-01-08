@@ -1,9 +1,8 @@
-import { CiCircleMinus } from 'react-icons/ci';
-import { CiCirclePlus } from 'react-icons/ci';
 import { useContext, useState, useEffect } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
 import { v4 as uuid } from 'uuid';
+import PlusMinusButtons from '../../../../components/PlusMinusButtons';
 
 type SpaceDetailProps = {
   guests: number;
@@ -22,14 +21,14 @@ function BasicDetails() {
   } = useContext(NewListingWizardContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
-  const handleCount = (key: keyof SpaceDetailProps, operation: string) => {
+  const handleCount = (key: keyof SpaceDetailProps, operation: number) => {
     const currentSpaceDetails = { ...spaceDetails };
 
     if (key in currentSpaceDetails) {
-      currentSpaceDetails[key] =
-        operation === 'Add'
-          ? currentSpaceDetails[key] + 1
-          : Math.max(0, currentSpaceDetails[key] - 1);
+      currentSpaceDetails[key] = Math.max(
+        0,
+        currentSpaceDetails[key] + operation
+      );
     }
     setSpaceDetails(currentSpaceDetails);
   };
@@ -84,23 +83,12 @@ function BasicDetails() {
               <div className='flex flex-col'>
                 <div className='text-sm'>{currentItem.category}</div>
               </div>
-              <div className='flex justify-center items-center'>
-                <button
-                  className={`${
-                    spaceDetails[currentItem.key] === 0 ? 'text-slate-300' : ''
-                  }`}
-                  disabled={spaceDetails[currentItem.key] === 0}
-                  onClick={() => handleCount(currentItem.key, 'Subtract')}
-                >
-                  <CiCircleMinus className='pr-2 w-[35px] h-[35px]' />
-                </button>
-                <div className='w-[20px] text-center'>
-                  {spaceDetails[currentItem.key]}
-                </div>
-                <button onClick={() => handleCount(currentItem.key, 'Add')}>
-                  <CiCirclePlus className='pl-2 w-[35px] h-[35px]' />
-                </button>
-              </div>
+              <PlusMinusButtons
+                isMinusDisabled={spaceDetails[currentItem.key] === 0}
+                onMinusClick={() => handleCount(currentItem.key, -1)}
+                onPlusClick={() => handleCount(currentItem.key, +1)}
+                displayValue={spaceDetails[currentItem.key]}
+              />
             </div>
           );
         })}

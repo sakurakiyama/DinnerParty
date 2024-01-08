@@ -8,6 +8,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useParams } from 'react-router-dom';
 import { HostContext } from '../../../App';
 import axios from 'axios';
 import { FaCircle } from 'react-icons/fa';
@@ -20,7 +21,6 @@ import Amenities from './listingDashboard/listingDetails/Amenities';
 import Location from './listingDashboard/listingDetails/Location';
 import PropertyAndRooms from './listingDashboard/listingDetails/PropertyAndRooms';
 import Accessibility from './listingDashboard/listingDetails/Accessibility';
-import GuestSafety from './listingDashboard/listingDetails/GuestSafety';
 import PoliciesAndRules from './listingDashboard/policiesAndRules/PoliciesAndRules';
 import GuestRequirements from './listingDashboard/policiesAndRules/GuestRequirements';
 import HouseRules from './listingDashboard/policiesAndRules/HouseRules';
@@ -54,8 +54,13 @@ export const ManageListingContext = createContext<ManageListingProps | null>(
 );
 
 function ManageListing() {
-  const { setHostListings, host, setHost, currentHostListing } =
-    useContext(HostContext)!;
+  const {
+    setHostListings,
+    host,
+    setHost,
+    currentHostListing,
+    setCurrentHostListing,
+  } = useContext(HostContext)!;
 
   const [currentOpenSection, setCurrentOpenSection] = useState<number>(0);
   const [currentSubSection, setCurrentSubSection] = useState<number>(0);
@@ -65,6 +70,8 @@ function ManageListing() {
   const [instantBook, setInstantBook] = useState<ReactNode | undefined>(
     undefined
   );
+
+  const { listingid } = useParams();
 
   const sections = [
     {
@@ -77,7 +84,6 @@ function ManageListing() {
         { header: 'Location', component: <Location /> },
         { header: 'Property and rooms', component: <PropertyAndRooms /> },
         { header: 'Accessibility', component: <Accessibility /> },
-        { header: 'Guest safety', component: <GuestSafety /> },
       ],
     },
     {
@@ -143,6 +149,16 @@ function ManageListing() {
         setHostListings(data.listings);
       };
       getHostData();
+    }
+
+    if (!currentHostListing) {
+      const getListing = async () => {
+        const { data: currentListing } = await axios.get(
+          `/api/host/getListing/${listingid}`
+        );
+        setCurrentHostListing(currentListing);
+      };
+      getListing();
     }
   }, []);
 

@@ -3,9 +3,9 @@ export type Listing = {
   hostid: number;
   title: null | string;
   description: null | string;
-  neighborhood: null | string;
-  gettingaround: null | string;
-  listingsize: null | string;
+  neighborhooddescription: null | string;
+  gettingarounddescription: null | string;
+  size: null | string;
   amenities: string[] | [];
   streetaddress: null | string;
   city: null | string;
@@ -24,6 +24,11 @@ export type Listing = {
   photos: null | [];
   security: null | [];
   baseprice: number;
+  spacedescription: string | null;
+  guestaccessdescription: string | null;
+  otherdescription: string | null;
+  interactiondescription: string | null;
+  accessibility: string[] | [];
 } | null;
 
 export type Host = {

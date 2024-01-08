@@ -16,7 +16,7 @@ function Photos() {
       const base64Photos = convertToBase64(currentHostListing.photos);
       setPhotos(base64Photos);
     }
-  }, []);
+  }, [currentHostListing]);
 
   return (
     <div className='border-b w-full pb-8'>

@@ -1,6 +1,7 @@
 import ManageListingDropdown from './components/ManageListingDropdown';
 import { useContext } from 'react';
 import { ManageListingContext } from './ManageListing';
+import { v4 as uuid } from 'uuid';
 
 function Sidebar() {
   const {
@@ -26,7 +27,7 @@ function Sidebar() {
       <div className='hidden md:block max-w-[225px]'>
         {sections.map((section, index) => {
           return (
-            <div>
+            <div key={uuid()}>
               <ManageListingDropdown
                 subsections={section.subsections}
                 index={index}
@@ -41,7 +42,7 @@ function Sidebar() {
       <div className='block md:hidden flex flex-row space-x-4 text-sm justify-center border-b'>
         {sections.map((section, index) => {
           return (
-            <div className='p-4'>
+            <div className='p-4' key={uuid()}>
               <button
                 className='hover:border-b hover:border-black'
                 onClick={() => handleChangeSubSection(index)}

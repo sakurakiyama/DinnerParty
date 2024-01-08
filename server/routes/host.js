@@ -54,4 +54,12 @@ router.get(
   }
 );
 
+router.get(
+  '/getListing/:listingid',
+  listingController.getListing,
+  (req, res) => {
+    return res.status(200).json(res.locals.listing);
+  }
+);
+
 export default router;

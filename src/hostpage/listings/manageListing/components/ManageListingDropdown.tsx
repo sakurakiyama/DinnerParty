@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { ManageListingContext, Subsection } from '../ManageListing';
+import { v4 as uuid } from 'uuid';
 
 interface ManageListingDropdownProps {
   subsections: Subsection[];
@@ -15,7 +16,8 @@ function ManageListingDropdown({
   handleChangeSection,
   handleChangeSubSection,
 }: ManageListingDropdownProps) {
-  const { currentOpenSection } = useContext(ManageListingContext)!;
+  const { currentOpenSection, currentSubSection } =
+    useContext(ManageListingContext)!;
 
   return (
     <div className='flex flex-col w-full'>
@@ -30,17 +32,24 @@ function ManageListingDropdown({
       </div>
       {/* Subsections */}
       {currentOpenSection === index && (
-        <div className={`space-y-2 pt-2 pb-2`}>
-          {subsections.map((subsection, index) => {
-            return (
-              <ul
-                className='flex flex-col pl-6 cursor-pointer'
-                onClick={() => handleChangeSubSection(index)}
-              >
-                <span>{subsection.header}</span>
-              </ul>
-            );
-          })}
+        <div className='pt-2 pb-2 pl-4'>
+          <div className='space-y-2 border-l'>
+            {subsections.map((subsection, index) => {
+              return (
+                <ul
+                  key={uuid()}
+                  className={`${
+                    currentSubSection === index
+                      ? 'border-l-2 border-l-black'
+                      : 'border-l-2 border-l-transparent'
+                  } flex flex-col cursor-pointer `}
+                  onClick={() => handleChangeSubSection(index)}
+                >
+                  <span className='pl-4'>{subsection.header}</span>
+                </ul>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

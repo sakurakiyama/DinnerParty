@@ -1,20 +1,19 @@
-import { CiCircleMinus } from 'react-icons/ci';
-import { CiCirclePlus } from 'react-icons/ci';
 import { useContext } from 'react';
 import { BrowsePageContext } from '../../BrowsePage';
 import { GuestCategory } from '../../BrowsePage';
 import { v4 as uuid } from 'uuid';
+import PlusMinusButtons from '../../../components/PlusMinusButtons';
 
 function GuestSelector() {
   const { guestContext } = useContext(BrowsePageContext);
   const { guests, setGuests } = guestContext;
 
-  const handleCount = (category: GuestCategory, operation: string) => {
+  const handleCount = (category: GuestCategory, operation: number) => {
     const currentGuests = guests;
 
     for (const object of currentGuests) {
       if (object.category === category) {
-        operation === 'Add' ? (object.count += 1) : (object.count -= 1);
+        object.count = Math.max(0, object.count + operation);
       }
     }
     setGuests([...currentGuests]);
@@ -39,19 +38,12 @@ function GuestSelector() {
                   {current.description}
                 </div>
               </div>
-              <div className='flex justify-center items-center'>
-                <button
-                  className={`${current.count === 0 ? 'text-slate-300' : ''}`}
-                  disabled={current.count === 0}
-                  onClick={() => handleCount(current.category, 'Subtract')}
-                >
-                  <CiCircleMinus className='pr-2 w-[35px] h-[35px]' />
-                </button>
-                <div className='w-[20px] text-center'>{current.count}</div>
-                <button onClick={() => handleCount(current.category, 'Add')}>
-                  <CiCirclePlus className='pl-2 w-[35px] h-[35px]' />
-                </button>
-              </div>
+              <PlusMinusButtons
+                isMinusDisabled={current.count === 0}
+                onMinusClick={() => handleCount(current.category, -1)}
+                onPlusClick={() => handleCount(current.category, +1)}
+                displayValue={current.count}
+              />
             </div>
           );
         })}

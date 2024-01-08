@@ -45,7 +45,7 @@ function ListingsPage() {
     if (listing?.status === 'In progress') {
       setNewListingModalOpen(true);
     } else {
-      navigate('/hosting/listings/manage-your-space');
+      navigate(`/hosting/listings/manage-your-space/${listing?.listingid}`);
     }
   };
 
