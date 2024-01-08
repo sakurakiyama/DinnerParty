@@ -13,26 +13,37 @@ import Tiles from '../../../../components/Tiles';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
+import { HostContext } from '../../../../App';
 
 function HomeType() {
-  const {
-    spaceDetails,
-    setSpaceDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
+
   const [notValidated, setNotValidated] = useState<boolean>(true);
-  const [selected, setSelected] = useState<string>(spaceDetails.homeType);
+  const [selected, setSelected] = useState<string>(
+    currentHostListing?.hometype || ''
+  );
+
+  useEffect(() => {
+    if (currentHostListing?.hometype) setNotValidated(false);
+    else {
+      setNotValidated(true);
+    }
+  }, [currentHostListing]);
+
+  if (!currentHostListing) return;
 
   const updateHomeType = (homeType: string) => {
     if (selected === homeType) {
       setSelected('');
-      setSpaceDetails({ ...spaceDetails, homeType: '' });
+      setCurrentHostListing({ ...currentHostListing, hometype: '' });
     } else {
       setSelected(homeType);
-      setSpaceDetails({ ...spaceDetails, homeType });
+      setCurrentHostListing({ ...currentHostListing, hometype: homeType });
     }
   };
 
@@ -45,13 +56,6 @@ function HomeType() {
       setCurrentView(currentView - 1);
     }
   };
-
-  useEffect(() => {
-    if (spaceDetails.homeType) setNotValidated(false);
-    else {
-      setNotValidated(true);
-    }
-  }, [spaceDetails]);
 
   const allHomes = [
     {

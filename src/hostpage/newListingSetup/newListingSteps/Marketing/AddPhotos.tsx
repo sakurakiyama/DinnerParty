@@ -9,6 +9,8 @@ import { MdDeleteOutline } from 'react-icons/md';
 import { convertToKB, convertToMB } from '../../../../utils';
 import { MdErrorOutline } from 'react-icons/md';
 import { v4 as uuid } from 'uuid';
+import { HostContext } from '../../../../App';
+import { Listing } from '../../../../types';
 
 /*
 TODO: Add functionality to drag photos once dropped
@@ -17,100 +19,21 @@ TODO: Add functionality to drag photos once dropped
 function AddPhotos() {
   const [notValidated, setNotValidated] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const {
-    marketingDetails,
-    setMarketingDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
 
   useEffect(() => {
-    if (marketingDetails.photos.length >= 5) setNotValidated(false);
+    if (currentHostListing?.photos && currentHostListing.photos.length >= 5)
+      setNotValidated(false);
     else {
       setNotValidated(true);
     }
-  }, [marketingDetails]);
-
-  const handleView = (operation?: string) => {
-    if (operation === 'Forward') {
-      setSlideIn('Right');
-      setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') {
-      setSlideIn('Left');
-      setCurrentView(currentView - 1);
-    }
-  };
-
-  const readAsDataURL = async (
-    file: File
-  ): Promise<string | ArrayBuffer | null> => {
-    return new Promise((resolve, reject) => {
-      try {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  };
-
-  const handleDeletePhoto = (deletionIndex: number) => {
-    setMarketingDetails((prevState) => {
-      const currentState = { ...prevState };
-      currentState.photos = currentState.photos.filter(
-        (_, index) => index !== deletionIndex
-      );
-      return currentState;
-    });
-  };
-
-  const processValid = async (files: File[]) => {
-    const newFiles = await Promise.all(
-      files.map(async (file) => readAsDataURL(file))
-    );
-
-    setMarketingDetails((prevState) => {
-      const currentState = { ...prevState };
-      currentState.photos = [...currentState.photos, ...newFiles];
-      return currentState;
-    });
-  };
-
-  const handlePhotosFromDevice = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.files) {
-      const files = Array.from(event.target.files);
-      for (const file of files) {
-        const { valid } = await validateDrop(file);
-        if (!valid) return;
-      }
-      processValid(files);
-    }
-  };
-
-  const [{ isOver }, drop] = useDrop(
-    () => ({
-      accept: [NativeTypes.FILE],
-      drop: async (item: { files: File[] }) => {
-        if (item) {
-          for (const file of item.files) {
-            const { valid } = await validateDrop(file);
-            if (!valid) return;
-          }
-          processValid(item.files);
-        }
-      },
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
-    }),
-    []
-  );
+  }, [currentHostListing]);
 
   const validateDrop = async (file: File) => {
     const type = file.type;
@@ -138,6 +61,88 @@ function AddPhotos() {
     }
   };
 
+  const processValid = async (files: File[]) => {
+    const newFiles: string[] = await Promise.all(
+      files.map(async (file) => readAsDataURL(file))
+    );
+    setCurrentHostListing((prevState) => {
+      if (!prevState) return prevState;
+      const currentState: Listing = { ...prevState };
+      currentState.photos = [...currentState.photos, ...newFiles];
+      return currentState;
+    });
+  };
+
+  const handleView = (operation?: string) => {
+    if (operation === 'Forward') {
+      setSlideIn('Right');
+      setCurrentView(currentView + 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
+  };
+
+  const readAsDataURL = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  const handleDeletePhoto = (deletionIndex: number) => {
+    setCurrentHostListing((prevState) => {
+      if (!prevState) return prevState;
+
+      const currentState: Listing = { ...prevState };
+      currentState.photos = currentState.photos.filter(
+        (_, index) => index !== deletionIndex
+      );
+      return currentState;
+    });
+  };
+
+  const handlePhotosFromDevice = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files) {
+      const files = Array.from(event.target.files);
+      for (const file of files) {
+        const { valid } = await validateDrop(file);
+        if (!valid) return;
+      }
+      processValid(files);
+    }
+  };
+
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: [NativeTypes.FILE],
+      drop: async (item: { files: File[] }) => {
+        console.log('drop happened');
+        if (item) {
+          for (const file of item.files) {
+            const { valid } = await validateDrop(file);
+            if (!valid) return;
+          }
+          processValid(item.files);
+        }
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    }),
+    []
+  );
+
+  if (!currentHostListing) return;
+
   return (
     <div
       className={`flex flex-col h-full overflow-auto ${
@@ -157,7 +162,7 @@ function AddPhotos() {
             <div
               ref={drop}
               className={`rounded-md md:w-[650px] h-[400px] p-6 overflow-auto ${
-                marketingDetails.photos.length
+                currentHostListing.photos.length
                   ? 'grid grid-cols-2 gap-4'
                   : 'flex flex-col'
               } ${
@@ -166,7 +171,7 @@ function AddPhotos() {
                   : 'border border-2'
               }`}
             >
-              {!marketingDetails.photos.length && (
+              {!currentHostListing.photos.length && (
                 <div className='flex flex-col justify-center items-center m-auto space-y-2'>
                   <div>
                     <HiOutlinePhoto size={60} />
@@ -187,8 +192,8 @@ function AddPhotos() {
                   </div>
                 </div>
               )}
-              {marketingDetails.photos.length > 0 &&
-                marketingDetails.photos.map((dataUrl, index) => {
+              {currentHostListing.photos.length > 0 &&
+                currentHostListing.photos.map((dataUrl, index) => {
                   return (
                     <div
                       className='border h-[150px] md:h-[200px] md:w-[300px] bg-white rounded-md shadow-sm'
@@ -198,7 +203,7 @@ function AddPhotos() {
                         <div
                           className='p-2 relative bg-cover w-full h-full'
                           style={{
-                            backgroundImage: `url(${dataUrl as string})`,
+                            backgroundImage: `url(${dataUrl})`,
                           }}
                         >
                           <button
@@ -212,7 +217,7 @@ function AddPhotos() {
                     </div>
                   );
                 })}
-              {marketingDetails.photos.length > 0 && (
+              {currentHostListing.photos.length > 0 && (
                 <div className='flex border h-[150px] md:h-[200px] md:w-[300px] bg-white rounded-md shadow-sm justify-center items-center'>
                   <FileInput
                     handleChange={(

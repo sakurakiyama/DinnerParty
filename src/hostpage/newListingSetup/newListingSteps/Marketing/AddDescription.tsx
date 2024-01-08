@@ -2,32 +2,33 @@ import { useState, useContext, useEffect } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
 import { isBlankString } from '../../../../utils';
+import { HostContext } from '../../../../App';
 
 function AddDescription() {
-  const {
-    marketingDetails,
-    setMarketingDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
 
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
-
-  const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const description = e.target.value;
-    setMarketingDetails({ ...marketingDetails, description });
-  };
 
   useEffect(() => {
     if (
-      !isBlankString(marketingDetails.description) &&
-      marketingDetails.description.length <= 500
+      !isBlankString(currentHostListing?.description || '') &&
+      currentHostListing?.description &&
+      currentHostListing.description.length <= 500
     )
       setNotValidated(false);
     else setNotValidated(true);
-  }, [marketingDetails]);
+  }, [currentHostListing]);
+
+  if (!currentHostListing) return;
+
+  const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const description = e.target.value;
+    setCurrentHostListing({ ...currentHostListing, description });
+  };
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
@@ -55,23 +56,23 @@ function AddDescription() {
         </div>
         <textarea
           className={`mt-8 border rounded-md p-2 whitespace-normal h-48  ${
-            marketingDetails.description.length > 500
+            currentHostListing.description.length > 500
               ? 'outline-rose-800 bg-rose-800/20'
               : 'outline-slate-500'
           }`}
           id='description'
-          value={marketingDetails.description}
+          value={currentHostListing.description}
           onChange={handleDescription}
         ></textarea>
         <label htmlFor='description'></label>
         <div
           className={`font-black mt-3  ${
-            marketingDetails.description.length > 500
+            currentHostListing.description.length > 500
               ? 'text-rose-800'
               : 'text-gray-500'
           }`}
         >
-          {marketingDetails.description.length}/500
+          {currentHostListing.description.length}/500
         </div>
       </div>
       <div className='flex justify-center mb-8 mt-auto pt-6'>

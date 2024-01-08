@@ -2,31 +2,34 @@ import { useState, useContext, useEffect } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
 import { isBlankString } from '../../../../utils';
+import { HostContext } from '../../../../App';
 
 function AddTitle() {
-  const {
-    marketingDetails,
-    setMarketingDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
-  const [notValidated, setNotValidated] = useState<boolean>(true);
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
 
-  const handleTitleUpdate = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const title = e.target.value;
-    setMarketingDetails({ ...marketingDetails, title });
-  };
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
+  const [notValidated, setNotValidated] = useState<boolean>(true);
 
   useEffect(() => {
     if (
-      !isBlankString(marketingDetails.title) &&
-      marketingDetails.title.length <= 32
+      !isBlankString(currentHostListing?.title || '') &&
+      currentHostListing?.title &&
+      currentHostListing?.title?.length <= 32
     )
       setNotValidated(false);
     else setNotValidated(true);
-  }, [marketingDetails]);
+  }, [currentHostListing]);
+
+  if (!currentHostListing) return;
+
+  const handleTitleUpdate = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const title = e.target.value;
+    setCurrentHostListing({ ...currentHostListing, title });
+  };
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
@@ -54,23 +57,23 @@ function AddTitle() {
         </div>
         <textarea
           className={`mt-8 border rounded-md p-2 whitespace-normal h-20 ${
-            marketingDetails.title.length > 32
+            currentHostListing.title.length > 32
               ? 'outline-rose-800 bg-rose-800/20'
               : 'outline-slate-500'
           }`}
           id='title'
-          value={marketingDetails.title}
+          value={currentHostListing?.title}
           onChange={handleTitleUpdate}
         ></textarea>
         <label htmlFor='title'></label>
         <div
           className={`font-black mt-3 ${
-            marketingDetails.title.length > 32
+            currentHostListing.title.length > 32
               ? 'text-rose-800'
               : 'text-gray-500'
           }`}
         >
-          {marketingDetails.title.length}/32
+          {currentHostListing.title.length}/32
         </div>
       </div>
       <div className='flex justify-center mb-8 mt-auto pt-6'>

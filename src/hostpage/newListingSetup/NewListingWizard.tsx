@@ -47,43 +47,11 @@ const pages = [
   <ReviewSummary />,
 ];
 
-type SpaceDetails = {
-  homeType: string;
-  accessType: string;
-  streetAddress: string;
-  apt: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  guests: number;
-  diningAreas: number;
-  bathrooms: number;
-};
-
-type MarketingDetails = {
-  amenities: string[];
-  photos: (string | ArrayBuffer | null)[];
-  title: string;
-  description: string;
-};
-
-type PublishingDetails = {
-  instantBook: string | boolean;
-  security: string[];
-  basePrice: number;
-};
-
 interface NewListingWizardContextProps {
-  spaceDetails: SpaceDetails;
-  setSpaceDetails: React.Dispatch<React.SetStateAction<SpaceDetails>>;
   currentView: number;
   setCurrentView: React.Dispatch<React.SetStateAction<number>>;
   pages: JSX.Element[];
   saveListing: () => void;
-  marketingDetails: MarketingDetails;
-  setMarketingDetails: React.Dispatch<React.SetStateAction<MarketingDetails>>;
-  publishingDetails: PublishingDetails;
-  setPublishingDetails: React.Dispatch<React.SetStateAction<PublishingDetails>>;
   slideIn: string;
   setSlideIn: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -104,34 +72,6 @@ function NewListingWizard() {
   const [slideIn, setSlideIn] =
     useState<NewListingWizardContextProps['slideIn']>('Right');
 
-  const [spaceDetails, setSpaceDetails] = useState<SpaceDetails>({
-    homeType: '',
-    accessType: '',
-    streetAddress: '',
-    apt: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    guests: 0,
-    diningAreas: 0,
-    bathrooms: 0,
-  });
-
-  const [marketingDetails, setMarketingDetails] = useState<MarketingDetails>({
-    amenities: [],
-    photos: [],
-    title: '',
-    description: '',
-  });
-
-  const [publishingDetails, setPublishingDetails] = useState<PublishingDetails>(
-    {
-      instantBook: '',
-      security: [],
-      basePrice: 100,
-    }
-  );
-
   const { setUser } = useContext(UserContext)!;
 
   useEffect(() => {
@@ -148,40 +88,13 @@ function NewListingWizard() {
         base64Photos = convertToBase64(currentHostListing?.photos);
       }
 
-      setSpaceDetails({
-        homeType: currentHostListing.hometype || '',
-        accessType: currentHostListing.accesstype || '',
-        streetAddress: currentHostListing.streetaddress || '',
-        apt: currentHostListing.apt || '',
-        city: currentHostListing.city || '',
-        state: currentHostListing.state || '',
-        zipCode: currentHostListing.zipcode || '',
-        guests: currentHostListing.guests || 0,
-        diningAreas: currentHostListing.diningareas || 0,
-        bathrooms: currentHostListing.bathrooms || 0,
-      });
-
-      setMarketingDetails({
-        amenities: currentHostListing.amenities || [],
-        photos: base64Photos,
-        title: currentHostListing.title || '',
-        description: currentHostListing.description || '',
-      });
-
-      setPublishingDetails({
-        instantBook: currentHostListing.instantbook || '',
-        security: currentHostListing.security || [],
-        basePrice: currentHostListing.baseprice,
-      });
+      setCurrentHostListing({ ...currentHostListing, photos: base64Photos });
     } else createListing();
   }, []);
 
   const saveListing = async () => {
     const { data } = await axios.post('/api/host/updateListing', {
-      marketingDetails,
-      spaceDetails,
-      publishingDetails,
-      listingID: currentHostListing?.listingid,
+      currentHostListing,
     });
     setHostListings(data.listings);
     setNewListingModalOpen(false);
@@ -192,16 +105,10 @@ function NewListingWizard() {
     <DndProvider backend={HTML5Backend}>
       <NewListingWizardContext.Provider
         value={{
-          spaceDetails,
-          setSpaceDetails,
           currentView,
           setCurrentView,
           pages,
           saveListing,
-          marketingDetails,
-          setMarketingDetails,
-          publishingDetails,
-          setPublishingDetails,
           slideIn,
           setSlideIn,
         }}

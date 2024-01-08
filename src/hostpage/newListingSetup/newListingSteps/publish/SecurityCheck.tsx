@@ -4,17 +4,18 @@ import OrangeHeaderCard from '../../../../components/OrangeHeaderCard';
 import SalmonButton from '../../../../components/SalmonButton';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import { v4 as uuid } from 'uuid';
+import { HostContext } from '../../../../App';
 
 function SecurityCheck() {
-  const {
-    publishingDetails,
-    setPublishingDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
   const [securityModalOpen, setSecurityModalOpen] = useState<boolean>(false);
+
+  if (!currentHostListing) return;
 
   const items = [
     { key: 'cameras', title: 'Security camera(s)' },
@@ -40,19 +41,20 @@ function SecurityCheck() {
 
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedValue = e.target.value;
-    const isSelected = publishingDetails.security.includes(selectedValue);
+
+    const isSelected = currentHostListing?.security.includes(selectedValue);
 
     if (isSelected) {
-      setPublishingDetails({
-        ...publishingDetails,
-        security: publishingDetails.security.filter(
+      setCurrentHostListing({
+        ...currentHostListing,
+        security: currentHostListing.security.filter(
           (item) => item !== selectedValue
         ),
       });
     } else {
-      setPublishingDetails({
-        ...publishingDetails,
-        security: [...publishingDetails.security, selectedValue],
+      setCurrentHostListing({
+        ...currentHostListing,
+        security: [...currentHostListing.security, selectedValue],
       });
     }
   };
@@ -112,10 +114,9 @@ function SecurityCheck() {
           <div className='pt-8'>
             {items &&
               items.map((current) => {
-                const isChecked = publishingDetails.security.includes(
+                const isChecked = currentHostListing.security.includes(
                   current.title
                 );
-
                 return (
                   <div
                     className='flex flex-row w-full pb-4  checked:bg-green-500'

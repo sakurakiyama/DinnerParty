@@ -4,32 +4,45 @@ import SelectableCards from '../../../../components/SelectableCards';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
+import { HostContext } from '../../../../App';
 
 function InstantBookAccess() {
-  const {
-    publishingDetails,
-    setPublishingDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
+
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
   const [notValidated, setNotValidated] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>('');
 
-  const updateBookingType = (bookingType: string) => {
-    const instantBookValue =
-      bookingType === 'Use instant book'
-        ? true
-        : bookingType === 'Approve or decline requests'
-        ? false
-        : '';
+  useEffect(() => {
+    if (currentHostListing?.instantbook !== null) {
+      setSelected(
+        currentHostListing?.instantbook
+          ? 'Use instant book'
+          : 'Approve or decline requests'
+      );
+      setNotValidated(false);
+    } else {
+      setSelected('');
+      setNotValidated(true);
+    }
+  }, [currentHostListing]);
 
+  if (!currentHostListing) return;
+
+  const updateBookingType = (bookingType: string) => {
+    const instantBookValue = bookingType === 'Use instant book';
     setSelected(bookingType === selected ? '' : bookingType);
-    setPublishingDetails({
-      ...publishingDetails,
-      instantBook: bookingType === selected ? '' : instantBookValue,
-    });
+
+    if (selected) {
+      setCurrentHostListing({
+        ...currentHostListing,
+        instantbook: instantBookValue,
+      });
+    }
   };
 
   const handleView = (operation?: string) => {
@@ -41,20 +54,6 @@ function InstantBookAccess() {
       setCurrentView(currentView - 1);
     }
   };
-
-  useEffect(() => {
-    if (publishingDetails.instantBook !== '') {
-      setSelected(
-        publishingDetails.instantBook
-          ? 'Use instant book'
-          : 'Approve or decline requests'
-      );
-      setNotValidated(false);
-    } else {
-      setSelected('');
-      setNotValidated(true);
-    }
-  }, [publishingDetails]);
 
   const accessTypes = [
     {

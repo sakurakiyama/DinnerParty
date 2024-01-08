@@ -7,6 +7,7 @@ import {
   isBlankString,
   isAlphaWithSpacesAccentsAndNumbers,
 } from '../../../../utils';
+import { HostContext } from '../../../../App';
 
 /*
 TODO: [] Add a map
@@ -15,25 +16,13 @@ TODO: [] Should validate if it's a real address using external API
 */
 
 function HomeLocation() {
-  const {
-    spaceDetails,
-    setSpaceDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
-  const [notValidated, setNotValidated] = useState<boolean>(true);
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
 
-  const handleView = (operation?: string) => {
-    if (operation === 'Forward') {
-      setSlideIn('Right');
-      setCurrentView(currentView + 1);
-    } else if (operation === 'Backward') {
-      setSlideIn('Left');
-      setCurrentView(currentView - 1);
-    }
-  };
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
+  const [notValidated, setNotValidated] = useState<boolean>(true);
 
   useEffect(() => {
     for (const inputConfig of inputConfigs) {
@@ -46,7 +35,19 @@ function HomeLocation() {
       }
     }
     setNotValidated(false);
-  }, [spaceDetails]);
+  }, [currentHostListing]);
+
+  if (!currentHostListing) return;
+
+  const handleView = (operation?: string) => {
+    if (operation === 'Forward') {
+      setSlideIn('Right');
+      setCurrentView(currentView + 1);
+    } else if (operation === 'Backward') {
+      setSlideIn('Left');
+      setCurrentView(currentView - 1);
+    }
+  };
 
   const inputConfigs = [
     {
@@ -54,13 +55,16 @@ function HomeLocation() {
       display: 'Street address',
       required: true,
       setterFunc: (streetAddress: string) =>
-        setSpaceDetails({ ...spaceDetails, streetAddress }),
-      value: spaceDetails.streetAddress,
+        setCurrentHostListing({
+          ...currentHostListing,
+          streetaddress: streetAddress,
+        }),
+      value: currentHostListing.streetaddress,
       validate: () => {
-        const blankField = isBlankString(spaceDetails.streetAddress);
+        const blankField = isBlankString(currentHostListing.streetaddress);
         if (blankField) return 'Street address is a required field';
         const noSpecialChars = isAlphaWithSpacesAccentsAndNumbers(
-          spaceDetails.streetAddress
+          currentHostListing.streetaddress
         );
         if (!noSpecialChars)
           return 'Street address can only contain characters and numbers';
@@ -71,20 +75,22 @@ function HomeLocation() {
       id: 'apt',
       display: 'Apt, suit, unit (if applicable)',
       required: false,
-      setterFunc: (apt: string) => setSpaceDetails({ ...spaceDetails, apt }),
-      value: spaceDetails.apt,
+      setterFunc: (apt: string) =>
+        setCurrentHostListing({ ...currentHostListing, apt }),
+      value: currentHostListing.apt,
     },
     {
       id: 'city',
       display: 'City',
       required: true,
-      setterFunc: (city: string) => setSpaceDetails({ ...spaceDetails, city }),
-      value: spaceDetails.city,
+      setterFunc: (city: string) =>
+        setCurrentHostListing({ ...currentHostListing, city }),
+      value: currentHostListing.city,
       validate: () => {
-        const blankField = isBlankString(spaceDetails.city);
+        const blankField = isBlankString(currentHostListing.city);
         if (blankField) return 'City is a required field';
         const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(
-          spaceDetails.city
+          currentHostListing.city
         );
         if (!noSpecialCharsAndNumbers)
           return 'City can only contain characters';
@@ -96,13 +102,13 @@ function HomeLocation() {
       display: 'State',
       required: true,
       setterFunc: (state: string) =>
-        setSpaceDetails({ ...spaceDetails, state }),
-      value: spaceDetails.state,
+        setCurrentHostListing({ ...currentHostListing, state }),
+      value: currentHostListing.state,
       validate: () => {
-        const blankField = isBlankString(spaceDetails.state);
+        const blankField = isBlankString(currentHostListing.state);
         if (blankField) return 'State is a required field';
         const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(
-          spaceDetails.state
+          currentHostListing.state
         );
         if (!noSpecialCharsAndNumbers)
           return 'State can only contain characters';
@@ -114,10 +120,10 @@ function HomeLocation() {
       display: 'Zip code',
       required: true,
       setterFunc: (zipCode: string) =>
-        setSpaceDetails({ ...spaceDetails, zipCode }),
-      value: spaceDetails.zipCode,
+        setCurrentHostListing({ ...currentHostListing, zipcode: zipCode }),
+      value: currentHostListing.zipcode,
       validate: () => {
-        const blankField = isBlankString(spaceDetails.zipCode);
+        const blankField = isBlankString(currentHostListing.zipcode);
         if (blankField) return 'Zip code is a required field';
         return null;
       },

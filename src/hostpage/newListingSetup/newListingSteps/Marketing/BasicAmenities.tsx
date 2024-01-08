@@ -16,36 +16,39 @@ import { GiRingingAlarm } from 'react-icons/gi';
 import SalmonButton from '../../../../components/SalmonButton';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import { useContext, useState } from 'react';
+import { HostContext } from '../../../../App';
 
 function BasicAmenities() {
-  const {
-    marketingDetails,
-    setMarketingDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
+
   const [selected, setSelected] = useState<string[]>(
-    marketingDetails.amenities
+    currentHostListing?.amenities || []
   );
 
+  if (!currentHostListing) return;
+
   const updateAmenenities = (amenity: string) => {
-    if (selected.includes(amenity)) {
+    console.log('current listing: ', currentHostListing);
+    if (selected?.includes(amenity)) {
       const currentSelected = selected;
       const afterUnselect = currentSelected.filter((item) => {
         return item !== amenity;
       });
       setSelected(afterUnselect);
-      setMarketingDetails({
-        ...marketingDetails,
+      setCurrentHostListing({
+        ...currentHostListing,
         amenities: afterUnselect,
       });
     } else {
       setSelected([...selected, amenity]);
-      setMarketingDetails({
-        ...marketingDetails,
-        amenities: [...marketingDetails.amenities, amenity],
+      setCurrentHostListing({
+        ...currentHostListing,
+        amenities: [...currentHostListing.amenities, amenity],
       });
     }
   };
@@ -154,7 +157,6 @@ function BasicAmenities() {
           </div>
           <Tiles
             items={basicItems}
-            // multipleSelection={true}
             handleTileClick={updateAmenenities}
             currentSelection={selected}
           />
@@ -163,7 +165,6 @@ function BasicAmenities() {
           </div>
           <Tiles
             items={standoutItems}
-            // multipleSelection={true}
             handleTileClick={updateAmenenities}
             currentSelection={selected}
           />
@@ -172,7 +173,6 @@ function BasicAmenities() {
           </div>
           <Tiles
             items={safetyItems}
-            // multipleSelection={true}
             handleTileClick={updateAmenenities}
             currentSelection={selected}
           />

@@ -3,48 +3,46 @@ import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
 import { v4 as uuid } from 'uuid';
 import PlusMinusButtons from '../../../../components/PlusMinusButtons';
+import { HostContext } from '../../../../App';
 
-type SpaceDetailProps = {
+type BasicDetailProps = {
   guests: number;
-  diningAreas: number;
+  diningareas: number;
   bathrooms: number;
 };
 
 function BasicDetails() {
-  const {
-    spaceDetails,
-    setSpaceDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
+
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
-  const handleCount = (key: keyof SpaceDetailProps, operation: number) => {
-    const currentSpaceDetails = { ...spaceDetails };
-
-    if (key in currentSpaceDetails) {
-      currentSpaceDetails[key] = Math.max(
-        0,
-        currentSpaceDetails[key] + operation
-      );
-    }
-    setSpaceDetails(currentSpaceDetails);
-  };
-
-  const items: { key: keyof SpaceDetailProps; category: string }[] = [
-    { key: 'guests', category: 'Guests' },
-    { key: 'diningAreas', category: 'Dining Areas' },
-    { key: 'bathrooms', category: 'Bathrooms' },
-  ];
-
   useEffect(() => {
-    if (spaceDetails.guests) setNotValidated(false);
+    if (currentHostListing?.guests) setNotValidated(false);
     else {
       setNotValidated(true);
     }
-  }, [spaceDetails]);
+  }, [currentHostListing]);
+
+  if (!currentHostListing) return;
+
+  const handleCount = (key: keyof BasicDetailProps, operation: number) => {
+    const listing = { ...currentHostListing };
+    if (key in listing) {
+      listing[key] = Math.max(0, listing[key] + operation);
+    }
+    setCurrentHostListing(listing);
+  };
+
+  const items: { key: keyof BasicDetailProps; category: string }[] = [
+    { key: 'guests', category: 'Guests' },
+    { key: 'diningareas', category: 'Dining Areas' },
+    { key: 'bathrooms', category: 'Bathrooms' },
+  ];
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
@@ -84,10 +82,10 @@ function BasicDetails() {
                 <div className='text-sm'>{currentItem.category}</div>
               </div>
               <PlusMinusButtons
-                isMinusDisabled={spaceDetails[currentItem.key] === 0}
+                isMinusDisabled={currentHostListing[currentItem.key] === 0}
                 onMinusClick={() => handleCount(currentItem.key, -1)}
                 onPlusClick={() => handleCount(currentItem.key, +1)}
-                displayValue={spaceDetails[currentItem.key]}
+                displayValue={currentHostListing[currentItem.key]}
               />
             </div>
           );

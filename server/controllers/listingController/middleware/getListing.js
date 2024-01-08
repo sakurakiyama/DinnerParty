@@ -20,8 +20,8 @@ import query from '../../../models/db.js';
 
 const getListing = async (req, res, next) => {
   try {
-    const listingID = req.body.listingID
-      ? req.body.listingID
+    const listingID = req.body.currentHostListing.listingid
+      ? req.body.currentHostListing.listingid
       : req.params.listingid;
 
     const getListingQuery = 'SELECT * FROM listings WHERE listingid = $1';

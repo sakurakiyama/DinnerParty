@@ -6,6 +6,7 @@ import { getGuestServiceFee, getHostServiceFee } from '../../../../utils';
 import PriceBreakDownCard from '../../../../components/PriceBreakdownCard';
 import SalmonButton from '../../../../components/SalmonButton';
 import { NewListingWizardContext } from '../../NewListingWizard';
+import { HostContext } from '../../../../App';
 
 type EditableDivRef = HTMLDivElement & { firstChild: Element };
 
@@ -24,33 +25,60 @@ export type Card = (CardItem | TotalItem)[];
 type CardsArray = Card[];
 
 function SetPrice() {
-  const {
-    publishingDetails,
-    setPublishingDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
+
   const editableRef = useRef<EditableDivRef>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [guestServiceFee, setGuestServiceFee] = useState<number>(
-    getGuestServiceFee(publishingDetails.basePrice)
+    getGuestServiceFee(currentHostListing?.baseprice || 100)
   );
   const [showPriceBreakdown, setShowPriceBreakdown] = useState<boolean>(false);
   const [hostServiceFee, setHostServiceFee] = useState<number>(
-    getHostServiceFee(publishingDetails.basePrice)
+    getHostServiceFee(currentHostListing?.baseprice || 100)
   );
   const [allCards, setAllCards] = useState<CardsArray>([]);
   const [openCardIndex, setOpenCardIndex] = useState<number>(0);
   const [notValidated, setNotValidated] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (editableRef.current) {
+      editableRef.current.innerText = `${currentHostListing?.baseprice}`;
+    }
+    const defaultCards = [
+      [
+        { item: 'Base price', price: currentHostListing?.baseprice || 100 },
+        { item: 'Guest service fee', price: guestServiceFee },
+        {
+          totalDescription: 'Guest price before taxes',
+          totalPrice: guestServiceFee + (currentHostListing?.baseprice || 100),
+        },
+      ],
+      [
+        { item: 'Base price', price: currentHostListing?.baseprice || 100 },
+        { item: 'Host service fee', price: hostServiceFee },
+        {
+          totalDescription: 'You earn',
+          totalPrice: (currentHostListing?.baseprice || 100) - hostServiceFee,
+        },
+      ],
+    ];
+
+    setAllCards(defaultCards);
+  }, []);
+
+  if (!currentHostListing) return;
+
   const handleEditLogoClick = () => {
     if (editableRef.current) {
       const selection = window.getSelection();
       const range = document.createRange();
-      const length = publishingDetails.basePrice.toString().length;
-      if (length > 0) {
+      const length = currentHostListing?.baseprice.toString().length;
+      if (length && length > 0) {
         range.setStart(editableRef.current.firstChild, length);
         range.collapse(true);
 
@@ -73,7 +101,7 @@ function SetPrice() {
 
   const handlePriceChange = (e: React.FormEvent<HTMLDivElement>) => {
     const value = Number((e.currentTarget as HTMLDivElement).innerText) || 0;
-    setPublishingDetails({ ...publishingDetails, basePrice: value });
+    setCurrentHostListing({ ...currentHostListing, baseprice: value });
     const totalGuestServiceFee = getGuestServiceFee(value);
     const totalHostServiceFee = getHostServiceFee(value);
     setGuestServiceFee(totalGuestServiceFee);
@@ -108,33 +136,6 @@ function SetPrice() {
     }
     setIsEditing(false);
   };
-
-  // Instantiate content editable's ref to be a default value.
-  useEffect(() => {
-    if (editableRef.current) {
-      editableRef.current.innerText = `${publishingDetails.basePrice}`;
-    }
-    const defaultCards = [
-      [
-        { item: 'Base price', price: publishingDetails.basePrice },
-        { item: 'Guest service fee', price: guestServiceFee },
-        {
-          totalDescription: 'Guest price before taxes',
-          totalPrice: guestServiceFee + publishingDetails.basePrice,
-        },
-      ],
-      [
-        { item: 'Base price', price: publishingDetails.basePrice },
-        { item: 'Host service fee', price: hostServiceFee },
-        {
-          totalDescription: 'You earn',
-          totalPrice: publishingDetails.basePrice - hostServiceFee,
-        },
-      ],
-    ];
-
-    setAllCards(defaultCards);
-  }, []);
 
   const handleArrowToggle = () => {
     showPriceBreakdown
@@ -189,7 +190,7 @@ function SetPrice() {
           >
             <div>
               Guest price before taxes $
-              {guestServiceFee + publishingDetails.basePrice}
+              {guestServiceFee + currentHostListing?.baseprice}
             </div>
             <div onClick={handleArrowToggle}>
               <IoIosArrowDown />

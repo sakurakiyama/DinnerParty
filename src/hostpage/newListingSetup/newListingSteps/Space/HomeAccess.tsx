@@ -4,26 +4,36 @@ import SelectableCards from '../../../../components/SelectableCards';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import { useContext, useState, useEffect } from 'react';
 import SalmonButton from '../../../../components/SalmonButton';
+import { HostContext } from '../../../../App';
 
 function HomeAccess() {
-  const {
-    spaceDetails,
-    setSpaceDetails,
-    currentView,
-    setCurrentView,
-    setSlideIn,
-    slideIn,
-  } = useContext(NewListingWizardContext)!;
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
+  const { currentView, setCurrentView, setSlideIn, slideIn } = useContext(
+    NewListingWizardContext
+  )!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
-  const [selected, setSelected] = useState<string>(spaceDetails.accessType);
+  const [selected, setSelected] = useState<string>(
+    currentHostListing?.accesstype || ''
+  );
+
+  useEffect(() => {
+    if (currentHostListing?.accesstype) setNotValidated(false);
+    else {
+      setNotValidated(true);
+    }
+  }, [currentHostListing]);
+
+  if (!currentHostListing) return;
 
   const updateHomeAccess = (accessType: string) => {
     if (selected === accessType) {
       setSelected('');
-      setSpaceDetails({ ...spaceDetails, accessType: '' });
+      setCurrentHostListing({ ...currentHostListing, accesstype: '' });
     } else {
       setSelected(accessType);
-      setSpaceDetails({ ...spaceDetails, accessType });
+      setCurrentHostListing({ ...currentHostListing, accesstype: accessType });
     }
   };
 
@@ -36,11 +46,6 @@ function HomeAccess() {
       setCurrentView(currentView - 1);
     }
   };
-
-  useEffect(() => {
-    if (spaceDetails.accessType) setNotValidated(false);
-    else setNotValidated(true);
-  }, [spaceDetails]);
 
   const accessTypes = [
     {
