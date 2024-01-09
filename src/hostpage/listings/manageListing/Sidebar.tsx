@@ -1,7 +1,6 @@
 import ManageListingDropdown from './components/ManageListingDropdown';
 import { useContext } from 'react';
 import { ManageListingContext } from './ManageListing';
-import { v4 as uuid } from 'uuid';
 
 /*
 [] TODO: Adjust scroll to component to use Refs
@@ -35,7 +34,7 @@ function Sidebar() {
       <div className='hidden md:block max-w-[225px]'>
         {sections.map((section, index) => {
           return (
-            <div key={uuid()}>
+            <div key={`${section.sectionHeader}+${index}`}>
               <ManageListingDropdown
                 subsections={section.subsections}
                 index={index}
@@ -50,7 +49,7 @@ function Sidebar() {
       <div className='block md:hidden flex flex-row space-x-4 text-sm justify-center border-b'>
         {sections.map((section, index) => {
           return (
-            <div className='p-4' key={uuid()}>
+            <div className='p-4' key={`${section.sectionHeader}+${index}`}>
               <button
                 className='hover:border-b hover:border-black'
                 onClick={() => handleChangeSection(index)}

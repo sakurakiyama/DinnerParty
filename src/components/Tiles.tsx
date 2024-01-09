@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'uuid';
-
 type Item = {
   key: string;
   image: JSX.Element;
@@ -16,7 +14,7 @@ function Tiles({ items, handleTileClick, currentSelection }: TilesProps) {
   return (
     <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 content-center place-items-center md:w-[620px]'>
       {items &&
-        items.map((current) => {
+        items.map((current, index) => {
           const isSelected = Array.isArray(currentSelection)
             ? currentSelection.includes(current.display)
             : currentSelection === current.display;
@@ -24,7 +22,7 @@ function Tiles({ items, handleTileClick, currentSelection }: TilesProps) {
           return (
             <div
               onClick={() => handleTileClick(current.display)}
-              key={uuid()}
+              key={`${current.display}+${index}`}
               className={`flex flex-col p-4 border rounded-md text-center w-[200px] justify-center items-center h-[110px] hover:border-black ${
                 isSelected ? 'border-black' : ''
               }`}

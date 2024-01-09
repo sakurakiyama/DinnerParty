@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { BrowsePageContext } from '../../BrowsePage';
 import { GuestCategory } from '../../BrowsePage';
-import { v4 as uuid } from 'uuid';
 import PlusMinusButtons from '../../../components/PlusMinusButtons';
 
 function GuestSelector() {
@@ -27,7 +26,7 @@ function GuestSelector() {
           const isFirst = index === 0;
           return (
             <div
-              key={uuid()}
+              key={`${current.category}+${index}`}
               className={`border-b pb-4 pt-4 flex flex-row justify-between ${
                 isFirst && 'pt-0'
               } ${isLast && 'pb-0 border-b-0'}`}

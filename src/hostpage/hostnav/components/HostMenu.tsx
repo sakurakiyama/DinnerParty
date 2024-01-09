@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { v4 as uuid } from 'uuid';
 
 function HostMenu() {
   const navigate = useNavigate();
@@ -25,8 +24,8 @@ function HostMenu() {
 
   return (
     <div className='flex flex-row space-x-6'>
-      {pages.map((current) => (
-        <div key={uuid()}>
+      {pages.map((current, index) => (
+        <div key={`${current.display}+${index}`}>
           <button
             onClick={current.navigate}
             className='hover:bg-[var(--light-grey)]  rounded-full p-2'

@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'uuid';
-
 type Card = {
   key: string;
   image: JSX.Element;
@@ -21,14 +19,14 @@ function SelectableCards({
   return (
     <div className='flex flex-col space-y-2 mt-8'>
       {cards &&
-        cards.map((current) => {
+        cards.map((current, index) => {
           const isSelected = Array.isArray(currentSelection)
             ? currentSelection.includes(current.header)
             : currentSelection === current.header;
           return (
             <div
               onClick={() => handleSelectableCardClick(current.header)}
-              key={uuid()}
+              key={`${current.header}+${index}`}
               className={`border p-4 rounded-md flex flex-row items-center hover:border-black ${
                 isSelected ? 'border-black' : ''
               }`}

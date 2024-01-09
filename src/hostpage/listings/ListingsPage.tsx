@@ -11,7 +11,6 @@ import { MdPendingActions } from 'react-icons/md';
 import { Listing } from '../../types';
 import NewListingWizard from '../newListingSetup/NewListingWizard';
 import { Buffer } from 'buffer';
-import { v4 as uuid } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 import LoadingThreeDots from '../../components/LoadingThreeDots';
 
@@ -54,7 +53,6 @@ function ListingsPage() {
     setNewListingModalOpen(true);
   };
 
-  console.log(hostListings.length);
   return (
     <div>
       {newListingModalOpen && (
@@ -90,10 +88,10 @@ function ListingsPage() {
             <table className='w-full text-xs md:text-sm mt-6'>
               <tbody>
                 <tr>
-                  {headers.map((header) => {
+                  {headers.map((header, index) => {
                     return (
                       <th
-                        key={uuid()}
+                        key={`${header}+${index}`}
                         className='text-start text-xs border-b py-2'
                       >
                         {header}
@@ -101,7 +99,7 @@ function ListingsPage() {
                     );
                   })}
                 </tr>
-                {hostListings.map((listing) => {
+                {hostListings.map((listing, index) => {
                   let coverPhoto;
 
                   if (listing?.photos && listing?.photos.length > 0) {
@@ -152,7 +150,7 @@ function ListingsPage() {
                       onClick={() => {
                         openListing(listing);
                       }}
-                      key={uuid()}
+                      key={`${listing?.title}+${index}`}
                     >
                       <td className='py-2'>
                         <div className='flex flex-row items-center md:space-x-6'>

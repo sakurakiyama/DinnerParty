@@ -3,7 +3,6 @@ import {
   CardItem,
   TotalItem,
 } from '../hostpage/newListingSetup/newListingSteps/publish/SetPrice';
-import { v4 as uuid } from 'uuid';
 
 type PriceBreakDownCardProps = {
   card: Card;
@@ -30,7 +29,10 @@ function PriceBreakDownCard({
         {card
           .filter((item): item is CardItem => 'item' in item && 'price' in item)
           .map((current: CardItem) => (
-            <div key={uuid()} className='pb-2 flex flex-row w-full'>
+            <div
+              key={`${current.item}+${index}`}
+              className='pb-2 flex flex-row w-full'
+            >
               <div className='mr-auto'>{current.item}</div>
               <div>${current.price}</div>
             </div>
@@ -40,7 +42,10 @@ function PriceBreakDownCard({
         {card
           .filter((item): item is TotalItem => 'totalDescription' in item)
           .map((current) => (
-            <div className='flex flex-row w-full pt-4' key={uuid()}>
+            <div
+              className='flex flex-row w-full pt-4'
+              key={`${current.totalDescription}+${index}`}
+            >
               <div className='mr-auto'>{current.totalDescription}</div>
               <div>${current.totalPrice}</div>
             </div>

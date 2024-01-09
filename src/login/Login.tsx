@@ -4,7 +4,6 @@ import DinnerSetting from '../assets/DinnerSetting.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import OrangeHeaderCard from '../components/OrangeHeaderCard';
-import { v4 as uuid } from 'uuid';
 
 /* 
 TODO: Currently race condition issue being handled by settimeout. Refactor to a better solution.
@@ -154,7 +153,7 @@ function Login() {
                     <input
                       ref={inputRefs[index]}
                       className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-slate-500'
-                      key={uuid()}
+                      key={`${value}+${index}`}
                       type='text'
                       maxLength={1}
                       value={value}

@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { ManageListingContext, Subsection } from '../ManageListing';
-import { v4 as uuid } from 'uuid';
 
 interface ManageListingDropdownProps {
   subsections: Subsection[];
@@ -37,7 +36,7 @@ function ManageListingDropdown({
             {subsections.map((subsection, index) => {
               return (
                 <ul
-                  key={uuid()}
+                  key={`${subsection.header}+${index}`}
                   className={`${
                     currentSubSection === index
                       ? 'border-l-2 border-l-black'

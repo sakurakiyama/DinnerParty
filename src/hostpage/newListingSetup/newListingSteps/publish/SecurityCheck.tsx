@@ -3,7 +3,6 @@ import { useState, useContext } from 'react';
 import OrangeHeaderCard from '../../../../components/OrangeHeaderCard';
 import SalmonButton from '../../../../components/SalmonButton';
 import { NewListingWizardContext } from '../../NewListingWizard';
-import { v4 as uuid } from 'uuid';
 import { HostContext } from '../../../../App';
 
 function SecurityCheck() {
@@ -113,14 +112,14 @@ function SecurityCheck() {
           </div>
           <div className='pt-8'>
             {items &&
-              items.map((current) => {
+              items.map((current, index) => {
                 const isChecked = currentHostListing.security.includes(
                   current.title
                 );
                 return (
                   <div
                     className='flex flex-row w-full pb-4  checked:bg-green-500'
-                    key={uuid()}
+                    key={`${current.key}+${index}`}
                   >
                     <div className='mr-auto'>{current.title}</div>
                     <input

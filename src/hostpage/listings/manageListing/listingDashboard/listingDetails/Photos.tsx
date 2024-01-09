@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
-import { v4 as uuid } from 'uuid';
 import { convertToBase64 } from '../../../../../utils';
 
 /*
@@ -29,11 +28,11 @@ function Photos() {
                 className='min-w-[200px] min-h-[125px] bg-gray-100 animate-pulse rounded-md'
               ></div>
             ))
-          : photos.map((dataUrl) => {
+          : photos.map((dataUrl, index) => {
               return (
                 <div
                   className='min-w-[200px] min-h-[125px] blurred-right'
-                  key={uuid()}
+                  key={`${dataUrl.slice(0, 10)}+${index}`}
                 >
                   {dataUrl && (
                     <div

@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { NewListingWizardContext } from '../../NewListingWizard';
 import SalmonButton from '../../../../components/SalmonButton';
-import { v4 as uuid } from 'uuid';
 import PlusMinusButtons from '../../../../components/PlusMinusButtons';
 import { HostContext } from '../../../../App';
 
@@ -73,7 +72,7 @@ function BasicDetails() {
           const isLast = index === items.length - 1;
           return (
             <div
-              key={uuid()}
+              key={`${currentItem.key}+${index}`}
               className={`flex flex-row justify-between p-2 items-center ${
                 isLast ? '' : 'border-b'
               }`}
