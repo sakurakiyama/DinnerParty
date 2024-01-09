@@ -13,6 +13,7 @@ import NewListingWizard from '../newListingSetup/NewListingWizard';
 import { Buffer } from 'buffer';
 import { v4 as uuid } from 'uuid';
 import { useNavigate } from 'react-router-dom';
+import LoadingThreeDots from '../../components/LoadingThreeDots';
 
 function ListingsPage() {
   const {
@@ -53,6 +54,7 @@ function ListingsPage() {
     setNewListingModalOpen(true);
   };
 
+  console.log(hostListings.length);
   return (
     <div>
       {newListingModalOpen && (
@@ -63,6 +65,11 @@ function ListingsPage() {
       <div>
         <HostNavBar />
       </div>
+      {hostListings.length === 0 && (
+        <div className='w-full h-screen flex justify-center items-center pb-[300px]'>
+          <LoadingThreeDots />
+        </div>
+      )}
       {host && hostListings.length > 0 && (
         <div>
           <div className='p-6 text-slate-700'>

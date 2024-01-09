@@ -17,7 +17,6 @@ import { FaBoltLightning } from 'react-icons/fa6';
 import ListingDetails from './listingDashboard/listingDetails/ListingDetails';
 import PoliciesAndRules from './listingDashboard/policiesAndRules/PoliciesAndRules';
 import InfoForGuests from './listingDashboard/infoForGuests/InfoForGuests';
-
 export type Subsection = {
   header: string;
   id: string;
