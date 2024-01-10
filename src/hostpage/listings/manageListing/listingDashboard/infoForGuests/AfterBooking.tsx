@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
-import ManageListingInfoBlock from '../../components/ManageListingInfoBlock';
+import ManageListingTextBlock from '../../components/ManageListingTextBlock';
 
 function AfterBooking() {
   const { currentHostListing } = useContext(HostContext)!;
@@ -26,22 +26,7 @@ function AfterBooking() {
         Confirmed guests can see this info before they arrive.
       </div>
       <div className='space-y-8'>
-        <ManageListingInfoBlock
-          display={'Address'}
-          contents={
-            currentHostListing?.streetaddress
-              ? `${currentHostListing.streetaddress} ${
-                  currentHostListing?.apt || ''
-                }, ${currentHostListing?.city} ${currentHostListing?.state} ${
-                  currentHostListing?.zipcode
-                }`
-              : undefined
-          }
-          caption={
-            'Enter your address so guests know where your home is. Your full address will remain hidden until a booking is confirmed. '
-          }
-        />
-        <ManageListingInfoBlock
+        <ManageListingTextBlock
           display={'Wifi details'}
           contents={wifiDetailsElement}
           caption={

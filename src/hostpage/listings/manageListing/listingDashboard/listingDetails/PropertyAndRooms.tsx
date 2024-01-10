@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
-import ManageListingInfoBlock from '../../components/ManageListingInfoBlock';
+import ManageListingTextBlock from '../../components/ManageListingTextBlock';
 
 function PropertyAndRooms() {
   const [propertyTypeElement, setPropertyTypeElement] = useState<
@@ -34,14 +34,14 @@ function PropertyAndRooms() {
     <div className='border-b w-full pt-8 pb-8' id='propertyAndRoomsBlock'>
       <div className='pb-6 font-black text-lg'>Property and rooms</div>
       <div className='space-y-8'>
-        <ManageListingInfoBlock
+        <ManageListingTextBlock
           display={'Property type'}
           contents={propertyTypeElement}
           caption={
             'Choose a property type that’s most like your place to set expectations for guests and help your listing appear in the right searches.'
           }
         />
-        <ManageListingInfoBlock
+        <ManageListingTextBlock
           display={'Rooms and spaces'}
           contents={roomsElement}
           caption={

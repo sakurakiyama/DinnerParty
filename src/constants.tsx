@@ -1,0 +1,121 @@
+import { FaKitchenSet, FaWifi, FaRegSnowflake } from 'react-icons/fa6';
+import {
+  MdTableRestaurant,
+  MdOutlineCleanHands,
+  MdDeck,
+  MdBalcony,
+} from 'react-icons/md';
+import { GiFireplace, GiBarbecue, GiRingingAlarm } from 'react-icons/gi';
+import { TbChefHat } from 'react-icons/tb';
+import { RiAlarmWarningLine, RiFirstAidKitLine } from 'react-icons/ri';
+import { PiFireExtinguisher, PiElevator } from 'react-icons/pi';
+import { TbStairs } from 'react-icons/tb';
+import { GrEscalator } from 'react-icons/gr';
+import { LuParkingSquare, LuDoorOpen } from 'react-icons/lu';
+
+export const safetyItems = [
+  {
+    key: 'smokealarm',
+    image: <RiAlarmWarningLine size={30} />,
+    display: 'Smoke alarm',
+  },
+  {
+    key: 'firstaid',
+    image: <RiFirstAidKitLine size={30} />,
+    display: 'First aid kit',
+  },
+  {
+    key: 'fireextinguisher',
+    image: <PiFireExtinguisher size={30} />,
+    display: 'Fire extinguisher',
+  },
+  {
+    key: 'carbonmonoxide',
+    image: <GiRingingAlarm size={30} />,
+    display: 'Carbon monoxide alarm',
+  },
+];
+
+export const standoutItems = [
+  {
+    key: 'dishwasher',
+    image: <MdOutlineCleanHands size={30} />,
+    display: 'Dishwasher',
+  },
+  {
+    key: 'patio',
+    image: <MdBalcony size={30} />,
+    display: 'Patio',
+  },
+  {
+    key: 'indoorfireplace',
+    image: <GiFireplace size={30} />,
+    display: 'Indoor fireplace',
+  },
+  {
+    key: 'bbqgrill',
+    image: <GiBarbecue size={30} />,
+    display: 'BBQ grill',
+  },
+  {
+    key: 'chefskitchen',
+    image: <TbChefHat size={30} />,
+    display: "Chef's kitchen",
+  },
+  {
+    key: 'outdoordining',
+    image: <MdDeck size={30} />,
+    display: 'Outdoor dining area',
+  },
+];
+
+export const basicItems = [
+  {
+    key: 'kitchen',
+    image: <FaKitchenSet size={30} />,
+    display: 'Kitchen',
+  },
+  {
+    key: 'Wifi',
+    image: <FaWifi size={30} />,
+    display: 'Wifi',
+  },
+  {
+    key: 'airconditioning',
+    image: <FaRegSnowflake size={30} />,
+    display: 'Air conditioning',
+  },
+  {
+    key: 'diningroom',
+    image: <MdTableRestaurant size={30} />,
+    display: 'Dining room',
+  },
+];
+
+export const accessibilityItems = [
+  {
+    key: 'guestentrance',
+    image: <LuDoorOpen size={30} />,
+    display: 'Guest Entrance',
+  },
+  {
+    key: 'parking',
+    image: <LuParkingSquare size={30} />,
+    display: 'Parking',
+  },
+  {
+    key: 'elevator',
+    image: <PiElevator size={30} />,
+    display: 'Elevator',
+  },
+  {
+    key: 'escalator',
+    image: <GrEscalator size={30} />,
+    display: 'Escalator',
+  },
+  {
+    key: 'stairlift',
+    image: <TbStairs size={30} />,
+    display: 'Stair Lift',
+  },
+];

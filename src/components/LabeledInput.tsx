@@ -1,14 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MdErrorOutline } from 'react-icons/md';
-
-interface LabeledInputProps {
-  required: boolean;
-  id: string;
-  display: string;
-  setterFunc: (value: string) => void;
-  value: string;
-  validate?: () => string | null;
-}
+import { LabeledInputProps } from '../types';
 
 function LabeledInput({
   required,

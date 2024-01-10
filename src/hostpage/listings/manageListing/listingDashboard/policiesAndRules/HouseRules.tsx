@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { HostContext } from '../../../../../App';
 import ManageListingYesNoBlock from '../../components/ManageListingYesNoBlock';
-import ManageListingInfoBlock from '../../components/ManageListingInfoBlock';
+import ManageListingTextBlock from '../../components/ManageListingTextBlock';
 
 function HouseRules() {
   const { currentHostListing } = useContext(HostContext)!;
@@ -45,7 +45,7 @@ function HouseRules() {
         onNoClick={handleNoClick}
       />
       {/* Additional rules */}
-      <ManageListingInfoBlock
+      <ManageListingTextBlock
         display={'Additional rules'}
         contents={currentHostListing?.additionalrules}
         caption={

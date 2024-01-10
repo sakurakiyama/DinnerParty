@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { HostContext } from '../../../../../App';
 import ManageListingListBlock from '../../components/ManageListingListBlock';
-
+import { accessibilityItems } from '../../../../../constants';
 function Accessibility() {
   const { currentHostListing } = useContext(HostContext)!;
   return (
@@ -17,6 +17,7 @@ function Accessibility() {
         caption={
           'Select features to help guests with mobility needs feel more confident booking your space.'
         }
+        selectableOptions={{ 'Accessibility Options': accessibilityItems }}
       />
     </div>
   );

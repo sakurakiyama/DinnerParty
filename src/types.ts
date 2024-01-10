@@ -60,3 +60,12 @@ export type User = {
   tempcodedate: string | null;
   userid: number;
 } | null;
+
+export type LabeledInputProps = {
+  required: boolean;
+  id: string;
+  display: string;
+  setterFunc: (value: string) => void;
+  value: string;
+  validate?: () => string | null;
+};

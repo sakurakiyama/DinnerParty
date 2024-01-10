@@ -162,6 +162,8 @@ function ManageListing() {
         setIsLoading(false);
       };
       getListing();
+    } else {
+      setIsLoading(false);
     }
   }, []);
 

@@ -50,6 +50,7 @@ function ListingsPage() {
   };
 
   const createNewListing = () => {
+    setCurrentHostListing(null);
     setNewListingModalOpen(true);
   };
 

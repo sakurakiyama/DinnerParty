@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { HostContext } from '../../../../../App';
-import ManageListingInfoBlock from '../../components/ManageListingInfoBlock';
+import ManageListingTextBlock from '../../components/ManageListingTextBlock';
 
 function BeforeBooking() {
   const { currentHostListing } = useContext(HostContext)!;
@@ -10,7 +10,7 @@ function BeforeBooking() {
       <div className='text-sm text-slate-500 pb-6'>
         Anyone can see this info on your listing page.
       </div>
-      <ManageListingInfoBlock
+      <ManageListingTextBlock
         display={'Interaction preferences'}
         contents={currentHostListing?.guestinteraction}
         caption={

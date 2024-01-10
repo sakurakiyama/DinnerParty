@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
-import ManageListingInfoBlock from '../../components/ManageListingInfoBlock';
+import ManageListingTextBlock from '../../components/ManageListingTextBlock';
 
 function Policies() {
   const { currentHostListing } = useContext(HostContext)!;
@@ -28,13 +28,13 @@ function Policies() {
       <div className='pb-6 font-black text-lg'>Policies</div>
       <div className='space-y-8'>
         {/* Cancellation Policy */}
-        <ManageListingInfoBlock
+        <ManageListingTextBlock
           display={'Cancellation Policy'}
           contents={currentHostListing?.cancellationpolicy}
           caption={'Choose the policy that will apply to all bookings.'}
         />
         {/* Instant Book */}
-        <ManageListingInfoBlock
+        <ManageListingTextBlock
           display={'Instant Book Policy'}
           contents={instantBookMessage}
           caption={'Choose the policy that will apply to all bookings.'}

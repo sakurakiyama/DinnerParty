@@ -1,35 +1,36 @@
-// import { IoIosRemoveCircle, IoIosCheckmarkCircle } from 'react-icons/io';
-import { CiCircleCheck, CiCircleRemove } from 'react-icons/ci';
+import { ImCross, ImCheckmark } from 'react-icons/im';
 
 type PlusMinusButtonsProps = {
   onYesClick: () => void;
   onNoClick: () => void;
-  isTrue: boolean | null | undefined;
+  isTrue: boolean;
 };
 
 function YesOrNoButtons({
   onYesClick,
   onNoClick,
-  isTrue,
+  isTrue = false,
 }: PlusMinusButtonsProps) {
   return (
-    <div className='flex justify-center items-center'>
-      <button onClick={onNoClick}>
-        <CiCircleRemove
-          color={`${
-            typeof isTrue === 'boolean' && isTrue === false ? 'black' : 'grey'
-          }`}
-          className='pl-1 w-[35px] h-[35px]'
-        />
-      </button>
-      <button onClick={onYesClick}>
-        <CiCircleCheck
-          color={`${
-            typeof isTrue === 'boolean' && isTrue === true ? 'black' : 'grey'
-          }`}
-          className='pl-1 w-[35px] h-[35px]'
-        />
-      </button>
+    <div className='flex justify-center items-center space-x-2'>
+      <div
+        className={`flex justify-center items-center rounded-[50%] p-2 border border-black shadow-sm ${
+          !isTrue ? 'bg-black' : 'bg-white'
+        }`}
+      >
+        <button onClick={onNoClick}>
+          <ImCross size={10} color={!isTrue ? 'white' : 'black'} />
+        </button>
+      </div>
+      <div
+        className={`flex justify-center items-center rounded-[50%] p-2 border border-black shadow-sm ${
+          isTrue ? 'bg-black' : 'bg-white'
+        }`}
+      >
+        <button onClick={onYesClick}>
+          <ImCheckmark size={10} color={isTrue ? 'white' : 'black'} />
+        </button>
+      </div>
     </div>
   );
 }
