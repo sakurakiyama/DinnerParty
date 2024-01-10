@@ -35,6 +35,7 @@ interface ManageListingProps {
   setCurrentSubSection: React.Dispatch<React.SetStateAction<number>>;
   sections: Section[];
   isLoading: boolean;
+  updateListing: () => void;
 }
 
 export const ManageListingContext = createContext<ManageListingProps | null>(
@@ -61,6 +62,13 @@ function ManageListing() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { listingid } = useParams();
+
+  const updateListing = async () => {
+    const { data } = await axios.post('/api/host/updateListing', {
+      currentHostListing,
+    });
+    setHostListings(data.listings);
+  };
 
   const sections = [
     {
@@ -176,6 +184,7 @@ function ManageListing() {
         currentSubSection,
         setCurrentSubSection,
         isLoading,
+        updateListing,
       }}
     >
       <div>

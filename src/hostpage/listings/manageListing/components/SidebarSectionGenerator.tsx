@@ -1,20 +1,20 @@
 import { useContext } from 'react';
 import { ManageListingContext, Subsection } from '../ManageListing';
 
-interface ManageListingDropdownProps {
+interface SidebarSectionGeneratorProps {
   subsections: Subsection[];
   index: number;
   header: string;
   handleChangeSection: (sectionIndex: number) => void;
   handleChangeSubSection: (subSectionIndex: number) => void;
 }
-function ManageListingDropdown({
+function SidebarSectionGenerator({
   subsections,
   index,
   header,
   handleChangeSection,
   handleChangeSubSection,
-}: ManageListingDropdownProps) {
+}: SidebarSectionGeneratorProps) {
   const { currentOpenSection, currentSubSection } =
     useContext(ManageListingContext)!;
 
@@ -55,4 +55,4 @@ function ManageListingDropdown({
   );
 }
 
-export default ManageListingDropdown;
+export default SidebarSectionGenerator;

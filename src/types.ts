@@ -1,4 +1,4 @@
-type WifiDetails = {
+export type WifiDetails = {
   password: string;
   networkname: string;
 };
@@ -32,14 +32,14 @@ export type Listing = {
   spacedescription: string;
   guestaccessdescription: string;
   otherdescription: string;
-  accessibility: string[] | [];
+  accessibility: string[];
   cancellationpolicy: string | null;
   smokingallowed: boolean | null;
   filmingallowed: boolean | null;
   petsallowed: boolean | null;
   additionalrules: string;
   guestinteraction: string | null;
-  wifidetails: WifiDetails | null;
+  wifidetails: WifiDetails;
 } | null;
 
 export type Host = {

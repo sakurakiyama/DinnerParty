@@ -1,4 +1,4 @@
-import ManageListingDropdown from './components/ManageListingDropdown';
+import SidebarSectionGenerator from './components/SidebarSectionGenerator';
 import { useContext } from 'react';
 import { ManageListingContext } from './ManageListing';
 
@@ -35,7 +35,7 @@ function Sidebar() {
         {sections.map((section, index) => {
           return (
             <div key={`${section.sectionHeader}+${index}`}>
-              <ManageListingDropdown
+              <SidebarSectionGenerator
                 subsections={section.subsections}
                 index={index}
                 header={section.sectionHeader}

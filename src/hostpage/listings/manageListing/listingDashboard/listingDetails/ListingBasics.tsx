@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
-import ManageListingTextBlock from '../../components/ManageListingTextBlock';
-import ManageListingSelectionBlock from '../../components/ManageListingSelectionBlock';
-import PlusMinusButtons from '../../../../../components/PlusMinusButtons';
+import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
+import TextAndMultipleSelectionBlock from '../../components/TextAndMultipleSelectionBlock';
 import { FaCircle } from 'react-icons/fa';
+import SinglePlusMinusBlock from '../../components/SinglePlusMinusBlock';
 
 function ListingBasics() {
   const [statusElement, setStatusElement] = useState<JSX.Element | string>('');
@@ -13,9 +13,9 @@ function ListingBasics() {
   const listingStatusOptions = [
     {
       key: 'Listed',
-      selected: currentHostListing?.status === 'Listed' ? true : false,
+      selected: currentHostListing?.status === 'Listed',
       description: (
-        <div className='flex flex-row items-center text-sm'>
+        <div className='flex flex-row items-center'>
           <FaCircle size={18} color={'green'} className='pr-2' />
           <span className='hidden sm:inline-block'>
             Listed - Guests can find your listing in search results and request
@@ -27,9 +27,9 @@ function ListingBasics() {
     },
     {
       key: 'Unlisted',
-      selected: currentHostListing?.status === 'Ready' ? true : false,
+      selected: currentHostListing?.status === 'Ready',
       description: (
-        <div className='flex flex-row items-center text-sm'>
+        <div className='flex flex-row items-center'>
           <FaCircle size={18} color={'grey'} className='pr-2' />
           <span className='hidden sm:inline-block'>
             Unlisted - Guests can’t book your listing or find it in search
@@ -41,7 +41,19 @@ function ListingBasics() {
     },
   ];
 
-  function getStatusDisplay(status: string): JSX.Element | string {
+  const handleListingStatusSelection = (selection: string) => {
+    if (!currentHostListing) return;
+
+    switch (selection) {
+      case 'Listed':
+        setCurrentHostListing({ ...currentHostListing, status: selection });
+        break;
+      case 'Unlisted':
+        setCurrentHostListing({ ...currentHostListing, status: 'Ready' });
+    }
+  };
+
+  const getStatusDisplay = (status: string): JSX.Element | string => {
     let object;
     switch (status) {
       case 'Ready':
@@ -56,28 +68,16 @@ function ListingBasics() {
     }
     if (object) return object.description;
     return 'Key not found';
-  }
+  };
 
   useEffect(() => {
     if (currentHostListing) {
-      listingStatusOptions.map((option) => {
-        switch (option.key) {
-          case 'Listed':
-            option.selected = currentHostListing.status === 'Listed';
-            break;
-          case 'Unlisted':
-            option.selected = currentHostListing.status === 'Ready';
-            break;
-        }
-        return option;
-      });
-
       const element = getStatusDisplay(currentHostListing.status);
       setStatusElement(element);
     }
   }, [currentHostListing]);
 
-  const handleCount = (operation: number) => {
+  const handleGuestCount = (operation: number) => {
     if (currentHostListing) {
       const existingHostListing = { ...currentHostListing };
 
@@ -94,46 +94,66 @@ function ListingBasics() {
       <div className='pb-6 font-black text-lg'>Listing basics</div>
       <div className='space-y-8'>
         {/* Listing title */}
-        <ManageListingTextBlock
+        <TextAndTextEditBlock
           display={'Listing title'}
           contents={currentHostListing?.title}
           caption={'Highlight what makes your place special.'}
+          setterFunc={(title: string) => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              title,
+            });
+          }}
         />
         {/* Listing description */}
-        <ManageListingTextBlock
+        <TextAndTextEditBlock
           display={'Listing description'}
           contents={currentHostListing?.description}
           caption={
             'Give guests a sense of what it’s like to book your place, including why they’ll love staying there.'
           }
+          setterFunc={(description: string) => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              description,
+            });
+          }}
         />
         {/* Space Description  */}
-        <ManageListingTextBlock
+        <TextAndTextEditBlock
           display={'Space description'}
           contents={currentHostListing?.spacedescription}
           caption={
             'Let guests know which parts of the space they’ll be able to access.'
           }
+          setterFunc={(spacedescription: string) => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              spacedescription,
+            });
+          }}
         />
         {/* Listing Status */}
-        <ManageListingSelectionBlock
+        <TextAndMultipleSelectionBlock
           display={'Listing status'}
           contents={statusElement}
           caption={
             'When unlisted, guests can’t book your listing or find it in search results. When listed, guests can find your listing in search results and request or book available dates. '
           }
           selectableOptions={listingStatusOptions}
+          handleSelect={handleListingStatusSelection}
         />
         {/* Guests */}
-        <div className='flex flex-row items-center'>
-          <div className='w-full'>Guests</div>
-          <PlusMinusButtons
-            isMinusDisabled={currentHostListing?.guests === 0}
-            onMinusClick={() => handleCount(-1)}
-            onPlusClick={() => handleCount(+1)}
-            displayValue={currentHostListing?.guests || 0}
-          />
-        </div>
+        <SinglePlusMinusBlock
+          onMinusClick={() => handleGuestCount(-1)}
+          onPlusClick={() => handleGuestCount(+1)}
+          display={'Guests'}
+          displayValue={currentHostListing?.guests || 0}
+          isMinusDisabled={currentHostListing?.guests === 0}
+        />
       </div>
     </div>
   );

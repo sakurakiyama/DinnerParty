@@ -1,16 +1,13 @@
 import { ImCross, ImCheckmark } from 'react-icons/im';
 
-type PlusMinusButtonsProps = {
+type YesNoButtonsProps = {
   onYesClick: () => void;
   onNoClick: () => void;
   isTrue: boolean;
 };
 
-function YesOrNoButtons({
-  onYesClick,
-  onNoClick,
-  isTrue = false,
-}: PlusMinusButtonsProps) {
+function YesOrNoButtons({ onYesClick, onNoClick, isTrue }: YesNoButtonsProps) {
+  console.log('yes or no re renders');
   return (
     <div className='flex justify-center items-center space-x-2'>
       <div

@@ -1,18 +1,12 @@
 import { useContext } from 'react';
 import { HostContext } from '../../../../../App';
-import ManageListingYesNoBlock from '../../components/ManageListingYesNoBlock';
-import ManageListingTextBlock from '../../components/ManageListingTextBlock';
+import SingleYesOrNoBlock from '../../components/SingleYesOrNoBlock';
+import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
 
 function HouseRules() {
-  const { currentHostListing } = useContext(HostContext)!;
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
 
-  const handleYesClick = () => {
-    console.log('yes selected');
-  };
-
-  const handleNoClick = () => {
-    console.log('no selected');
-  };
   return (
     <div className='border-b w-full pt-8 pb-8' id='policiesBlock'>
       <div className='font-black text-lg'>House rules</div>
@@ -21,36 +15,75 @@ function HouseRules() {
         Party if they cause issues.
       </div>
       {/* Pets */}
-      <ManageListingYesNoBlock
+      <SingleYesOrNoBlock
         header={'Pets Allowed'}
-        isTrue={currentHostListing?.petsallowed}
+        isTrue={currentHostListing?.petsallowed || false}
         caption={
           'You can refuse pets, but must reasonably accommodate service animals.'
         }
-        onYesClick={handleYesClick}
-        onNoClick={handleNoClick}
+        onYesClick={() => {
+          if (!currentHostListing) return;
+
+          setCurrentHostListing({ ...currentHostListing, petsallowed: true });
+        }}
+        onNoClick={() => {
+          if (!currentHostListing) return;
+
+          setCurrentHostListing({ ...currentHostListing, petsallowed: false });
+        }}
       />
       {/* Smoking */}
-      <ManageListingYesNoBlock
+      <SingleYesOrNoBlock
         header={'Smoking, vaping, e‑cigarettes allowed'}
-        isTrue={currentHostListing?.smokingallowed}
-        onYesClick={handleYesClick}
-        onNoClick={handleNoClick}
+        isTrue={currentHostListing?.smokingallowed || false}
+        onYesClick={() => {
+          if (!currentHostListing) return;
+          setCurrentHostListing({
+            ...currentHostListing,
+            smokingallowed: true,
+          });
+        }}
+        onNoClick={() => {
+          if (!currentHostListing) return;
+          setCurrentHostListing({
+            ...currentHostListing,
+            smokingallowed: false,
+          });
+        }}
       />
       {/* Filming */}
-      <ManageListingYesNoBlock
+      <SingleYesOrNoBlock
         header={'Commercial photography and filming allowed'}
-        isTrue={currentHostListing?.filmingallowed}
-        onYesClick={handleYesClick}
-        onNoClick={handleNoClick}
+        isTrue={currentHostListing?.filmingallowed || false}
+        onYesClick={() => {
+          if (!currentHostListing) return;
+          setCurrentHostListing({
+            ...currentHostListing,
+            filmingallowed: true,
+          });
+        }}
+        onNoClick={() => {
+          if (!currentHostListing) return;
+          setCurrentHostListing({
+            ...currentHostListing,
+            filmingallowed: false,
+          });
+        }}
       />
       {/* Additional rules */}
-      <ManageListingTextBlock
+      <TextAndTextEditBlock
         display={'Additional rules'}
         contents={currentHostListing?.additionalrules}
         caption={
           'Stick to the essentials—too many details can overwhelm guests. You can always share extra details in a message or your dining manual'
         }
+        setterFunc={(additionalrules: string) => {
+          if (!currentHostListing) return;
+          setCurrentHostListing({
+            ...currentHostListing,
+            additionalrules,
+          });
+        }}
       />
     </div>
   );

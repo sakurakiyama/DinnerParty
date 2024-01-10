@@ -2,21 +2,21 @@ import YesOrNoButtons from '../../../../components/YesOrNoButtons';
 import { ManageListingContext } from '../ManageListing';
 import { useContext } from 'react';
 
-interface ManageListingYesNoBlockProps {
+interface SingleYesOrNoBlockProps {
   header: string;
   caption?: string;
-  isTrue: boolean | null | undefined;
+  isTrue: boolean;
   onYesClick: () => void;
   onNoClick: () => void;
 }
 
-function ManageListingYesNoBlock({
+function SingleYesOrNoBlock({
   header,
   caption,
   isTrue,
   onYesClick,
   onNoClick,
-}: ManageListingYesNoBlockProps) {
+}: SingleYesOrNoBlockProps) {
   const { isLoading } = useContext(ManageListingContext)!;
 
   return (
@@ -40,4 +40,4 @@ function ManageListingYesNoBlock({
   );
 }
 
-export default ManageListingYesNoBlock;
+export default SingleYesOrNoBlock;

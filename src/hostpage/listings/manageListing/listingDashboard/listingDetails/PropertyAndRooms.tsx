@@ -1,52 +1,141 @@
 import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
-import ManageListingTextBlock from '../../components/ManageListingTextBlock';
+import { MdOutlineMeetingRoom } from 'react-icons/md';
+import { BsHouseDoor } from 'react-icons/bs';
+import TextAndMultipleSelectionBlock from '../../components/TextAndMultipleSelectionBlock';
+import SinglePlusMinusBlock from '../../components/SinglePlusMinusBlock';
 
 function PropertyAndRooms() {
-  const [propertyTypeElement, setPropertyTypeElement] = useState<
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+  const [accessTypeElement, setAccessTypeElement] = useState<
     JSX.Element | string
   >('');
-  const [roomsElement, setRoomsElement] = useState<JSX.Element | string>('');
-  const { currentHostListing } = useContext(HostContext)!;
+
+  const accessTypeOptions = [
+    {
+      key: 'An entire place',
+      selected: currentHostListing?.accesstype === 'An entire place',
+      description: (
+        <div className='flex flex-row items-center'>
+          <BsHouseDoor size={15} className='mr-2' />
+          <span className='hidden sm:inline-block'>
+            An entire place - Guests will have the whole space to themselves
+          </span>
+          <span className='sm:hidden'>An entire place</span>
+        </div>
+      ),
+    },
+    {
+      key: 'A room',
+      selected: currentHostListing?.accesstype === 'A room',
+      description: (
+        <div className='flex flex-row items-center'>
+          <MdOutlineMeetingRoom size={15} className='mr-2' />
+          <span className='hidden sm:inline-block'>
+            A room - Guests will have access to select rooms (for example:
+            backyard, kitchen, dining room etc)
+          </span>
+          <span className='sm:hidden'>A Room</span>
+        </div>
+      ),
+    },
+  ];
+
+  const handleAccessTypeSelection = (selection: string) => {
+    if (!currentHostListing) return;
+    switch (selection) {
+      case 'A room':
+        setCurrentHostListing({
+          ...currentHostListing,
+          accesstype: selection,
+        });
+        break;
+      case 'An entire place':
+        setCurrentHostListing({
+          ...currentHostListing,
+          accesstype: 'An entire place',
+        });
+    }
+  };
+
+  const getAccessTypeDisplay = (accessType: string): JSX.Element | string => {
+    let object;
+    switch (accessType) {
+      case 'A room':
+        object = accessTypeOptions.find((option) => option.key === 'A room');
+        break;
+
+      case 'An entire place':
+        object = accessTypeOptions.find(
+          (option) => option.key === 'An entire place'
+        );
+        break;
+    }
+    if (object) return object.description;
+    return 'Key not found';
+  };
 
   useEffect(() => {
-    if (currentHostListing) {
-      const propertyTypeContent = (
-        <div className='flex flex-col'>
-          <div>Listing type: {currentHostListing.accesstype}</div>
-          <div>Listing size: {currentHostListing.size || 'Not specified'}</div>
-        </div>
-      );
-      setPropertyTypeElement(propertyTypeContent);
-
-      const roomContent = (
-        <div className='flex flex-col'>
-          <div>Dining areas: {currentHostListing.diningareas}</div>
-          <div>Bathrooms: {currentHostListing.bathrooms}</div>
-        </div>
-      );
-
-      setRoomsElement(roomContent);
+    if (currentHostListing && currentHostListing.accesstype) {
+      const element = getAccessTypeDisplay(currentHostListing.accesstype);
+      setAccessTypeElement(element);
     }
   }, [currentHostListing]);
+
+  const handleBathroomCount = (operation: number) => {
+    if (currentHostListing) {
+      const existingHostListing = { ...currentHostListing };
+
+      existingHostListing.bathrooms = Math.max(
+        0,
+        existingHostListing?.bathrooms + operation
+      );
+      setCurrentHostListing(existingHostListing);
+    }
+  };
+
+  const handleDiningAreasCount = (operation: number) => {
+    if (currentHostListing) {
+      const existingHostListing = { ...currentHostListing };
+
+      existingHostListing.diningareas = Math.max(
+        0,
+        existingHostListing?.diningareas + operation
+      );
+      setCurrentHostListing(existingHostListing);
+    }
+  };
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='propertyAndRoomsBlock'>
       <div className='pb-6 font-black text-lg'>Property and rooms</div>
       <div className='space-y-8'>
-        <ManageListingTextBlock
-          display={'Property type'}
-          contents={propertyTypeElement}
+        <TextAndMultipleSelectionBlock
+          display={'Access type'}
+          contents={accessTypeElement}
           caption={
-            'Choose a property type that’s most like your place to set expectations for guests and help your listing appear in the right searches.'
+            'Choose a Access type that’s most like your place to set expectations for guests and help your listing appear in the right searches.'
           }
+          selectableOptions={accessTypeOptions}
+          handleSelect={handleAccessTypeSelection}
         />
-        <ManageListingTextBlock
-          display={'Rooms and spaces'}
-          contents={roomsElement}
-          caption={
-            'Add or edit areas guests can use and mark any spaces they’ll share.'
-          }
+        {/* Bathrooms */}
+        <SinglePlusMinusBlock
+          isMinusDisabled={currentHostListing?.bathrooms === 0}
+          onMinusClick={() => handleBathroomCount(-1)}
+          onPlusClick={() => handleBathroomCount(+1)}
+          displayValue={currentHostListing?.bathrooms || 0}
+          display={'Bathrooms'}
+        />
+
+        {/* Dining Areas */}
+        <SinglePlusMinusBlock
+          isMinusDisabled={currentHostListing?.diningareas === 0}
+          onMinusClick={() => handleDiningAreasCount(-1)}
+          onPlusClick={() => handleDiningAreasCount(+1)}
+          displayValue={currentHostListing?.diningareas || 0}
+          display={'Dining Areas'}
         />
       </div>
     </div>

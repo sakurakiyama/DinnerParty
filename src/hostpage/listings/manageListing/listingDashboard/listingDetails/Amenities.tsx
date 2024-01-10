@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { HostContext } from '../../../../../App';
-import ManageListingListBlock from '../../components/ManageListingListBlock';
+import ColumnsAndMultipleYesOrNoBlock from '../../components/ColumnsAndMultipleYesOrNoBlock';
 import {
   basicItems,
   safetyItems,
@@ -12,8 +12,8 @@ function Amenities() {
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='amenitiesBlock'>
-      <div className='font-black text-lg'>Amenities</div>
-      <ManageListingListBlock
+      {/* <div className='font-black text-lg'>Amenities</div> */}
+      <ColumnsAndMultipleYesOrNoBlock
         contents={
           currentHostListing?.amenities &&
           currentHostListing?.amenities.length > 0
@@ -26,6 +26,8 @@ function Amenities() {
           'Safety Items': safetyItems,
           'Standout Items': standoutItems,
         }}
+        handleSelection={() => {}}
+        display='Amenities'
       />
     </div>
   );
