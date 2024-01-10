@@ -71,18 +71,18 @@ function SecurityCheck() {
               cardContent={
                 <div className='space-y-4'>
                   <div>
-                    <div className='font-black'> Security camera(s) </div>
+                    <div className='font-semibold'> Security camera(s) </div>
                     Hosts are required to disclose all security cameras and any
                     recording devices in their listings. Intentionally concealed
                     recording devices is prohibited. Learn more
                   </div>
                   <div>
-                    <div className='font-black'> Weapons</div>
+                    <div className='font-semibold'> Weapons</div>
                     All weapons at a listing must be properly disclosed, stored
                     and secured. Learn more
                   </div>
                   <div>
-                    <div className='font-black'> Dangerous animals</div>
+                    <div className='font-semibold'> Dangerous animals</div>
                     Hosts should not keep a potentially dangerous animal in a
                     listing without properly disclosing its presence and
                     securing it in a safe and secure accommodation. Learn more
@@ -101,7 +101,7 @@ function SecurityCheck() {
           </div>
         )}
         <div className='flex flex-col pt-10 md:pt-0 '>
-          <div className='font-black text-2xl md:text-3xl'>
+          <div className='font-semibold text-2xl md:text-3xl'>
             Just one last step!
           </div>
           <div className='mt-4 md:text-base text-gray-500 flex flex-row items-center'>

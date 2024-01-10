@@ -123,7 +123,7 @@ function HomeType() {
     >
       <div className='flex flex-col md:space-x-8 items-center justify-center md:mt-auto'>
         <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10 items-center'>
-          <div className='font-black text-2xl md:text-3xl text-center'>
+          <div className='font-semibold text-2xl md:text-3xl text-center'>
             Which of these best describes your place?
           </div>
           <Tiles

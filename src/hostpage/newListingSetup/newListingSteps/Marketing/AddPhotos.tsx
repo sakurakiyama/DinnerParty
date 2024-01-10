@@ -150,7 +150,7 @@ function AddPhotos() {
       <div>
         <div className='flex flex-col md:space-x-8 items-center justify-center '>
           <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10'>
-            <div className='font-black text-2xl md:text-3xl'>
+            <div className='font-semibold text-2xl md:text-3xl'>
               Add some photos of your space
             </div>
             <div className='mt-4 md:text-base text-gray-500 mb-8'>
@@ -174,7 +174,7 @@ function AddPhotos() {
                   <div>
                     <HiOutlinePhoto size={60} />
                   </div>
-                  <div className='text-xl font-black'>
+                  <div className='text-xl font-semibold'>
                     Drag your photos here
                   </div>
                   <div>Choose at least 5 photos</div>

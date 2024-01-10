@@ -1,9 +1,9 @@
 import { GoChecklist } from 'react-icons/go';
 import { LuCalendarHeart } from 'react-icons/lu';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
-import SalmonButton from '../../components/SalmonButton';
+import SalmonButton from '../../../components/SalmonButton';
 import { useContext } from 'react';
-import { NewListingWizardContext } from './NewListingWizard';
+import { NewListingWizardContext } from '../NewListingWizard';
 
 function ReviewSummary() {
   const { currentView, setCurrentView, saveListing, setSlideIn } = useContext(
@@ -47,7 +47,7 @@ function ReviewSummary() {
     <div className='flex flex-col h-full overflow-auto animate-slideInRight'>
       {' '}
       <div className='flex flex-col pt-10 md:pt-0 md:w-[800px] md:mt-auto md:mx-auto'>
-        <div className='font-black text-2xl md:text-3xl'>
+        <div className='font-semibold text-2xl md:text-3xl'>
           Review your listing
         </div>
         <div className='mt-4 md:text-base text-gray-500'>
@@ -67,7 +67,7 @@ function ReviewSummary() {
                   >
                     <div>{current.image}</div>
                     <div>
-                      <div className='font-black text-base pb-1'>
+                      <div className='font-semibold text-base pb-1'>
                         {current.title}
                       </div>
                       <div className='text-xs text-gray-500'>

@@ -13,7 +13,7 @@ import PublishSummary from './newListingSteps/publish/PublishSummary';
 import InstantBookAccess from './newListingSteps/publish/InsantBookAccess';
 import SetPrice from './newListingSteps/publish/SetPrice';
 import SecurityCheck from './newListingSteps/publish/SecurityCheck';
-import ReviewSummary from './ReviewSummary';
+import ReviewSummary from './newListingSteps/ReviewSummary';
 import Logo from '../../assets/Logo.png';
 import { useState, useContext, createContext, useEffect } from 'react';
 import { UserContext, HostContext } from '../../App';

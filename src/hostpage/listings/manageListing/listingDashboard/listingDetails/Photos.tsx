@@ -19,7 +19,7 @@ function Photos() {
 
   return (
     <div className='border-b w-full pb-8' id='photoBlock'>
-      <div className='pb-6 font-black text-lg'>Photos</div>
+      <div className='pb-6 font-semibold text-lg'>Photos</div>
       <div className='flex flex-row space-x-4 w-full'>
         {!currentHostListing
           ? Array.from({ length: 6 }).map((_, index) => (

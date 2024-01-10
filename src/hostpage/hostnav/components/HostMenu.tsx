@@ -28,7 +28,7 @@ function HostMenu() {
         <div key={`${current.display}+${index}`}>
           <button
             onClick={current.navigate}
-            className='hover:bg-[var(--light-grey)]  rounded-full p-2'
+            className='hover:bg-[var(--light-grey)] font-medium  rounded-full p-2'
           >
             {current.display}
           </button>

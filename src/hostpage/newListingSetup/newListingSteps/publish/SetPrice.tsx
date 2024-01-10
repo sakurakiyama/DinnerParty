@@ -155,7 +155,7 @@ function SetPrice() {
     >
       {' '}
       <div className='flex flex-col pt-10 mx-auto w-full md:w-[700px]'>
-        <div className='font-black text-2xl md:text-3xl'>
+        <div className='font-semibold text-2xl md:text-3xl'>
           Now, set your price
         </div>
         <div className='mt-4 md:text-base text-gray-500'>
@@ -164,7 +164,7 @@ function SetPrice() {
         <div
           className={`flex flex-col items-center pt-20 h-full md:text-base h-[500px]`}
         >
-          <div className='leading-[100px] text-[100px] font-black flex flex-row'>
+          <div className='leading-[100px] text-[100px] font-semibold flex flex-row'>
             $
             <div
               ref={editableRef}

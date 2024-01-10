@@ -79,7 +79,7 @@ function Policies() {
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='policiesBlock'>
-      <div className='pb-6 font-black text-lg'>Policies</div>
+      <div className='pb-6 font-semibold text-lg'>Policies</div>
       <div className='space-y-8'>
         {/* Cancellation Policy */}
         <TextAndMultipleSelectionBlock

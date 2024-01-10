@@ -37,7 +37,7 @@ function TextAndMultipleSelectionBlock({
           <div className='mr-auto'>{display}</div>
           {!isLoading && (
             <button
-              className='text-sm underline font-black'
+              className='text-sm underline font-semibold'
               onClick={handleEditor}
             >
               Edit

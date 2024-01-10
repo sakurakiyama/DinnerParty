@@ -48,7 +48,7 @@ function AddTitle() {
       }`}
     >
       <div className='flex flex-col md:mt-auto mx-auto'>
-        <div className='font-black text-2xl md:text-3xl pt-10 md:pt-0'>
+        <div className='font-semibold text-2xl md:text-3xl pt-10 md:pt-0'>
           Now, let's give your house a title
         </div>
         <div className='mt-4 md:text-base text-gray-500'>
@@ -67,7 +67,7 @@ function AddTitle() {
         ></textarea>
         <label htmlFor='title'></label>
         <div
-          className={`font-black mt-3 ${
+          className={`font-semibold mt-3 ${
             currentHostListing.title.length > 32
               ? 'text-rose-800'
               : 'text-gray-500'

@@ -57,7 +57,7 @@ function BasicAmenities() {
     >
       <div className='flex flex-col md:space-x-8 items-center justify-center '>
         <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10'>
-          <div className='font-black text-2xl md:text-3xl'>
+          <div className='font-semibold text-2xl md:text-3xl'>
             Tell guests what your place has to offer
           </div>
           <div className='mt-4 md:text-base text-gray-500'>
@@ -68,7 +68,7 @@ function BasicAmenities() {
             handleTileClick={updateAmenenities}
             currentSelection={selected}
           />
-          <div className='font-black md:text-base pt-8'>
+          <div className='font-semibold md:text-base pt-8'>
             Do you have any standout amenities?
           </div>
           <Tiles
@@ -76,7 +76,7 @@ function BasicAmenities() {
             handleTileClick={updateAmenenities}
             currentSelection={selected}
           />
-          <div className='font-black md:text-base pt-8'>
+          <div className='font-semibold md:text-base pt-8'>
             Do you have any of these safety items?
           </div>
           <Tiles

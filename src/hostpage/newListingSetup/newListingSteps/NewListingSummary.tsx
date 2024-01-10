@@ -44,7 +44,7 @@ function NewListingSummary() {
       <div className='md:m-auto'>
         <div className='m-8 flex justify-center items-center'>
           <div className='flex flex-col md:flex-row md:space-x-8 items-center'>
-            <div className='font-black text-2xl md:text-4xl md:w-[50%] flex items-center justify-center pb-10 pt-10 md:pb-0 md:p-10'>
+            <div className='font-semibold text-2xl md:text-4xl md:w-[50%] flex items-center justify-center pb-10 pt-10 md:pb-0 md:p-10'>
               It's easy to start hosting a listing on Dinner Party
             </div>
             <div className='md:w-[50%] space-y-8'>
@@ -56,9 +56,9 @@ function NewListingSummary() {
                       key={`${current.heading}+${index}`}
                     >
                       <div>
-                        <div className='text-lg font-black flex'>
+                        <div className='text-lg font-semibold flex'>
                           <div>{current.number}</div>
-                          <div className='pl-4 font-bold'>
+                          <div className='pl-4 font-semibold'>
                             {current.heading}
                           </div>
                         </div>

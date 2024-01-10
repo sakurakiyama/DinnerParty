@@ -7,7 +7,7 @@ function BeforeBooking() {
     useContext(HostContext)!;
   return (
     <div className='border-b w-full pt-8 pb-8' id='beforeBookingBlock'>
-      <div className='font-black text-lg'>Before Booking</div>
+      <div className='font-semibold text-lg'>Before Booking</div>
       <div className='text-sm text-slate-500 pb-6'>
         Anyone can see this info on your listing page.
       </div>

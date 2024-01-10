@@ -15,7 +15,7 @@ function SalmonButton({
     <button
       disabled={disabled}
       onClick={() => handleClick(operation)}
-      className={`rounded-full p-2 pl-8 pr-8 text-white ${
+      className={`rounded-full p-2 pl-8 pr-8 text-white font-medium ${
         disabled ? 'bg-gray-300' : 'bg-[var(--salmon)]'
       } `}
     >

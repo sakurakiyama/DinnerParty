@@ -73,13 +73,13 @@ function ListingsPage() {
         <div>
           <div className='p-6 text-slate-700'>
             <div className='flex flex-row w-full'>
-              <div className='text-xl mr-auto'>
+              <div className='text-xl mr-auto font-semibold'>
                 {hostListings.length}
                 {hostListings.length === 1 ? ' Listing' : ' Listings'}
               </div>
               <div className='flex'>
                 <button
-                  className='flex justify-center items-center text-sm border p-2 pr-4 pl-4 rounded-md'
+                  className='flex justify-center items-center text-sm border border-black font-semibold p-2 pr-4 pl-4 rounded-md'
                   onClick={createNewListing}
                 >
                   <FaPlus size={17} className='pr-2' /> Create listing
@@ -93,7 +93,7 @@ function ListingsPage() {
                     return (
                       <th
                         key={`${header}+${index}`}
-                        className='text-start text-xs border-b py-2'
+                        className='text-slate-600 text-start text-xs border-b py-2'
                       >
                         {header}
                       </th>
@@ -167,7 +167,7 @@ function ListingsPage() {
                               }}
                             ></div>
                           )}
-                          <div className='max-w-[160px] md:max-w-full font-black'>
+                          <div className='max-w-[160px] md:max-w-full font-semibold'>
                             {listing?.title ? listing?.title : 'Unknown'}
                           </div>
                         </div>

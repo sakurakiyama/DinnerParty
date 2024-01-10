@@ -38,7 +38,7 @@ function PriceBreakDownCard({
             </div>
           ))}
       </div>
-      <div className='pl-4 pr-4 mb-4 font-black flex flex-row w-full'>
+      <div className='pl-4 pr-4 mb-4 font-semibold flex flex-row w-full'>
         {card
           .filter((item): item is TotalItem => 'totalDescription' in item)
           .map((current) => (

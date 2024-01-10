@@ -48,7 +48,7 @@ function AddDescription() {
     >
       {' '}
       <div className='flex flex-col md:mt-auto mx-auto w-full md:w-[600px]'>
-        <div className='font-black text-2xl md:text-3xl pt-10 md:pt-0 '>
+        <div className='font-semibold text-2xl md:text-3xl pt-10 md:pt-0 '>
           Next, let's describe your space
         </div>
         <div className='mt-4 md:text-base text-gray-500'>
@@ -66,7 +66,7 @@ function AddDescription() {
         ></textarea>
         <label htmlFor='description'></label>
         <div
-          className={`font-black mt-3  ${
+          className={`font-semibold mt-3  ${
             currentHostListing.description.length > 500
               ? 'text-rose-800'
               : 'text-gray-500'

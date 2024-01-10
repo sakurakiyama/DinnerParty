@@ -60,7 +60,7 @@ function BasicDetails() {
     >
       <div className='md:w-[550px] md:mt-auto justify-center items-center md:mx-auto'>
         <div className='pb-10 pt-10 md:pb-0 md:pt-0'>
-          <div className='font-black text-2xl md:text-3xl '>
+          <div className='font-semibold text-2xl md:text-3xl '>
             Share some basics about your place
           </div>
           <div className='mt-4 text-gray-500 mb-2 md:mb-6'>

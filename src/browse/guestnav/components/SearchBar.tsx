@@ -45,7 +45,7 @@ function SearchBar() {
   }, [guests]);
 
   return (
-    <div className='flex md:flex-row space-x-6 border p-2 pl-8 rounded-full items-center shadow-md text-sm'>
+    <div className='flex md:flex-row space-x-6 border p-2 pl-8 rounded-full items-center shadow-md text-sm font-medium'>
       <div>
         <input
           className={`hover:transition-all outline-none max-w-[120px] md:max-w-[240px] text-center ${

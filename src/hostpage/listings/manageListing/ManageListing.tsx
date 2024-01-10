@@ -194,7 +194,7 @@ function ManageListing() {
         <div className='p-6 text-slate-700'>
           {/* Listing Header */}
           <div className='flex flex-col space-y-4 md:space-y-0 md:flex-row w-full'>
-            <div className='text-2xl mr-auto font-black'>
+            <div className='text-2xl mr-auto font-bold'>
               {currentHostListing?.title}
             </div>
             {/* Insant Book and Status */}

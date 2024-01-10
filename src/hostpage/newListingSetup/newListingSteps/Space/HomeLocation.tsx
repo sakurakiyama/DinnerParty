@@ -138,7 +138,7 @@ function HomeLocation() {
     >
       <div className='flex flex-col md:space-x-8 justify-center items-center md:mt-auto'>
         <div className='flex flex-col pb-10 pt-10 md:pb-0 md:pt-0'>
-          <div className='font-black text-2xl md:text-3xl '>
+          <div className='font-semibold text-2xl md:text-3xl '>
             Where's your place located?
           </div>
           <div className='mt-4 text-gray-500'>

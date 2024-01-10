@@ -19,7 +19,7 @@ function PropertyAndRooms() {
       description: (
         <div className='flex flex-row items-center'>
           <BsHouseDoor size={15} className='mr-2' />
-          <span className='hidden sm:inline-block'>
+          <span className='hidden sm:block'>
             An entire place - Guests will have the whole space to themselves
           </span>
           <span className='sm:hidden'>An entire place</span>
@@ -30,9 +30,9 @@ function PropertyAndRooms() {
       key: 'A room',
       selected: currentHostListing?.accesstype === 'A room',
       description: (
-        <div className='flex flex-row items-center'>
+        <div className='flex items-center'>
           <MdOutlineMeetingRoom size={15} className='mr-2' />
-          <span className='hidden sm:inline-block'>
+          <span className='hidden sm:block'>
             A room - Guests will have access to select rooms (for example:
             backyard, kitchen, dining room etc)
           </span>
@@ -109,8 +109,9 @@ function PropertyAndRooms() {
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='propertyAndRoomsBlock'>
-      <div className='pb-6 font-black text-lg'>Property and rooms</div>
+      <div className='pb-6 font-semibold text-lg'>Property and rooms</div>
       <div className='space-y-8'>
+        {/* Access Type */}
         <TextAndMultipleSelectionBlock
           display={'Access type'}
           contents={accessTypeElement}

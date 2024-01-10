@@ -29,7 +29,6 @@ function Accessibility() {
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='accessibilityBlock'>
-      {/* <div className='font-black text-lg'>Accessibility</div> */}
       <ColumnsAndMultipleYesOrNoBlock
         contents={
           currentHostListing?.accessibility &&

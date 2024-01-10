@@ -77,7 +77,7 @@ function InstantBookAccess() {
     >
       <div className='flex flex-col md:space-x-8 md:mt-auto justify-center items-center'>
         <div className='flex flex-col pt-10 md:pt-0 '>
-          <div className='font-black text-2xl md:text-3xl'>
+          <div className='font-semibold text-2xl md:text-3xl'>
             Decide how you’ll confirm reservations
           </div>
           <SelectableCards

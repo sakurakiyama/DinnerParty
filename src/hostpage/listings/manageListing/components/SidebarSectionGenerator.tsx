@@ -24,7 +24,7 @@ function SidebarSectionGenerator({
       <div
         className={`${
           currentOpenSection === index ? 'bg-[var(--light-grey)] w-full' : ''
-        } cursor-pointer p-2 rounded font-black`}
+        } cursor-pointer p-2 rounded font-semibold`}
         onClick={() => handleChangeSection(index)}
       >
         {header}
@@ -39,7 +39,7 @@ function SidebarSectionGenerator({
                   key={`${subsection.header}+${index}`}
                   className={`${
                     currentSubSection === index
-                      ? 'border-l-2 border-l-black'
+                      ? 'border-l-2 border-l-black font-semibold'
                       : 'border-l-2 border-l-transparent'
                   } flex flex-col cursor-pointer`}
                   onClick={() => handleChangeSubSection(index)}

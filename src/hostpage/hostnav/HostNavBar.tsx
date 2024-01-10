@@ -22,7 +22,7 @@ function HostNavBar() {
           <div className='flex flex-row justify-end items-center'>
             <button
               onClick={() => navigate('/browse')}
-              className='hover:bg-[var(--light-grey)]  rounded-full p-2 ml-6 mr-2'
+              className='hover:bg-[var(--light-grey)]  rounded-full p-2 ml-6 mr-2 font-medium'
             >
               Switch to booking
             </button>

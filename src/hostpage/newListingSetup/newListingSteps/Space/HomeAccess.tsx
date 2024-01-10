@@ -70,7 +70,7 @@ function HomeAccess() {
     >
       <div className='flex flex-col md:space-x-8 md:mt-auto justify-center items-center'>
         <div className='flex flex-col pb-10 pt-10 md:pb-0 md:p-10 md:w-[700px] '>
-          <div className='font-black text-2xl md:text-3xl'>
+          <div className='font-semibold text-2xl md:text-3xl'>
             What space will guests have access to?
           </div>
           <SelectableCards

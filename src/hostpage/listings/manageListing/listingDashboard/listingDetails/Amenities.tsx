@@ -12,7 +12,6 @@ function Amenities() {
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='amenitiesBlock'>
-      {/* <div className='font-black text-lg'>Amenities</div> */}
       <ColumnsAndMultipleYesOrNoBlock
         contents={
           currentHostListing?.amenities &&
