@@ -3,7 +3,6 @@ import { HostContext } from '../../../../../App';
 import ColumnsAndMultipleYesOrNoBlock from '../../components/ColumnsAndMultipleYesOrNoBlock';
 import { accessibilityItems } from '../../../../../constants';
 function Accessibility() {
-  console.log('re-rendering ');
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
 

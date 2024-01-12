@@ -17,6 +17,8 @@ import { FaBoltLightning } from 'react-icons/fa6';
 import ListingDetails from './listingDashboard/listingDetails/ListingDetails';
 import PoliciesAndRules from './listingDashboard/policiesAndRules/PoliciesAndRules';
 import InfoForGuests from './listingDashboard/infoForGuests/InfoForGuests';
+import { convertToBase64 } from '../../../utils';
+
 export type Subsection = {
   header: string;
   id: string;
@@ -166,7 +168,9 @@ function ManageListing() {
         const { data: currentListing } = await axios.get(
           `/api/host/getListing/${listingid}`
         );
-        setCurrentHostListing(currentListing);
+        const base64Photos = convertToBase64(currentListing.photos);
+
+        setCurrentHostListing({ ...currentListing, photos: base64Photos });
         setIsLoading(false);
       };
       getListing();

@@ -13,6 +13,7 @@ import NewListingWizard from '../newListingSetup/NewListingWizard';
 import { Buffer } from 'buffer';
 import { useNavigate } from 'react-router-dom';
 import LoadingThreeDots from '../../components/LoadingThreeDots';
+import { convertToBase64 } from '../../utils';
 
 function ListingsPage() {
   const {
@@ -41,11 +42,14 @@ function ListingsPage() {
   const headers = ['LISTING', 'STATUS', 'INSTANT BOOK', 'LOCATION'];
 
   const openListing = (listing: Listing) => {
-    setCurrentHostListing(listing);
-    if (listing?.status === 'In progress') {
-      setNewListingModalOpen(true);
-    } else {
-      navigate(`/hosting/listings/manage-your-space/${listing?.listingid}`);
+    if (listing) {
+      const base64Photos = convertToBase64(listing?.photos);
+      setCurrentHostListing({ ...listing, photos: base64Photos });
+      if (listing?.status === 'In progress') {
+        setNewListingModalOpen(true);
+      } else {
+        navigate(`/hosting/listings/manage-your-space/${listing?.listingid}`);
+      }
     }
   };
 
