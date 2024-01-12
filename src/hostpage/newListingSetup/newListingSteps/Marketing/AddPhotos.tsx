@@ -10,6 +10,7 @@ import { convertToKB, convertToMB } from '../../../../utils';
 import { MdErrorOutline } from 'react-icons/md';
 import { HostContext } from '../../../../App';
 import { Listing } from '../../../../types';
+import imageCompression from 'browser-image-compression';
 
 /*
 TODO: Add functionality to drag photos once dropped
@@ -61,13 +62,22 @@ function AddPhotos() {
   };
 
   const processValid = async (files: File[]) => {
-    const newFiles: string[] = await Promise.all(
-      files.map(async (file) => readAsDataURL(file))
+    const compressedFiles: string[] = await Promise.all(
+      files.map(async (file) => {
+        const options = {
+          maxSizeMB: 0.5,
+          maxWidthOrHeight: 800,
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        return readAsDataURL(compressedFile);
+      })
     );
+
     setCurrentHostListing((prevState) => {
       if (!prevState) return prevState;
       const currentState: Listing = { ...prevState };
-      currentState.photos = [...currentState.photos, ...newFiles];
+      currentState.photos = [...currentState.photos, ...compressedFiles];
       return currentState;
     });
   };
