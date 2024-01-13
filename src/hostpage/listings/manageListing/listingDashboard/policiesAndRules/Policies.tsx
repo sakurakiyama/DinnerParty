@@ -2,12 +2,25 @@ import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
 import TextAndMultipleSelectionBlock from '../../components/TextAndMultipleSelectionBlock';
 
+type OriginalPolicies = {
+  instantbook: boolean;
+  cancellationpolicy: string;
+};
+
 function Policies() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
   const [instantBookMessage, setInstantBookMessage] = useState<
     string | undefined
   >(undefined);
+  const [cancellationPolicyMessage, setCancellationPolicyMessage] = useState<
+    string | undefined
+  >(undefined);
+  const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const [originalPolicies, setOriginalPolicies] = useState<OriginalPolicies>({
+    instantbook: false,
+    cancellationpolicy: '',
+  });
 
   const cancellationPolicyOptions = [
     {
@@ -45,6 +58,7 @@ function Policies() {
   const handleCancellationPolicySelection = (selection: string) => {
     if (!currentHostListing) return;
 
+    console.log(selection);
     setCurrentHostListing({
       ...currentHostListing,
       cancellationpolicy: selection,
@@ -64,16 +78,44 @@ function Policies() {
   };
 
   useEffect(() => {
-    switch (currentHostListing?.instantbook) {
-      case true:
-        setInstantBookMessage('Instant Book on - Guests can book instantly.');
-        break;
+    if (currentHostListing) {
+      switch (currentHostListing.instantbook) {
+        case true:
+          setInstantBookMessage('Instant Book on - Guests can book instantly.');
+          break;
 
-      case false:
-        setInstantBookMessage(
-          'Instant Book off - You’ll need to manually accept or decline booking requests.'
-        );
-        break;
+        case false:
+          setInstantBookMessage(
+            'Instant Book off - You’ll need to manually accept or decline booking requests.'
+          );
+          break;
+      }
+
+      switch (currentHostListing.cancellationpolicy) {
+        case 'Flexible':
+          setCancellationPolicyMessage(
+            'Flexible - Guests will recieve a full refund 1 day prior to arrival'
+          );
+          break;
+        case 'Moderate':
+          setCancellationPolicyMessage(
+            'Moderate - Guests will recieve a full refund 5 days prior to arrival'
+          );
+          break;
+        case 'Firm':
+          setCancellationPolicyMessage(
+            'Firm - Guests will recieve a full refund for cancellations up to 30 days before the event. If booked fewer than 30 days before event, full refund for cancellations made within 48 hours of booking and at least 14 days before the event. After that, 50% refund up to 7 days before the event. No refund after that.'
+          );
+          break;
+      }
+
+      if (!initialSetupDone) {
+        setOriginalPolicies({
+          instantbook: currentHostListing.instantbook,
+          cancellationpolicy: currentHostListing.cancellationpolicy || '',
+        });
+        setInitialSetupDone(true);
+      }
     }
   }, [currentHostListing]);
 
@@ -84,10 +126,25 @@ function Policies() {
         {/* Cancellation Policy */}
         <TextAndMultipleSelectionBlock
           display={'Cancellation Policy'}
-          contents={currentHostListing?.cancellationpolicy}
+          contents={cancellationPolicyMessage}
           caption={'Choose the policy that will apply to all bookings.'}
           selectableOptions={cancellationPolicyOptions}
-          handleSelect={handleCancellationPolicySelection}
+          onSelect={handleCancellationPolicySelection}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              cancellationpolicy: originalPolicies.cancellationpolicy,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+
+            setOriginalPolicies({
+              ...originalPolicies,
+              cancellationpolicy: currentHostListing.cancellationpolicy || '',
+            });
+          }}
         />
         {/* Instant Book */}
         <TextAndMultipleSelectionBlock
@@ -95,7 +152,22 @@ function Policies() {
           contents={instantBookMessage}
           caption={'Choose the policy that will apply to all bookings.'}
           selectableOptions={bookingTypeOptions}
-          handleSelect={handleInstantBookSelection}
+          onSelect={handleInstantBookSelection}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              instantbook: originalPolicies.instantbook,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+
+            setOriginalPolicies({
+              ...originalPolicies,
+              instantbook: currentHostListing.instantbook,
+            });
+          }}
         />
       </div>
     </div>

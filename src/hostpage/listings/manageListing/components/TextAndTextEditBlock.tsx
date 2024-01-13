@@ -1,23 +1,33 @@
 import { ManageListingContext } from '../ManageListing';
 import { useContext, useState } from 'react';
-// import { HostContext } from '../../../../App';
 
 interface TextAndTextEditBlockProps {
   display: string;
   contents?: string | null | JSX.Element;
   caption?: string;
-  setterFunc: (key: string) => void;
+  onChange: (key: string) => void;
+  onCancel: () => void;
+  onSave: () => void;
 }
 function TextAndTextEditBlock({
   display,
   contents = '',
   caption = '',
+  onChange,
+  onCancel,
+  onSave,
 }: TextAndTextEditBlockProps) {
-  const { isLoading } = useContext(ManageListingContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
+  };
+
+  const handleSave = () => {
+    onSave();
+    updateListing(undefined);
+    handleEditor();
   };
 
   return (
@@ -68,17 +78,25 @@ function TextAndTextEditBlock({
                 className={`text-sm border rounded-md p-2 whitespace-normal h-20 w-full`}
                 id='title'
                 value={typeof contents === 'string' ? contents : ''}
-                // onChange={handleTitleUpdate}
+                onChange={(event) => onChange(event.target.value)}
               ></textarea>
             </div>
           </div>
           {/* Cancel or save */}
           <div className='mt-4 border-t'>
             <div className='text-sm space-x-2 flex flex-row p-4'>
-              <button className='underline mr-auto' onClick={handleEditor}>
+              <button
+                className='underline mr-auto'
+                onClick={() => {
+                  onCancel();
+                  handleEditor();
+                }}
+              >
                 Cancel
               </button>
-              <button className='border rounded-md p-2'>Save</button>
+              <button className='border rounded-md p-2' onClick={handleSave}>
+                Save
+              </button>
             </div>
           </div>
         </div>

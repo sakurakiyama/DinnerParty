@@ -1,25 +1,60 @@
 import { ManageListingContext } from '../ManageListing';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import LabeledInput from '../../../../components/LabeledInput';
 import { LabeledInputProps } from '../../../../types';
+import { HostContext } from '../../../../App';
 
 interface TextAndFormEditBlockProps {
   display: string;
   contents?: string | null | JSX.Element;
   caption?: string;
   inputConfigs: LabeledInputProps[];
+  onCancel: () => void;
+  onSave: () => void;
 }
 function TextAndFormEditBlock({
   display,
   contents = '',
   caption = '',
   inputConfigs,
+  onCancel,
+  onSave,
 }: TextAndFormEditBlockProps) {
-  const { isLoading } = useContext(ManageListingContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
+  const { currentHostListing } = useContext(HostContext)!;
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isNotValid, setIsNotValid] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!currentHostListing) return;
+
+    const validationErrors = inputConfigs.map(
+      (config) => config.validate && config.validate()
+    );
+
+    const filteredErrors = validationErrors.filter(
+      (error) => error !== undefined && error !== null
+    );
+
+    const hasErrors = filteredErrors.length > 0;
+
+    if (hasErrors) {
+      setIsNotValid(true);
+      return;
+    } else {
+      setIsNotValid(false);
+    }
+  }, [currentHostListing]);
 
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
+  };
+
+  const handleSave = () => {
+    onSave();
+    updateListing(undefined);
+    handleEditor();
   };
 
   return (
@@ -80,10 +115,24 @@ function TextAndFormEditBlock({
           {/* Cancel or save */}
           <div className='mt-4 border-t'>
             <div className='p-4 text-sm space-x-2 flex flex-row '>
-              <button className='underline mr-auto' onClick={handleEditor}>
+              <button
+                className='underline mr-auto font-semibold'
+                onClick={() => {
+                  onCancel();
+                  handleEditor();
+                }}
+              >
                 Cancel
               </button>
-              <button className='border rounded-md p-2'>Save</button>
+              <button
+                className={`${
+                  isNotValid ? 'bg-gray-300	' : 'bg-black'
+                } border rounded-md p-2 pr-4 pl-4 font-semibold text-white`}
+                disabled={isNotValid}
+                onClick={handleSave}
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>

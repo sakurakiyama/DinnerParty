@@ -1,24 +1,27 @@
 import { ManageListingContext } from '../ManageListing';
 import PlusMinusButtons from '../../../../components/PlusMinusButtons';
 import { useContext } from 'react';
+import { Listing } from '../../../../types';
 
 interface SinglePlusMinusBlockProps {
-  onMinusClick: () => void;
-  onPlusClick: () => void;
   display: string;
   displayValue: number;
   isMinusDisabled: boolean;
+  onChange: (operation: number) => Listing | undefined;
 }
 
 function SinglePlusMinusBlock({
-  onMinusClick,
-  onPlusClick,
   display,
   displayValue,
   isMinusDisabled,
+  onChange,
 }: SinglePlusMinusBlockProps) {
-  const { isLoading } = useContext(ManageListingContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
 
+  const handleUpdate = (operation: number) => {
+    const listing = onChange(operation);
+    updateListing(listing);
+  };
   return (
     <div>
       {isLoading && (
@@ -32,8 +35,8 @@ function SinglePlusMinusBlock({
           <div className='w-full'>{display}</div>
           <PlusMinusButtons
             isMinusDisabled={isMinusDisabled}
-            onMinusClick={onMinusClick}
-            onPlusClick={onPlusClick}
+            onMinusClick={() => handleUpdate(-1)}
+            onPlusClick={() => handleUpdate(+1)}
             displayValue={displayValue}
           />
         </div>

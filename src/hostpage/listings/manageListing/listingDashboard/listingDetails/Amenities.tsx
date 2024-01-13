@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
 import ColumnsAndMultipleYesOrNoBlock from '../../components/ColumnsAndMultipleYesOrNoBlock';
 import {
@@ -7,8 +7,49 @@ import {
   standoutItems,
 } from '../../../../../constants';
 
+type OriginalAmenities = {
+  amenities: string[];
+};
+
 function Amenities() {
-  const { currentHostListing } = useContext(HostContext)!;
+  const { currentHostListing, setCurrentHostListing } =
+    useContext(HostContext)!;
+
+  const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const [originalAmenities, setOriginalAmenities] = useState<OriginalAmenities>(
+    {
+      amenities: [],
+    }
+  );
+
+  useEffect(() => {
+    if (currentHostListing && !initialSetupDone) {
+      setOriginalAmenities({
+        amenities: currentHostListing.amenities,
+      });
+      setInitialSetupDone(true);
+    }
+  }, [currentHostListing]);
+
+  const handleAmenitiesSelection = (item: string) => {
+    if (!currentHostListing) return;
+
+    if (currentHostListing.amenities.includes(item)) {
+      const currentSelected = currentHostListing.amenities;
+      const afterUnselect = currentSelected.filter((current) => {
+        return current !== item;
+      });
+      setCurrentHostListing({
+        ...currentHostListing,
+        amenities: afterUnselect,
+      });
+    } else {
+      setCurrentHostListing({
+        ...currentHostListing,
+        amenities: [...currentHostListing.amenities, item],
+      });
+    }
+  };
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='amenitiesBlock'>
@@ -25,8 +66,23 @@ function Amenities() {
           'Safety Items': safetyItems,
           'Standout Items': standoutItems,
         }}
-        handleSelection={() => {}}
+        handleSelection={handleAmenitiesSelection}
         display='Amenities'
+        currentSelection={currentHostListing?.amenities || []}
+        onCancel={() => {
+          if (!currentHostListing) return;
+          setCurrentHostListing({
+            ...currentHostListing,
+            amenities: originalAmenities.amenities,
+          });
+        }}
+        onSave={() => {
+          if (!currentHostListing) return;
+          setOriginalAmenities({
+            ...originalAmenities,
+            amenities: currentHostListing.amenities,
+          });
+        }}
       />
     </div>
   );

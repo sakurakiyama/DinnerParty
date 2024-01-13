@@ -5,10 +5,26 @@ import TextAndMultipleSelectionBlock from '../../components/TextAndMultipleSelec
 import { FaCircle } from 'react-icons/fa';
 import SinglePlusMinusBlock from '../../components/SinglePlusMinusBlock';
 
+type OriginalListingBasics = {
+  title: string;
+  description: string;
+  spacedescription: string;
+  guests: number;
+  status: string;
+};
 function ListingBasics() {
   const [statusElement, setStatusElement] = useState<JSX.Element | string>('');
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const [originalListingBasics, setOriginalListingBasics] =
+    useState<OriginalListingBasics>({
+      title: '',
+      description: '',
+      spacedescription: '',
+      guests: 0,
+      status: '',
+    });
 
   const listingStatusOptions = [
     {
@@ -74,20 +90,19 @@ function ListingBasics() {
     if (currentHostListing) {
       const element = getStatusDisplay(currentHostListing.status);
       setStatusElement(element);
+
+      if (!initialSetupDone) {
+        setOriginalListingBasics({
+          title: currentHostListing.title,
+          description: currentHostListing.description,
+          spacedescription: currentHostListing.spacedescription,
+          guests: currentHostListing.guests,
+          status: currentHostListing.status,
+        });
+        setInitialSetupDone(true);
+      }
     }
   }, [currentHostListing]);
-
-  const handleGuestCount = (operation: number) => {
-    if (currentHostListing) {
-      const existingHostListing = { ...currentHostListing };
-
-      existingHostListing.guests = Math.max(
-        0,
-        existingHostListing?.guests + operation
-      );
-      setCurrentHostListing(existingHostListing);
-    }
-  };
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='listingBasicsBlock'>
@@ -98,11 +113,26 @@ function ListingBasics() {
           display={'Listing title'}
           contents={currentHostListing?.title}
           caption={'Highlight what makes your place special.'}
-          setterFunc={(title: string) => {
+          onChange={(title: string) => {
             if (!currentHostListing) return;
             setCurrentHostListing({
               ...currentHostListing,
               title,
+            });
+          }}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              title: originalListingBasics.title,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+
+            setOriginalListingBasics({
+              ...originalListingBasics,
+              title: currentHostListing.title,
             });
           }}
         />
@@ -113,11 +143,25 @@ function ListingBasics() {
           caption={
             'Give guests a sense of what it’s like to book your place, including why they’ll love staying there.'
           }
-          setterFunc={(description: string) => {
+          onChange={(description: string) => {
             if (!currentHostListing) return;
             setCurrentHostListing({
               ...currentHostListing,
               description,
+            });
+          }}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              description: originalListingBasics.description,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+            setOriginalListingBasics({
+              ...originalListingBasics,
+              description: currentHostListing.description,
             });
           }}
         />
@@ -128,11 +172,26 @@ function ListingBasics() {
           caption={
             'Let guests know which parts of the space they’ll be able to access.'
           }
-          setterFunc={(spacedescription: string) => {
+          onChange={(spacedescription: string) => {
             if (!currentHostListing) return;
             setCurrentHostListing({
               ...currentHostListing,
               spacedescription,
+            });
+          }}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              spacedescription: originalListingBasics.spacedescription,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+
+            setOriginalListingBasics({
+              ...originalListingBasics,
+              spacedescription: currentHostListing.spacedescription,
             });
           }}
         />
@@ -144,12 +203,33 @@ function ListingBasics() {
             'When unlisted, guests can’t book your listing or find it in search results. When listed, guests can find your listing in search results and request or book available dates. '
           }
           selectableOptions={listingStatusOptions}
-          handleSelect={handleListingStatusSelection}
+          onSelect={handleListingStatusSelection}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              status: originalListingBasics.status,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+
+            setOriginalListingBasics({
+              ...originalListingBasics,
+              status: currentHostListing.status,
+            });
+          }}
         />
         {/* Guests */}
         <SinglePlusMinusBlock
-          onMinusClick={() => handleGuestCount(-1)}
-          onPlusClick={() => handleGuestCount(+1)}
+          onChange={(operation: number) => {
+            if (!currentHostListing) return;
+            const listing = { ...currentHostListing };
+
+            listing.guests = Math.max(0, listing?.guests + operation);
+            setCurrentHostListing(listing);
+            return listing;
+          }}
           display={'Guests'}
           displayValue={currentHostListing?.guests || 0}
           isMinusDisabled={currentHostListing?.guests === 0}

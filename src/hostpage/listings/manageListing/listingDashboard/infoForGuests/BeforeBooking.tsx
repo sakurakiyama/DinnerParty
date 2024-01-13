@@ -1,10 +1,28 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
 import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
 
+type OriginalBeforeBooking = {
+  guestinteraction: string;
+};
 function BeforeBooking() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const [originalBeforeBooking, setOriginalBeforeBoking] =
+    useState<OriginalBeforeBooking>({
+      guestinteraction: '',
+    });
+
+  useEffect(() => {
+    if (currentHostListing && !initialSetupDone) {
+      setOriginalBeforeBoking({
+        guestinteraction: currentHostListing.guestinteraction || '',
+      });
+      setInitialSetupDone(true);
+    }
+  }, [currentHostListing]);
+
   return (
     <div className='border-b w-full pt-8 pb-8' id='beforeBookingBlock'>
       <div className='font-semibold text-lg'>Before Booking</div>
@@ -17,11 +35,25 @@ function BeforeBooking() {
         caption={
           'Let guests know if you enjoy spending time with them or prefer a hands-off approach.'
         }
-        setterFunc={(guestinteraction: string) => {
+        onChange={(guestinteraction: string) => {
           if (!currentHostListing) return;
           setCurrentHostListing({
             ...currentHostListing,
             guestinteraction,
+          });
+        }}
+        onCancel={() => {
+          if (!currentHostListing) return;
+          setCurrentHostListing({
+            ...currentHostListing,
+            guestinteraction: originalBeforeBooking.guestinteraction,
+          });
+        }}
+        onSave={() => {
+          if (!currentHostListing) return;
+          setOriginalBeforeBoking({
+            ...originalBeforeBooking,
+            guestinteraction: currentHostListing.guestinteraction || '',
           });
         }}
       />

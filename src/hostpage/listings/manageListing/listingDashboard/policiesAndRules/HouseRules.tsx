@@ -1,11 +1,37 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
 import SingleYesOrNoBlock from '../../components/SingleYesOrNoBlock';
 import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
 
+type OriginalHouseRules = {
+  petsallowed: boolean;
+  smokingallowed: boolean;
+  filmingallowed: boolean;
+  additionalrules: string;
+};
 function HouseRules() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const [originalHouseRules, setOriginalHouseRules] =
+    useState<OriginalHouseRules>({
+      petsallowed: false,
+      smokingallowed: false,
+      filmingallowed: false,
+      additionalrules: '',
+    });
+
+  useEffect(() => {
+    if (currentHostListing && !initialSetupDone) {
+      setOriginalHouseRules({
+        petsallowed: currentHostListing.petsallowed,
+        smokingallowed: currentHostListing.smokingallowed,
+        filmingallowed: currentHostListing.filmingallowed,
+        additionalrules: currentHostListing.additionalrules,
+      });
+      setInitialSetupDone(true);
+    }
+  }, [currentHostListing]);
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='policiesBlock'>
@@ -21,53 +47,37 @@ function HouseRules() {
         caption={
           'You can refuse pets, but must reasonably accommodate service animals.'
         }
-        onYesClick={() => {
+        onChange={(value: boolean) => {
           if (!currentHostListing) return;
-
-          setCurrentHostListing({ ...currentHostListing, petsallowed: true });
-        }}
-        onNoClick={() => {
-          if (!currentHostListing) return;
-
-          setCurrentHostListing({ ...currentHostListing, petsallowed: false });
+          const listing = { ...currentHostListing };
+          listing.petsallowed = value;
+          setCurrentHostListing(listing);
+          return listing;
         }}
       />
       {/* Smoking */}
       <SingleYesOrNoBlock
         header={'Smoking, vaping, e‑cigarettes allowed'}
         isTrue={currentHostListing?.smokingallowed || false}
-        onYesClick={() => {
+        onChange={(value: boolean) => {
           if (!currentHostListing) return;
-          setCurrentHostListing({
-            ...currentHostListing,
-            smokingallowed: true,
-          });
-        }}
-        onNoClick={() => {
-          if (!currentHostListing) return;
-          setCurrentHostListing({
-            ...currentHostListing,
-            smokingallowed: false,
-          });
+          const listing = { ...currentHostListing };
+          listing.smokingallowed = value;
+          setCurrentHostListing(listing);
+          return listing;
         }}
       />
       {/* Filming */}
       <SingleYesOrNoBlock
         header={'Commercial photography and filming allowed'}
         isTrue={currentHostListing?.filmingallowed || false}
-        onYesClick={() => {
+        onChange={(value: boolean) => {
           if (!currentHostListing) return;
-          setCurrentHostListing({
-            ...currentHostListing,
-            filmingallowed: true,
-          });
-        }}
-        onNoClick={() => {
-          if (!currentHostListing) return;
-          setCurrentHostListing({
-            ...currentHostListing,
-            filmingallowed: false,
-          });
+
+          const listing = { ...currentHostListing };
+          listing.filmingallowed = value;
+          setCurrentHostListing(listing);
+          return listing;
         }}
       />
       {/* Additional rules */}
@@ -77,11 +87,25 @@ function HouseRules() {
         caption={
           'Stick to the essentials—too many details can overwhelm guests. You can always share extra details in a message or your dining manual'
         }
-        setterFunc={(additionalrules: string) => {
+        onChange={(additionalrules: string) => {
           if (!currentHostListing) return;
           setCurrentHostListing({
             ...currentHostListing,
             additionalrules,
+          });
+        }}
+        onCancel={() => {
+          if (!currentHostListing) return;
+          setCurrentHostListing({
+            ...currentHostListing,
+            additionalrules: originalHouseRules.additionalrules,
+          });
+        }}
+        onSave={() => {
+          if (!currentHostListing) return;
+          setOriginalHouseRules({
+            ...originalHouseRules,
+            additionalrules: currentHostListing.additionalrules,
           });
         }}
       />

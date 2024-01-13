@@ -34,9 +34,9 @@ export type Listing = {
   otherdescription: string;
   accessibility: string[];
   cancellationpolicy: string | null;
-  smokingallowed: boolean | null;
-  filmingallowed: boolean | null;
-  petsallowed: boolean | null;
+  smokingallowed: boolean;
+  filmingallowed: boolean;
+  petsallowed: boolean;
   additionalrules: string;
   guestinteraction: string | null;
   wifidetails: WifiDetails;

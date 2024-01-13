@@ -93,7 +93,9 @@ const updateListing = async (req, res, next) => {
           !(Array.isArray(value) && value.length === 0)
       )
     ) {
-      if (status === 'In progress') updatedStatus = 'Ready';
+      if (status === 'In progress' || status === 'Ready')
+        updatedStatus = 'Ready';
+      else if (status === 'Listed') updatedStatus = 'Listed';
     } else {
       updatedStatus = 'In progress';
     }

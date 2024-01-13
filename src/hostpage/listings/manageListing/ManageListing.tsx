@@ -18,6 +18,7 @@ import ListingDetails from './listingDashboard/listingDetails/ListingDetails';
 import PoliciesAndRules from './listingDashboard/policiesAndRules/PoliciesAndRules';
 import InfoForGuests from './listingDashboard/infoForGuests/InfoForGuests';
 import { convertToBase64 } from '../../../utils';
+import { Listing } from '../../../types';
 
 export type Subsection = {
   header: string;
@@ -37,7 +38,7 @@ interface ManageListingProps {
   setCurrentSubSection: React.Dispatch<React.SetStateAction<number>>;
   sections: Section[];
   isLoading: boolean;
-  updateListing: () => void;
+  updateListing: (updatedListing: Listing | undefined) => Promise<unknown>;
 }
 
 export const ManageListingContext = createContext<ManageListingProps | null>(
@@ -65,9 +66,10 @@ function ManageListing() {
 
   const { listingid } = useParams();
 
-  const updateListing = async () => {
+  const updateListing = async (updatedListing: Listing | undefined) => {
+    const listing = updatedListing ? updatedListing : currentHostListing;
     const { data } = await axios.post('/api/host/updateListing', {
-      currentHostListing,
+      currentHostListing: listing,
     });
     setHostListings(data.listings);
   };

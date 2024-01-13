@@ -5,12 +5,25 @@ import { BsHouseDoor } from 'react-icons/bs';
 import TextAndMultipleSelectionBlock from '../../components/TextAndMultipleSelectionBlock';
 import SinglePlusMinusBlock from '../../components/SinglePlusMinusBlock';
 
+type OriginalPropertyAndRooms = {
+  accesstype: string;
+  bathrooms: number;
+  diningareas: number;
+};
+
 function PropertyAndRooms() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
   const [accessTypeElement, setAccessTypeElement] = useState<
     JSX.Element | string
   >('');
+  const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const [originalPropertyAndRooms, setOriginalPropertyAndRooms] =
+    useState<OriginalPropertyAndRooms>({
+      accesstype: '',
+      bathrooms: 0,
+      diningareas: 0,
+    });
 
   const accessTypeOptions = [
     {
@@ -77,35 +90,21 @@ function PropertyAndRooms() {
   };
 
   useEffect(() => {
-    if (currentHostListing && currentHostListing.accesstype) {
-      const element = getAccessTypeDisplay(currentHostListing.accesstype);
-      setAccessTypeElement(element);
+    if (currentHostListing) {
+      if (currentHostListing.accesstype) {
+        const element = getAccessTypeDisplay(currentHostListing.accesstype);
+        setAccessTypeElement(element);
+      }
+      if (!initialSetupDone) {
+        setOriginalPropertyAndRooms({
+          accesstype: currentHostListing.accesstype || '',
+          bathrooms: currentHostListing.bathrooms,
+          diningareas: currentHostListing.diningareas,
+        });
+        setInitialSetupDone(true);
+      }
     }
   }, [currentHostListing]);
-
-  const handleBathroomCount = (operation: number) => {
-    if (currentHostListing) {
-      const existingHostListing = { ...currentHostListing };
-
-      existingHostListing.bathrooms = Math.max(
-        0,
-        existingHostListing?.bathrooms + operation
-      );
-      setCurrentHostListing(existingHostListing);
-    }
-  };
-
-  const handleDiningAreasCount = (operation: number) => {
-    if (currentHostListing) {
-      const existingHostListing = { ...currentHostListing };
-
-      existingHostListing.diningareas = Math.max(
-        0,
-        existingHostListing?.diningareas + operation
-      );
-      setCurrentHostListing(existingHostListing);
-    }
-  };
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='propertyAndRoomsBlock'>
@@ -119,22 +118,55 @@ function PropertyAndRooms() {
             'Choose a Access type that’s most like your place to set expectations for guests and help your listing appear in the right searches.'
           }
           selectableOptions={accessTypeOptions}
-          handleSelect={handleAccessTypeSelection}
+          onSelect={handleAccessTypeSelection}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              accesstype: originalPropertyAndRooms.accesstype,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+            setOriginalPropertyAndRooms({
+              ...originalPropertyAndRooms,
+              accesstype: currentHostListing.accesstype || '',
+            });
+          }}
         />
         {/* Bathrooms */}
         <SinglePlusMinusBlock
-          isMinusDisabled={currentHostListing?.bathrooms === 0}
-          onMinusClick={() => handleBathroomCount(-1)}
-          onPlusClick={() => handleBathroomCount(+1)}
+          onChange={(operation: number) => {
+            if (!currentHostListing) return;
+            if (currentHostListing) {
+              const listing = { ...currentHostListing };
+
+              listing.bathrooms = Math.max(0, listing?.bathrooms + operation);
+              setCurrentHostListing(listing);
+              return listing;
+            }
+          }}
           displayValue={currentHostListing?.bathrooms || 0}
           display={'Bathrooms'}
+          isMinusDisabled={currentHostListing?.bathrooms === 0}
         />
 
         {/* Dining Areas */}
         <SinglePlusMinusBlock
           isMinusDisabled={currentHostListing?.diningareas === 0}
-          onMinusClick={() => handleDiningAreasCount(-1)}
-          onPlusClick={() => handleDiningAreasCount(+1)}
+          onChange={(operation: number) => {
+            if (!currentHostListing) return;
+            if (currentHostListing) {
+              const listing = { ...currentHostListing };
+
+              listing.diningareas = Math.max(
+                0,
+                listing?.diningareas + operation
+              );
+              setCurrentHostListing(listing);
+              return listing;
+            }
+          }}
           displayValue={currentHostListing?.diningareas || 0}
           display={'Dining Areas'}
         />

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
 import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
 import TextAndFormEditBlock from '../../components/TextAndFormEditBlock';
@@ -9,9 +9,44 @@ import {
 } from '../../../../../utils';
 import { LabeledInputProps } from '../../../../../types';
 
+type OriginalLocation = {
+  streetaddress: string;
+  apt: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  gettingarounddescription: string;
+  neighborhooddescription: string;
+};
+
 function Location() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const [initialSetupDone, setInitialSetupDone] = useState(false);
+  const [originalLocation, setOriginalLocation] = useState<OriginalLocation>({
+    streetaddress: '',
+    apt: '',
+    city: '',
+    state: '',
+    zipcode: '',
+    gettingarounddescription: '',
+    neighborhooddescription: '',
+  });
+
+  useEffect(() => {
+    if (currentHostListing && !initialSetupDone) {
+      setOriginalLocation({
+        streetaddress: currentHostListing.streetaddress,
+        apt: currentHostListing.apt,
+        city: currentHostListing.city,
+        state: currentHostListing.state,
+        zipcode: currentHostListing.zipcode,
+        gettingarounddescription: currentHostListing.gettingarounddescription,
+        neighborhooddescription: currentHostListing.neighborhooddescription,
+      });
+      setInitialSetupDone(true);
+    }
+  }, [currentHostListing]);
 
   const inputConfigs: LabeledInputProps[] = [
     {
@@ -113,6 +148,7 @@ function Location() {
       <div className='pb-6 font-semibold text-lg'>Location</div>
       <div className='space-y-8'>
         <div className='text-sm'>
+          {/* Address */}
           <TextAndFormEditBlock
             display={'Address'}
             contents={
@@ -128,31 +164,83 @@ function Location() {
               'Enter your address so guests know where your home is. Your full address will remain hidden until a booking is confirmed. '
             }
             inputConfigs={inputConfigs}
+            onCancel={() => {
+              if (!currentHostListing) return;
+              setCurrentHostListing({
+                ...currentHostListing,
+                streetaddress: originalLocation.streetaddress,
+                apt: originalLocation.apt,
+                city: originalLocation.city,
+                state: originalLocation.state,
+                zipcode: originalLocation.zipcode,
+              });
+            }}
+            onSave={() => {
+              if (!currentHostListing) return;
+              setOriginalLocation({
+                ...originalLocation,
+                neighborhooddescription:
+                  currentHostListing.neighborhooddescription,
+              });
+            }}
           />
         </div>
+        {/* Getting Around */}
         <TextAndTextEditBlock
           display={'Getting around'}
           contents={currentHostListing?.gettingarounddescription}
           caption={
             'Let guests know how they can get to the neighborhood and what parking is like.'
           }
-          setterFunc={(gettingarounddescription: string) => {
+          onChange={(gettingarounddescription: string) => {
             if (!currentHostListing) return;
             setCurrentHostListing({
               ...currentHostListing,
               gettingarounddescription,
             });
           }}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              gettingarounddescription:
+                originalLocation.gettingarounddescription,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+            setOriginalLocation({
+              ...originalLocation,
+              gettingarounddescription:
+                currentHostListing.gettingarounddescription,
+            });
+          }}
         />
+        {/* Neighborhood Description */}
         <TextAndTextEditBlock
           display={'Neighborhood description'}
           contents={currentHostListing?.neighborhooddescription}
           caption={'Share some highlights about the neighborhood. '}
-          setterFunc={(neighborhooddescription: string) => {
+          onChange={(neighborhooddescription: string) => {
             if (!currentHostListing) return;
             setCurrentHostListing({
               ...currentHostListing,
               neighborhooddescription,
+            });
+          }}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              neighborhooddescription: originalLocation.neighborhooddescription,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+            setOriginalLocation({
+              ...originalLocation,
+              neighborhooddescription:
+                currentHostListing.neighborhooddescription,
             });
           }}
         />

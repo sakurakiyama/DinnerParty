@@ -1,6 +1,5 @@
 import { ManageListingContext } from '../ManageListing';
 import { useContext, useState } from 'react';
-// import { HostContext } from '../../../../App';
 
 type SelectableOption = {
   key: string;
@@ -13,7 +12,9 @@ interface TextAndMultipleSelectionBlockProps {
   contents?: string | null | JSX.Element;
   caption?: string;
   selectableOptions: SelectableOption[];
-  handleSelect: (key: string) => void;
+  onSelect: (selection: string) => void;
+  onCancel: () => void;
+  onSave: () => void;
 }
 
 function TextAndMultipleSelectionBlock({
@@ -21,13 +22,21 @@ function TextAndMultipleSelectionBlock({
   contents = '',
   caption = '',
   selectableOptions,
-  handleSelect,
+  onSelect,
+  onCancel,
+  onSave,
 }: TextAndMultipleSelectionBlockProps) {
-  const { isLoading } = useContext(ManageListingContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
+  };
+
+  const handleSave = () => {
+    onSave();
+    updateListing(undefined);
+    handleEditor();
   };
 
   return (
@@ -85,7 +94,7 @@ function TextAndMultipleSelectionBlock({
                       </div>
                       <input
                         onChange={() => {
-                          handleSelect(current.key);
+                          onSelect(current.key);
                         }}
                         className='w-[20px] h-[20px] accent-[#000000]'
                         type='checkbox'
@@ -102,10 +111,18 @@ function TextAndMultipleSelectionBlock({
           {/* Cancel or save */}
           <div className='mt-4 border-t'>
             <div className='text-sm space-x-2 flex flex-row p-4'>
-              <button className='underline mr-auto' onClick={handleEditor}>
+              <button
+                className='underline mr-auto'
+                onClick={() => {
+                  onCancel();
+                  handleEditor();
+                }}
+              >
                 Cancel
               </button>
-              <button className='border rounded-md p-2'>Save</button>
+              <button className='border rounded-md p-2' onClick={handleSave}>
+                Save
+              </button>
             </div>
           </div>
         </div>

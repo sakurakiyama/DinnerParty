@@ -1,7 +1,6 @@
 import { ManageListingContext } from '../ManageListing';
 import { useContext, useState } from 'react';
 import YesOrNoButtons from '../../../../components/YesOrNoButtons';
-import { HostContext } from '../../../../App';
 
 type Item = {
   key: string;
@@ -15,6 +14,9 @@ interface ColumnsAndMultipleYesOrNoBlockProps {
   selectableOptions: { [key: string]: Item[] };
   handleSelection: (selection: string) => void;
   display: string;
+  currentSelection: string[];
+  onCancel: () => void;
+  onSave: () => void;
 }
 
 function ColumnsAndMultipleYesOrNoBlock({
@@ -23,14 +25,22 @@ function ColumnsAndMultipleYesOrNoBlock({
   selectableOptions,
   handleSelection,
   display,
+  currentSelection,
+  onCancel,
+  onSave,
 }: ColumnsAndMultipleYesOrNoBlockProps) {
-  const { isLoading } = useContext(ManageListingContext)!;
-  const { currentHostListing } = useContext(HostContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
+  };
+
+  const handleSave = () => {
+    onSave();
+    updateListing(undefined);
+    handleEditor();
   };
 
   return (
@@ -62,13 +72,17 @@ function ColumnsAndMultipleYesOrNoBlock({
                 {contents &&
                   contents
                     .slice(0, Math.ceil(contents.length / 2))
-                    .map((amenity, index) => <ul key={index}>{amenity}</ul>)}
+                    .map((amenity, index) => (
+                      <ul key={`${amenity}+${index}`}>{amenity}</ul>
+                    ))}
               </div>
               <div className='text-sm text-slate-500 w-[50%]'>
                 {contents &&
                   contents
                     .slice(Math.ceil(contents.length / 2))
-                    .map((amenity, index) => <ul key={index}>{amenity}</ul>)}
+                    .map((amenity, index) => (
+                      <ul key={`${amenity}+${index}`}>{amenity}</ul>
+                    ))}
               </div>
             </div>
           )}
@@ -85,7 +99,7 @@ function ColumnsAndMultipleYesOrNoBlock({
             <div className='mt-6'>
               {Object.keys(selectableOptions).map((currentCategory, index) => {
                 return (
-                  <div>
+                  <div key={`${currentCategory}+${index}`}>
                     <div className={`${!currentCategory ? 'hidden' : 'block'}`}>
                       {currentCategory}
                     </div>
@@ -96,21 +110,21 @@ function ColumnsAndMultipleYesOrNoBlock({
                           : 'border-b pb-4'
                       }`}
                     >
-                      {selectableOptions[currentCategory].map((item: Item) => (
-                        <div
-                          key={item.key}
-                          className='flex flex-row items-center text-sm'
-                        >
-                          <div className='mr-auto'>{item.display}</div>
-                          <YesOrNoButtons
-                            onYesClick={() => handleSelection(item.display)}
-                            onNoClick={() => handleSelection(item.display)}
-                            isTrue={currentHostListing!.accessibility.includes(
-                              item.display
-                            )}
-                          />
-                        </div>
-                      ))}
+                      {selectableOptions[currentCategory].map(
+                        (item: Item, index) => (
+                          <div
+                            key={`${item}+${index}`}
+                            className='flex flex-row items-center text-sm'
+                          >
+                            <div className='mr-auto'>{item.display}</div>
+                            <YesOrNoButtons
+                              onYesClick={() => handleSelection(item.display)}
+                              onNoClick={() => handleSelection(item.display)}
+                              isTrue={currentSelection.includes(item.display)}
+                            />
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 );
@@ -120,10 +134,18 @@ function ColumnsAndMultipleYesOrNoBlock({
           {/* Cancel or save */}
           <div className='mt-4 border-t'>
             <div className='p-4 text-sm space-x-2 flex flex-row '>
-              <button className='underline mr-auto' onClick={handleEditor}>
+              <button
+                className='underline mr-auto'
+                onClick={() => {
+                  onCancel();
+                  handleEditor();
+                }}
+              >
                 Cancel
               </button>
-              <button className='border rounded-md p-2'>Save</button>
+              <button className='border rounded-md p-2' onClick={handleSave}>
+                Save
+              </button>{' '}
             </div>
           </div>
         </div>

@@ -1,23 +1,27 @@
 import YesOrNoButtons from '../../../../components/YesOrNoButtons';
 import { ManageListingContext } from '../ManageListing';
 import { useContext } from 'react';
+import { Listing } from '../../../../types';
 
 interface SingleYesOrNoBlockProps {
   header: string;
   caption?: string;
   isTrue: boolean;
-  onYesClick: () => void;
-  onNoClick: () => void;
+  onChange: (value: boolean) => Listing | undefined;
 }
 
 function SingleYesOrNoBlock({
   header,
   caption,
   isTrue,
-  onYesClick,
-  onNoClick,
+  onChange,
 }: SingleYesOrNoBlockProps) {
-  const { isLoading } = useContext(ManageListingContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
+
+  const handleUpdate = (value: boolean) => {
+    const listing = onChange(value);
+    updateListing(listing);
+  };
 
   return (
     <div className='flex flex-row items-center pb-6'>
@@ -30,8 +34,8 @@ function SingleYesOrNoBlock({
             {caption && <div className='text-sm text-slate-500'>{caption}</div>}
           </div>
           <YesOrNoButtons
-            onYesClick={onYesClick}
-            onNoClick={onNoClick}
+            onYesClick={() => handleUpdate(true)}
+            onNoClick={() => handleUpdate(false)}
             isTrue={isTrue}
           />
         </>
