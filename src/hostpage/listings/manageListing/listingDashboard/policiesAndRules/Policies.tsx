@@ -57,8 +57,6 @@ function Policies() {
 
   const handleCancellationPolicySelection = (selection: string) => {
     if (!currentHostListing) return;
-
-    console.log(selection);
     setCurrentHostListing({
       ...currentHostListing,
       cancellationpolicy: selection,
@@ -145,6 +143,13 @@ function Policies() {
               cancellationpolicy: currentHostListing.cancellationpolicy || '',
             });
           }}
+          validateSelection={(value: string) => {
+            if (!currentHostListing) return false;
+            if (originalPolicies.cancellationpolicy === value) {
+              return true;
+            }
+            return false;
+          }}
         />
         {/* Instant Book */}
         <TextAndMultipleSelectionBlock
@@ -167,6 +172,16 @@ function Policies() {
               ...originalPolicies,
               instantbook: currentHostListing.instantbook,
             });
+          }}
+          validateSelection={(value: string) => {
+            if (!currentHostListing) return false;
+
+            let prev;
+            if (value === 'Approve or decline requests') prev = false;
+            else if (value === 'Instant Book ') prev = true;
+
+            if (originalPolicies.instantbook === prev) return true;
+            return false;
           }}
         />
       </div>

@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
 import SingleYesOrNoBlock from '../../components/SingleYesOrNoBlock';
 import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
+import { isBlankString } from '../../../../../utils';
 
 type OriginalHouseRules = {
   petsallowed: boolean;
@@ -107,6 +108,12 @@ function HouseRules() {
             ...originalHouseRules,
             additionalrules: currentHostListing.additionalrules,
           });
+        }}
+        required={true}
+        validateInput={(value: string) => {
+          if (isBlankString(value)) return false;
+          else if (value === originalHouseRules.additionalrules) return false;
+          else return true;
         }}
       />
     </div>

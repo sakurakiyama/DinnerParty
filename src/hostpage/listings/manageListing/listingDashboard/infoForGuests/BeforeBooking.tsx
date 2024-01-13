@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
 import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
+import { isBlankString } from '../../../../../utils';
 
 type OriginalBeforeBooking = {
   guestinteraction: string;
@@ -31,7 +32,7 @@ function BeforeBooking() {
       </div>
       <TextAndTextEditBlock
         display={'Interaction preferences'}
-        contents={currentHostListing?.guestinteraction}
+        contents={currentHostListing?.guestinteraction || ''}
         caption={
           'Let guests know if you enjoy spending time with them or prefer a hands-off approach.'
         }
@@ -55,6 +56,13 @@ function BeforeBooking() {
             ...originalBeforeBooking,
             guestinteraction: currentHostListing.guestinteraction || '',
           });
+        }}
+        required={true}
+        validateInput={(value: string) => {
+          if (isBlankString(value)) return false;
+          else if (value === originalBeforeBooking.guestinteraction)
+            return false;
+          else return true;
         }}
       />
     </div>

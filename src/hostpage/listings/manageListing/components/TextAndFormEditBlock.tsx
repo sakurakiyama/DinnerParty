@@ -24,7 +24,7 @@ function TextAndFormEditBlock({
   const { currentHostListing } = useContext(HostContext)!;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isNotValid, setIsNotValid] = useState<boolean>(false);
+  const [isNotValid, setIsNotValid] = useState<boolean>(true);
 
   useEffect(() => {
     if (!currentHostListing) return;

@@ -15,6 +15,7 @@ interface TextAndMultipleSelectionBlockProps {
   onSelect: (selection: string) => void;
   onCancel: () => void;
   onSave: () => void;
+  validateSelection: (value: string) => boolean;
 }
 
 function TextAndMultipleSelectionBlock({
@@ -25,9 +26,11 @@ function TextAndMultipleSelectionBlock({
   onSelect,
   onCancel,
   onSave,
+  validateSelection,
 }: TextAndMultipleSelectionBlockProps) {
   const { isLoading, updateListing } = useContext(ManageListingContext)!;
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isNotValid, setIsNotValid] = useState<boolean>(true);
 
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
@@ -95,12 +98,12 @@ function TextAndMultipleSelectionBlock({
                       <input
                         onChange={() => {
                           onSelect(current.key);
+                          setIsNotValid(validateSelection(current.key));
                         }}
                         className='w-[20px] h-[20px] accent-[#000000]'
                         type='checkbox'
                         id={current.key}
                         name={current.key}
-                        //   value={current.title}
                         checked={current.selected}
                       ></input>
                     </div>
@@ -112,7 +115,7 @@ function TextAndMultipleSelectionBlock({
           <div className='mt-4 border-t'>
             <div className='text-sm space-x-2 flex flex-row p-4'>
               <button
-                className='underline mr-auto'
+                className='underline mr-auto font-semibold'
                 onClick={() => {
                   onCancel();
                   handleEditor();
@@ -120,7 +123,13 @@ function TextAndMultipleSelectionBlock({
               >
                 Cancel
               </button>
-              <button className='border rounded-md p-2' onClick={handleSave}>
+              <button
+                className={`${
+                  isNotValid ? 'bg-gray-300	' : 'bg-black'
+                } border rounded-md p-2 pr-4 pl-4 font-semibold text-white`}
+                disabled={isNotValid}
+                onClick={handleSave}
+              >
                 Save
               </button>
             </div>

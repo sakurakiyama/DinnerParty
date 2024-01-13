@@ -133,6 +133,11 @@ function PropertyAndRooms() {
               accesstype: currentHostListing.accesstype || '',
             });
           }}
+          validateSelection={(value: string) => {
+            if (!currentHostListing) return false;
+            if (originalPropertyAndRooms.accesstype === value) return true;
+            return false;
+          }}
         />
         {/* Bathrooms */}
         <SinglePlusMinusBlock

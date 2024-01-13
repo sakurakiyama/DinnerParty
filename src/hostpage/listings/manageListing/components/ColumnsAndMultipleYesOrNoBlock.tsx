@@ -12,11 +12,12 @@ interface ColumnsAndMultipleYesOrNoBlockProps {
   contents: string[] | undefined | null;
   caption?: string;
   selectableOptions: { [key: string]: Item[] };
-  handleSelection: (selection: string) => void;
+  handleSelection: (item: string) => string[];
   display: string;
   currentSelection: string[];
   onCancel: () => void;
   onSave: () => void;
+  validateSelection: (selection: string[]) => boolean;
 }
 
 function ColumnsAndMultipleYesOrNoBlock({
@@ -28,9 +29,10 @@ function ColumnsAndMultipleYesOrNoBlock({
   currentSelection,
   onCancel,
   onSave,
+  validateSelection,
 }: ColumnsAndMultipleYesOrNoBlockProps) {
   const { isLoading, updateListing } = useContext(ManageListingContext)!;
-
+  const [isNotValid, setIsNotValid] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleEditor = () => {
@@ -99,7 +101,10 @@ function ColumnsAndMultipleYesOrNoBlock({
             <div className='mt-6'>
               {Object.keys(selectableOptions).map((currentCategory, index) => {
                 return (
-                  <div key={`${currentCategory}+${index}`}>
+                  <div
+                    key={`${currentCategory}+${index}`}
+                    className={`${index > 0 && 'pt-4'}`}
+                  >
                     <div className={`${!currentCategory ? 'hidden' : 'block'}`}>
                       {currentCategory}
                     </div>
@@ -118,8 +123,22 @@ function ColumnsAndMultipleYesOrNoBlock({
                           >
                             <div className='mr-auto'>{item.display}</div>
                             <YesOrNoButtons
-                              onYesClick={() => handleSelection(item.display)}
-                              onNoClick={() => handleSelection(item.display)}
+                              onYesClick={() => {
+                                const updatedSelection = handleSelection(
+                                  item.display
+                                );
+                                setIsNotValid(
+                                  validateSelection(updatedSelection)
+                                );
+                              }}
+                              onNoClick={() => {
+                                const updatedSelection = handleSelection(
+                                  item.display
+                                );
+                                setIsNotValid(
+                                  validateSelection(updatedSelection)
+                                );
+                              }}
                               isTrue={currentSelection.includes(item.display)}
                             />
                           </div>
@@ -143,9 +162,15 @@ function ColumnsAndMultipleYesOrNoBlock({
               >
                 Cancel
               </button>
-              <button className='border rounded-md p-2' onClick={handleSave}>
+              <button
+                className={`${
+                  isNotValid ? 'bg-gray-300	' : 'bg-black'
+                } border rounded-md p-2 pr-4 pl-4 font-semibold text-white`}
+                disabled={isNotValid}
+                onClick={handleSave}
+              >
                 Save
-              </button>{' '}
+              </button>
             </div>
           </div>
         </div>

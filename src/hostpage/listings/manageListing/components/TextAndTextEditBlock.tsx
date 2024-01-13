@@ -3,11 +3,14 @@ import { useContext, useState } from 'react';
 
 interface TextAndTextEditBlockProps {
   display: string;
-  contents?: string | null | JSX.Element;
+  contents?: string;
   caption?: string;
   onChange: (key: string) => void;
   onCancel: () => void;
   onSave: () => void;
+  required: boolean;
+  validateInput: (value: string) => boolean;
+  maxLength?: number;
 }
 function TextAndTextEditBlock({
   display,
@@ -16,9 +19,13 @@ function TextAndTextEditBlock({
   onChange,
   onCancel,
   onSave,
+  required,
+  validateInput,
+  maxLength,
 }: TextAndTextEditBlockProps) {
   const { isLoading, updateListing } = useContext(ManageListingContext)!;
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isNotValid, setIsNotValid] = useState<boolean>(true);
 
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
@@ -28,6 +35,11 @@ function TextAndTextEditBlock({
     onSave();
     updateListing(undefined);
     handleEditor();
+  };
+
+  const handleValidation = (value: string) => {
+    const isValid = validateInput(value);
+    !isValid ? setIsNotValid(true) : setIsNotValid(false);
   };
 
   return (
@@ -77,16 +89,32 @@ function TextAndTextEditBlock({
               <textarea
                 className={`text-sm border rounded-md p-2 whitespace-normal h-20 w-full`}
                 id='title'
-                value={typeof contents === 'string' ? contents : ''}
-                onChange={(event) => onChange(event.target.value)}
+                value={contents}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  onChange(value);
+                  handleValidation(value);
+                }}
+                required={required}
               ></textarea>
+              {maxLength && (
+                <div
+                  className={`font-semibold mt-3 ${
+                    contents.length > maxLength
+                      ? 'text-rose-800'
+                      : 'text-gray-500'
+                  }`}
+                >
+                  {contents.length}/{maxLength}
+                </div>
+              )}
             </div>
           </div>
           {/* Cancel or save */}
           <div className='mt-4 border-t'>
             <div className='text-sm space-x-2 flex flex-row p-4'>
               <button
-                className='underline mr-auto'
+                className='underline mr-auto font-semibold'
                 onClick={() => {
                   onCancel();
                   handleEditor();
@@ -94,7 +122,13 @@ function TextAndTextEditBlock({
               >
                 Cancel
               </button>
-              <button className='border rounded-md p-2' onClick={handleSave}>
+              <button
+                className={`${
+                  isNotValid ? 'bg-gray-300	' : 'bg-black'
+                } border rounded-md p-2 pr-4 pl-4 font-semibold text-white`}
+                disabled={isNotValid}
+                onClick={handleSave}
+              >
                 Save
               </button>
             </div>

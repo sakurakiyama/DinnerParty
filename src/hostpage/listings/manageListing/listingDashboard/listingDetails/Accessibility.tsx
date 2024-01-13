@@ -26,7 +26,7 @@ function Accessibility() {
   }, [currentHostListing]);
 
   const handleAccessibilitySelection = (selection: string) => {
-    if (!currentHostListing) return;
+    if (!currentHostListing) return [];
     if (currentHostListing?.accessibility.includes(selection)) {
       const currentSelected = currentHostListing?.accessibility;
       const afterUnselect = currentSelected.filter((item) => {
@@ -36,11 +36,13 @@ function Accessibility() {
         ...currentHostListing,
         accessibility: afterUnselect,
       });
+      return afterUnselect;
     } else {
       setCurrentHostListing({
         ...currentHostListing,
         accessibility: [...currentHostListing.accessibility, selection],
       });
+      return [...currentHostListing.accessibility, selection];
     }
   };
 
@@ -73,6 +75,19 @@ function Accessibility() {
             ...originalAccessibility,
             accessibility: currentHostListing.accessibility,
           });
+        }}
+        validateSelection={(selection: string[]) => {
+          if (originalAccessibility.accessibility.length !== selection.length)
+            return false;
+          const sortedOriginal = originalAccessibility.accessibility.sort();
+          const sortedSelection = selection.sort();
+
+          for (let i = 0; i < sortedOriginal.length; i++) {
+            if (sortedOriginal[i] !== sortedSelection[i]) {
+              return false;
+            }
+          }
+          return true;
         }}
       />
     </div>

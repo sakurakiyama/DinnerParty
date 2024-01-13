@@ -4,6 +4,7 @@ import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
 import TextAndMultipleSelectionBlock from '../../components/TextAndMultipleSelectionBlock';
 import { FaCircle } from 'react-icons/fa';
 import SinglePlusMinusBlock from '../../components/SinglePlusMinusBlock';
+import { isBlankString } from '../../../../../utils';
 
 type OriginalListingBasics = {
   title: string;
@@ -129,12 +130,18 @@ function ListingBasics() {
           }}
           onSave={() => {
             if (!currentHostListing) return;
-
             setOriginalListingBasics({
               ...originalListingBasics,
               title: currentHostListing.title,
             });
           }}
+          required={true}
+          validateInput={(value: string) => {
+            if (isBlankString(value) || value.length > 32) return false;
+            else if (value === originalListingBasics.title) return false;
+            else return true;
+          }}
+          maxLength={32}
         />
         {/* Listing description */}
         <TextAndTextEditBlock
@@ -164,6 +171,13 @@ function ListingBasics() {
               description: currentHostListing.description,
             });
           }}
+          required={true}
+          validateInput={(value: string) => {
+            if (isBlankString(value) || value.length > 500) return false;
+            else if (value === originalListingBasics.description) return false;
+            else return true;
+          }}
+          maxLength={500}
         />
         {/* Space Description  */}
         <TextAndTextEditBlock
@@ -188,11 +202,17 @@ function ListingBasics() {
           }}
           onSave={() => {
             if (!currentHostListing) return;
-
             setOriginalListingBasics({
               ...originalListingBasics,
               spacedescription: currentHostListing.spacedescription,
             });
+          }}
+          required={true}
+          validateInput={(value: string) => {
+            if (isBlankString(value)) return false;
+            else if (value === originalListingBasics.spacedescription)
+              return false;
+            else return true;
           }}
         />
         {/* Listing Status */}
@@ -213,11 +233,25 @@ function ListingBasics() {
           }}
           onSave={() => {
             if (!currentHostListing) return;
-
             setOriginalListingBasics({
               ...originalListingBasics,
               status: currentHostListing.status,
             });
+          }}
+          validateSelection={(value: string) => {
+            if (!currentHostListing) return false;
+            if (
+              value === 'Unlisted' &&
+              originalListingBasics.status === 'Ready'
+            )
+              return true;
+            else if (
+              value === 'Listed' &&
+              originalListingBasics.status === 'Listed'
+            )
+              return true;
+
+            return false;
           }}
         />
         {/* Guests */}

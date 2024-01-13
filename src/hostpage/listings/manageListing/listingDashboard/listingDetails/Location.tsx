@@ -215,6 +215,13 @@ function Location() {
                 currentHostListing.gettingarounddescription,
             });
           }}
+          required={true}
+          validateInput={(value: string) => {
+            if (isBlankString(value)) return false;
+            else if (value === originalLocation.gettingarounddescription)
+              return false;
+            else return true;
+          }}
         />
         {/* Neighborhood Description */}
         <TextAndTextEditBlock
@@ -242,6 +249,13 @@ function Location() {
               neighborhooddescription:
                 currentHostListing.neighborhooddescription,
             });
+          }}
+          required={true}
+          validateInput={(value: string) => {
+            if (isBlankString(value)) return false;
+            else if (value === originalLocation.neighborhooddescription)
+              return false;
+            else return true;
           }}
         />
       </div>

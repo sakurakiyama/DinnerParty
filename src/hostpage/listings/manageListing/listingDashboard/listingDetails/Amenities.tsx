@@ -32,7 +32,7 @@ function Amenities() {
   }, [currentHostListing]);
 
   const handleAmenitiesSelection = (item: string) => {
-    if (!currentHostListing) return;
+    if (!currentHostListing) return [];
 
     if (currentHostListing.amenities.includes(item)) {
       const currentSelected = currentHostListing.amenities;
@@ -43,11 +43,13 @@ function Amenities() {
         ...currentHostListing,
         amenities: afterUnselect,
       });
+      return afterUnselect;
     } else {
       setCurrentHostListing({
         ...currentHostListing,
         amenities: [...currentHostListing.amenities, item],
       });
+      return [...currentHostListing.amenities, item];
     }
   };
 
@@ -82,6 +84,19 @@ function Amenities() {
             ...originalAmenities,
             amenities: currentHostListing.amenities,
           });
+        }}
+        validateSelection={(selection: string[]) => {
+          if (originalAmenities.amenities.length !== selection.length)
+            return false;
+          const sortedOriginal = originalAmenities.amenities.sort();
+          const sortedSelection = selection.sort();
+
+          for (let i = 0; i < sortedOriginal.length; i++) {
+            if (sortedOriginal[i] !== sortedSelection[i]) {
+              return false;
+            }
+          }
+          return true;
         }}
       />
     </div>
