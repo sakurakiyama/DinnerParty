@@ -35,6 +35,19 @@ function TextAndFormEditBlock({
     handleEditor();
   };
 
+  const checkOtherInputs = () => {
+    let checkedOthers = false;
+    for (const input of inputConfigs) {
+      if (input.required) {
+        if (isBlankString(input.value)) {
+          checkedOthers = true;
+          break;
+        }
+      }
+    }
+    setIsNotValid(checkedOthers);
+  };
+
   return (
     <div className='w-full'>
       {/* If it's being edited, show the header and edit button */}
@@ -93,17 +106,10 @@ function TextAndFormEditBlock({
                       result = config.validate(value);
                       if (result) setIsNotValid(true);
                       else {
-                        let checkedOthers = false;
-                        for (const input of inputConfigs) {
-                          if (input.required) {
-                            if (isBlankString(input.value)) {
-                              checkedOthers = true;
-                              break;
-                            }
-                          }
-                        }
-                        setIsNotValid(checkedOthers);
+                        checkOtherInputs();
                       }
+                    } else {
+                      checkOtherInputs();
                     }
                     return result || null;
                   }}
