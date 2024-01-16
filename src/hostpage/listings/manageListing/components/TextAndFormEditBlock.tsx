@@ -50,10 +50,10 @@ function TextAndFormEditBlock({
       {/* If it's being edited, show the header and edit button */}
       {!isOpen && (
         <div className='flex flex-row'>
-          <div className='mr-auto text-base'>{display}</div>
+          <div className='mr-auto text-sm md:text-base'>{display}</div>
           {!isLoading && (
             <button
-              className='text-sm underline font-semibold'
+              className='text-xs md:text-sm underline font-semibold'
               onClick={handleEditor}
             >
               Edit
@@ -69,10 +69,12 @@ function TextAndFormEditBlock({
       {!isOpen && !isLoading && (
         <>
           {contents && (
-            <div className='text-sm text-slate-500 w-[95%]'>{contents}</div>
+            <div className='text-xs md:text-sm text-slate-500 w-[95%]'>
+              {contents}
+            </div>
           )}
           {!contents && (
-            <div className='text-sm text-slate-500 italic w-[95%]'>
+            <div className='text-xs md:text-sm   text-slate-500 italic w-[95%]'>
               {caption}
             </div>
           )}
@@ -83,10 +85,10 @@ function TextAndFormEditBlock({
         <div className='w-full border rounded-md'>
           <div className='p-4'>
             <div className='flex flex-col pb-4'>
-              <div className='mr-auto text-base'>{display}</div>
-              <div className='text-xs text-slate-500'>{caption}</div>
+              <div className='mr-auto text-sm md:text-base'>{display}</div>
+              <div className='text-xs md:text-sm text-slate-500'>{caption}</div>
             </div>
-            <form className='space-y-2 w-full'>
+            <form className='space-y-2 w-full text-xs md:text-sm'>
               {inputConfigs.map((config) => (
                 <LabeledInput
                   key={config.id}
@@ -110,9 +112,9 @@ function TextAndFormEditBlock({
           </div>
           {/* Cancel or save */}
           <div className='mt-4 border-t'>
-            <div className='p-4 text-sm space-x-2 flex flex-row '>
+            <div className='text-xs md:text-sm space-x-2 flex flex-row p-4'>
               <button
-                className='underline mr-auto font-semibold'
+                className='underline mr-auto font-semibold text-xs md:text-sm'
                 onClick={() => {
                   onCancel();
                   setIsNotValid(true);
@@ -124,7 +126,7 @@ function TextAndFormEditBlock({
               <button
                 className={`${
                   isNotValid ? 'bg-gray-300	' : 'bg-black'
-                } border rounded-md p-2 pr-4 pl-4 font-semibold text-white`}
+                } border rounded-md p-2 pr-4 pl-4 font-semibold text-white text-xs md:text-sm`}
                 disabled={isNotValid}
                 onClick={handleSave}
               >

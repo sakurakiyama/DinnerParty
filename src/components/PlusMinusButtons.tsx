@@ -18,13 +18,15 @@ function PlusMinusButtons({
   return (
     <div className='flex justify-center items-center'>
       <button
-        className={`${isMinusDisabled ? 'text-slate-300' : ''}`}
+        className={`${isMinusDisabled ? 'text-slate-300' : ''} `}
         disabled={isMinusDisabled}
         onClick={onMinusClick}
       >
         <CiCircleMinus className='pr-2 w-[35px] h-[35px]' />
       </button>
-      <div className='w-[20px] text-center'>{displayValue}</div>
+      <div className='w-[20px] text-center text-sm md:text-base'>
+        {displayValue}
+      </div>
       <button
         onClick={onPlusClick}
         disabled={isPlusDisabled}

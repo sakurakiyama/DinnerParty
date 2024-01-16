@@ -2,15 +2,13 @@ import { useDrop } from 'react-dnd';
 import { NativeTypes } from 'react-dnd-html5-backend';
 import { useState, useContext, useEffect } from 'react';
 import { HiOutlinePhoto } from 'react-icons/hi2';
+import { MdDeleteOutline, MdErrorOutline } from 'react-icons/md';
 import SalmonButton from '../../../../components/SalmonButton';
 import FileInput from '../../../../components/FileInput';
 import { NewListingWizardContext } from '../../NewListingWizard';
-import { MdDeleteOutline } from 'react-icons/md';
-import { convertToKB, convertToMB } from '../../../../utils';
-import { MdErrorOutline } from 'react-icons/md';
+import { validateDrop, processValid } from '../../../../utils';
 import { HostContext } from '../../../../App';
 import { Listing } from '../../../../types';
-import imageCompression from 'browser-image-compression';
 
 /*
 TODO: Add functionality to drag photos once dropped
@@ -35,44 +33,8 @@ function AddPhotos() {
     }
   }, [currentHostListing]);
 
-  const validateDrop = async (file: File) => {
-    const type = file.type;
-    const KBSize = convertToKB(file.size);
-    const MBSize = convertToMB(file.size);
-
-    if (type !== 'image/png' && type !== 'image/jpeg') {
-      setErrorMessage(
-        'Invalid file format. Please upload a photo in PNG or JPEG format.'
-      );
-      return { valid: false };
-    } else if (KBSize < 50) {
-      setErrorMessage(
-        'Photo size is too small. Please upload a photo larger than 50KB.'
-      );
-      return { valid: false };
-    } else if (MBSize > 10) {
-      setErrorMessage(
-        'Photo size exceeds the maximum limit. Please upload a photo less than 10MB.'
-      );
-      return { valid: false };
-    } else {
-      setErrorMessage('');
-      return { valid: true };
-    }
-  };
-
-  const processValid = async (files: File[]) => {
-    const compressedFiles: string[] = await Promise.all(
-      files.map(async (file) => {
-        const options = {
-          maxSizeMB: 0.5,
-          maxWidthOrHeight: 800,
-          useWebWorker: true,
-        };
-        const compressedFile = await imageCompression(file, options);
-        return readAsDataURL(compressedFile);
-      })
-    );
+  const handleValid = async (files: File[]) => {
+    const compressedFiles = await processValid(files);
 
     setCurrentHostListing((prevState) => {
       if (!prevState) return prevState;
@@ -90,19 +52,6 @@ function AddPhotos() {
       setSlideIn('Left');
       setCurrentView(currentView - 1);
     }
-  };
-
-  const readAsDataURL = async (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      try {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      } catch (error) {
-        reject(error);
-      }
-    });
   };
 
   const handleDeletePhoto = (deletionIndex: number) => {
@@ -123,10 +72,10 @@ function AddPhotos() {
     if (event.target.files) {
       const files = Array.from(event.target.files);
       for (const file of files) {
-        const { valid } = await validateDrop(file);
+        const { valid } = await validateDrop(file, setErrorMessage);
         if (!valid) return;
       }
-      processValid(files);
+      handleValid(files);
     }
   };
 
@@ -136,10 +85,10 @@ function AddPhotos() {
       drop: async (item: { files: File[] }) => {
         if (item) {
           for (const file of item.files) {
-            const { valid } = await validateDrop(file);
+            const { valid } = await validateDrop(file, setErrorMessage);
             if (!valid) return;
           }
-          processValid(item.files);
+          handleValid(item.files);
         }
       },
       collect: (monitor) => ({

@@ -30,8 +30,12 @@ function SingleYesOrNoBlock({
       ) : (
         <>
           <div className='mr-auto flex-col items-center'>
-            <div>{header}</div>
-            {caption && <div className='text-sm text-slate-500'>{caption}</div>}
+            <div className='text-sm md:text-base'>{header}</div>
+            {caption && (
+              <div className='text-xs md:text-sm text-slate-500 mr-6'>
+                {caption}
+              </div>
+            )}
           </div>
           <YesOrNoButtons
             onYesClick={() => handleUpdate(true)}

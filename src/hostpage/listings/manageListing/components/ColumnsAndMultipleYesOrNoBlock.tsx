@@ -50,10 +50,10 @@ function ColumnsAndMultipleYesOrNoBlock({
       {/* If it's not being edited, show the header and edit button */}
       {!isOpen && (
         <div className='flex flex-row'>
-          <div className='mr-auto'>{display}</div>
+          <div className='mr-auto text-sm md:text-base'>{display}</div>
           {!isLoading && (
             <button
-              className='text-sm underline font-semibold'
+              className='text-xs md:text-sm underline font-semibold'
               onClick={handleEditor}
             >
               Edit
@@ -70,20 +70,30 @@ function ColumnsAndMultipleYesOrNoBlock({
         <div className='w-full'>
           {contents && (
             <div className='flex mr-auto w-full pr-2 pt-6'>
-              <div className='text-sm text-slate-500 w-[50%]'>
+              <div className='text-xs md:text-sm text-slate-500 w-[50%]'>
                 {contents &&
                   contents
                     .slice(0, Math.ceil(contents.length / 2))
                     .map((amenity, index) => (
-                      <ul key={`${amenity}+${index}`}>{amenity}</ul>
+                      <ul
+                        key={`${amenity}+${index}`}
+                        className='text-xs md:text-sm '
+                      >
+                        {amenity}
+                      </ul>
                     ))}
               </div>
-              <div className='text-sm text-slate-500 w-[50%]'>
+              <div className='text-xs md:text-sm text-slate-500 w-[50%]'>
                 {contents &&
                   contents
                     .slice(Math.ceil(contents.length / 2))
                     .map((amenity, index) => (
-                      <ul key={`${amenity}+${index}`}>{amenity}</ul>
+                      <ul
+                        key={`${amenity}+${index}`}
+                        className='text-xs md:text-sm'
+                      >
+                        {amenity}
+                      </ul>
                     ))}
               </div>
             </div>
@@ -95,7 +105,7 @@ function ColumnsAndMultipleYesOrNoBlock({
         <div className='w-full border rounded-md'>
           <div className='p-4'>
             <div className='flex flex-col'>
-              <div>{display}</div>
+              <div className='text-sm md:text-base'>{display}</div>
               <div className='text-xs text-slate-500'>{caption}</div>
             </div>
             <div className='mt-6'>
@@ -105,7 +115,11 @@ function ColumnsAndMultipleYesOrNoBlock({
                     key={`${currentCategory}+${index}`}
                     className={`${index > 0 && 'pt-4'}`}
                   >
-                    <div className={`${!currentCategory ? 'hidden' : 'block'}`}>
+                    <div
+                      className={`${
+                        !currentCategory ? 'hidden' : 'block'
+                      } text-sm md:text-base`}
+                    >
                       {currentCategory}
                     </div>
                     <div
@@ -119,7 +133,7 @@ function ColumnsAndMultipleYesOrNoBlock({
                         (item: Item, index) => (
                           <div
                             key={`${item}+${index}`}
-                            className='flex flex-row items-center text-sm'
+                            className='flex flex-row items-center text-xs md:text-sm '
                           >
                             <div className='mr-auto'>{item.display}</div>
                             <YesOrNoButtons
@@ -152,9 +166,9 @@ function ColumnsAndMultipleYesOrNoBlock({
           </div>
           {/* Cancel or save */}
           <div className='mt-4 border-t'>
-            <div className='p-4 text-sm space-x-2 flex flex-row '>
+            <div className='text-xs md:text-sm space-x-2 flex flex-row p-4'>
               <button
-                className='underline mr-auto'
+                className='underline mr-auto font-semibold'
                 onClick={() => {
                   onCancel();
                   setIsNotValid(true);

@@ -178,7 +178,9 @@ function PropertyAndRooms() {
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='propertyAndRoomsBlock'>
-      <div className='pb-6 font-semibold text-lg'>Property and rooms</div>
+      <div className='pb-6 font-semibold text-base md:text-lg'>
+        Property and rooms
+      </div>
       <div className='space-y-8'>
         {/* Access Type */}
         <TextAndMultipleSelectionBlock

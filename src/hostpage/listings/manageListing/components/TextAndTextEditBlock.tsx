@@ -47,10 +47,10 @@ function TextAndTextEditBlock({
       {/* If it's not being edited, show the header and edit button */}
       {!isOpen && (
         <div className='flex flex-row'>
-          <div className='mr-auto'>{display}</div>
+          <div className='text-sm md:text-base mr-auto'>{display}</div>
           {!isLoading && (
             <button
-              className='text-sm underline font-semibold'
+              className='text-xs md:text-sm underline font-semibold'
               onClick={handleEditor}
             >
               Edit
@@ -66,10 +66,12 @@ function TextAndTextEditBlock({
       {!isOpen && !isLoading && (
         <>
           {contents && (
-            <div className='text-sm text-slate-500 w-[95%]'>{contents}</div>
+            <div className='text-xs md:text-sm  text-slate-500 w-[95%]'>
+              {contents}
+            </div>
           )}
           {!contents && (
-            <div className='text-sm text-slate-500 italic w-[95%]'>
+            <div className='text-xs md:text-sm  text-slate-500 italic w-[95%]'>
               {caption}
             </div>
           )}
@@ -81,13 +83,13 @@ function TextAndTextEditBlock({
           <div className='p-4'>
             {/* Block description */}
             <div className='flex flex-col'>
-              <div>{display}</div>
+              <div className='text-sm md:text-base'>{display}</div>
               <div className='text-xs text-slate-500'>{caption}</div>
             </div>
             {/* Block content */}
             <div className='mt-6'>
               <textarea
-                className={`text-sm border rounded-md p-2 whitespace-normal h-20 w-full`}
+                className={`text-xs md:text-sm border rounded-md p-2 whitespace-normal h-20 w-full`}
                 id='title'
                 value={contents}
                 onChange={(event) => {
@@ -112,7 +114,7 @@ function TextAndTextEditBlock({
           </div>
           {/* Cancel or save */}
           <div className='mt-4 border-t'>
-            <div className='text-sm space-x-2 flex flex-row p-4'>
+            <div className='text-xs md:text-sm space-x-2 flex flex-row p-4'>
               <button
                 className='underline mr-auto font-semibold'
                 onClick={() => {

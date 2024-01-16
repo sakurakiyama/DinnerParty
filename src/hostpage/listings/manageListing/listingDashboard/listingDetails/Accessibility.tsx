@@ -48,6 +48,9 @@ function Accessibility() {
 
   return (
     <div className='border-b w-full pt-8 pb-8' id='accessibilityBlock'>
+      <div className='pb-6 font-semibold text-base md:text-lg'>
+        Accessibility Services and Facilities
+      </div>
       <ColumnsAndMultipleYesOrNoBlock
         contents={
           currentHostListing?.accessibility &&

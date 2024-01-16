@@ -37,7 +37,7 @@ function HouseRules() {
   return (
     <div className='border-b w-full pt-8 pb-8' id='policiesBlock'>
       <div className='font-semibold text-lg'>House rules</div>
-      <div className='text-sm text-slate-500 pb-6'>
+      <div className='text-xs md:text-sm text-slate-500 pb-6'>
         Guests are expected to follow your rules, and can be removed from Dinner
         Party if they cause issues.
       </div>

@@ -32,7 +32,7 @@ function SinglePlusMinusBlock({
       )}
       {!isLoading && (
         <div className='flex flex-row items-center'>
-          <div className='w-full'>{display}</div>
+          <div className='text-sm md:text-base w-full'>{display}</div>
           <PlusMinusButtons
             isMinusDisabled={isMinusDisabled}
             onMinusClick={() => handleUpdate(-1)}
