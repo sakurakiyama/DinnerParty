@@ -157,6 +157,7 @@ function ColumnsAndMultipleYesOrNoBlock({
                 className='underline mr-auto'
                 onClick={() => {
                   onCancel();
+                  setIsNotValid(true);
                   handleEditor();
                 }}
               >

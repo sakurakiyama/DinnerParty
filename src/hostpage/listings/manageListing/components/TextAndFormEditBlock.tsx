@@ -1,8 +1,7 @@
 import { ManageListingContext } from '../ManageListing';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import LabeledInput from '../../../../components/LabeledInput';
 import { LabeledInputProps } from '../../../../types';
-import { HostContext } from '../../../../App';
 
 interface TextAndFormEditBlockProps {
   display: string;
@@ -12,6 +11,7 @@ interface TextAndFormEditBlockProps {
   onCancel: () => void;
   onSave: () => void;
 }
+
 function TextAndFormEditBlock({
   display,
   contents = '',
@@ -21,31 +21,9 @@ function TextAndFormEditBlock({
   onSave,
 }: TextAndFormEditBlockProps) {
   const { isLoading, updateListing } = useContext(ManageListingContext)!;
-  const { currentHostListing } = useContext(HostContext)!;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNotValid, setIsNotValid] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (!currentHostListing) return;
-
-    const validationErrors = inputConfigs.map(
-      (config) => config.validate && config.validate()
-    );
-
-    const filteredErrors = validationErrors.filter(
-      (error) => error !== undefined && error !== null
-    );
-
-    const hasErrors = filteredErrors.length > 0;
-
-    if (hasErrors) {
-      setIsNotValid(true);
-      return;
-    } else {
-      setIsNotValid(false);
-    }
-  }, [currentHostListing]);
 
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
@@ -107,7 +85,15 @@ function TextAndFormEditBlock({
                   display={config.display}
                   setterFunc={config.setterFunc}
                   value={config.value}
-                  validate={config.validate}
+                  validate={(value) => {
+                    let result;
+                    if (config.validate) {
+                      result = config.validate(value);
+                      if (result) setIsNotValid(true);
+                      else setIsNotValid(false);
+                    }
+                    return result || null;
+                  }}
                 />
               ))}
             </form>
@@ -119,6 +105,7 @@ function TextAndFormEditBlock({
                 className='underline mr-auto font-semibold'
                 onClick={() => {
                   onCancel();
+                  setIsNotValid(true);
                   handleEditor();
                 }}
               >

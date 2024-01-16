@@ -24,10 +24,96 @@ function HomeLocation() {
   )!;
   const [notValidated, setNotValidated] = useState<boolean>(true);
 
+  const inputConfigs = [
+    {
+      id: 'streetaddress',
+      display: 'Street address',
+      required: true,
+      setterFunc: (streetAddress: string) => {
+        if (!currentHostListing) return;
+        setCurrentHostListing({
+          ...currentHostListing,
+          streetaddress: streetAddress,
+        });
+      },
+      value: currentHostListing?.streetaddress,
+      validate: (streetAddress: string) => {
+        const blankField = isBlankString(streetAddress);
+        if (blankField) return 'Street address is a required field';
+        const noSpecialChars =
+          isAlphaWithSpacesAccentsAndNumbers(streetAddress);
+        if (!noSpecialChars)
+          return 'Street address can only contain characters and numbers';
+        return null;
+      },
+    },
+    {
+      id: 'apt',
+      display: 'Apt, suit, unit (if applicable)',
+      required: false,
+      setterFunc: (apt: string) => {
+        if (!currentHostListing) return;
+        setCurrentHostListing({ ...currentHostListing, apt });
+      },
+      value: currentHostListing?.apt,
+    },
+    {
+      id: 'city',
+      display: 'City',
+      required: true,
+      setterFunc: (city: string) => {
+        if (!currentHostListing) return;
+        setCurrentHostListing({ ...currentHostListing, city });
+      },
+      value: currentHostListing?.city,
+      validate: (city: string) => {
+        const blankField = isBlankString(city);
+        if (blankField) return 'City is a required field';
+        const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(city);
+        if (!noSpecialCharsAndNumbers)
+          return 'City can only contain characters';
+        return null;
+      },
+    },
+    {
+      id: 'state',
+      display: 'State',
+      required: true,
+      setterFunc: (state: string) => {
+        if (!currentHostListing) return;
+        setCurrentHostListing({ ...currentHostListing, state });
+      },
+      value: currentHostListing?.state,
+      validate: (state: string) => {
+        const blankField = isBlankString(state);
+        if (blankField) return 'State is a required field';
+        const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(state);
+        if (!noSpecialCharsAndNumbers)
+          return 'State can only contain characters';
+        return null;
+      },
+    },
+    {
+      id: 'zipcode',
+      display: 'Zip code',
+      required: true,
+      setterFunc: (zipCode: string) => {
+        if (!currentHostListing) return;
+        setCurrentHostListing({ ...currentHostListing, zipcode: zipCode });
+      },
+      value: currentHostListing?.zipcode,
+      validate: (zipCode: string) => {
+        const blankField = isBlankString(zipCode);
+        if (blankField) return 'Zip code is a required field';
+        return null;
+      },
+    },
+  ];
+
   useEffect(() => {
     for (const inputConfig of inputConfigs) {
       if (inputConfig.validate) {
-        const result = inputConfig.validate();
+        const result = inputConfig.validate(inputConfig.value || '');
         if (result) {
           setNotValidated(true);
           return;
@@ -37,7 +123,7 @@ function HomeLocation() {
     setNotValidated(false);
   }, [currentHostListing]);
 
-  if (!currentHostListing) return;
+  // if (!currentHostListing) return;
 
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
@@ -48,87 +134,6 @@ function HomeLocation() {
       setCurrentView(currentView - 1);
     }
   };
-
-  const inputConfigs = [
-    {
-      id: 'streetaddress',
-      display: 'Street address',
-      required: true,
-      setterFunc: (streetAddress: string) =>
-        setCurrentHostListing({
-          ...currentHostListing,
-          streetaddress: streetAddress,
-        }),
-      value: currentHostListing.streetaddress,
-      validate: () => {
-        const blankField = isBlankString(currentHostListing.streetaddress);
-        if (blankField) return 'Street address is a required field';
-        const noSpecialChars = isAlphaWithSpacesAccentsAndNumbers(
-          currentHostListing.streetaddress
-        );
-        if (!noSpecialChars)
-          return 'Street address can only contain characters and numbers';
-        return null;
-      },
-    },
-    {
-      id: 'apt',
-      display: 'Apt, suit, unit (if applicable)',
-      required: false,
-      setterFunc: (apt: string) =>
-        setCurrentHostListing({ ...currentHostListing, apt }),
-      value: currentHostListing.apt,
-    },
-    {
-      id: 'city',
-      display: 'City',
-      required: true,
-      setterFunc: (city: string) =>
-        setCurrentHostListing({ ...currentHostListing, city }),
-      value: currentHostListing.city,
-      validate: () => {
-        const blankField = isBlankString(currentHostListing.city);
-        if (blankField) return 'City is a required field';
-        const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(
-          currentHostListing.city
-        );
-        if (!noSpecialCharsAndNumbers)
-          return 'City can only contain characters';
-        return null;
-      },
-    },
-    {
-      id: 'state',
-      display: 'State',
-      required: true,
-      setterFunc: (state: string) =>
-        setCurrentHostListing({ ...currentHostListing, state }),
-      value: currentHostListing.state,
-      validate: () => {
-        const blankField = isBlankString(currentHostListing.state);
-        if (blankField) return 'State is a required field';
-        const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(
-          currentHostListing.state
-        );
-        if (!noSpecialCharsAndNumbers)
-          return 'State can only contain characters';
-        return null;
-      },
-    },
-    {
-      id: 'zipcode',
-      display: 'Zip code',
-      required: true,
-      setterFunc: (zipCode: string) =>
-        setCurrentHostListing({ ...currentHostListing, zipcode: zipCode }),
-      value: currentHostListing.zipcode,
-      validate: () => {
-        const blankField = isBlankString(currentHostListing.zipcode);
-        if (blankField) return 'Zip code is a required field';
-        return null;
-      },
-    },
-  ];
 
   return (
     <div
@@ -154,7 +159,7 @@ function HomeLocation() {
                   id={config.id}
                   display={config.display}
                   setterFunc={config.setterFunc}
-                  value={config.value}
+                  value={config.value || ''}
                   validate={config.validate}
                 />
               ))}

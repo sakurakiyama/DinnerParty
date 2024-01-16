@@ -67,5 +67,5 @@ export type LabeledInputProps = {
   display: string;
   setterFunc: (value: string) => void;
   value: string;
-  validate?: () => string | null;
+  validate?: (value: string) => string | null;
 };

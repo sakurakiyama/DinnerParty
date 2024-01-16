@@ -20,9 +20,9 @@ function LabeledInput({
     }
   }, [value]);
 
-  const validateInput = () => {
+  const validateInput = (value: string) => {
     if (validate) {
-      const message = validate();
+      const message = validate(value);
       if (message) setErrorMessage(message);
       else setErrorMessage(null);
     }
@@ -32,8 +32,13 @@ function LabeledInput({
     <div className='relative'>
       <input
         onFocus={() => setIsFocused(true)}
-        onChange={(e) => setterFunc(e.target.value)}
-        onBlur={validateInput}
+        onChange={(e) => {
+          setterFunc(e.target.value);
+          validateInput(e.target.value);
+        }}
+        onBlur={(e) => {
+          validateInput(e.target.value);
+        }}
         value={value}
         id={id}
         type='text'

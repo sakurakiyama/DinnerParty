@@ -61,13 +61,12 @@ function Location() {
         });
       },
       value: currentHostListing?.streetaddress || '',
-      validate: () => {
+      validate: (streetAddress: string) => {
         if (!currentHostListing) return 'Cannot yet validate';
-        const blankField = isBlankString(currentHostListing.streetaddress);
+        const blankField = isBlankString(streetAddress);
         if (blankField) return 'Street address is a required field';
-        const noSpecialChars = isAlphaWithSpacesAccentsAndNumbers(
-          currentHostListing.streetaddress
-        );
+        const noSpecialChars =
+          isAlphaWithSpacesAccentsAndNumbers(streetAddress);
         if (!noSpecialChars)
           return 'Street address can only contain characters and numbers';
         return null;
@@ -92,13 +91,11 @@ function Location() {
         setCurrentHostListing({ ...currentHostListing, city });
       },
       value: currentHostListing?.city || '',
-      validate: () => {
+      validate: (city: string) => {
         if (!currentHostListing) return 'Cannot yet validate';
-        const blankField = isBlankString(currentHostListing.city);
+        const blankField = isBlankString(city);
         if (blankField) return 'City is a required field';
-        const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(
-          currentHostListing.city
-        );
+        const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(city);
         if (!noSpecialCharsAndNumbers)
           return 'City can only contain characters';
         return null;
@@ -113,13 +110,11 @@ function Location() {
         setCurrentHostListing({ ...currentHostListing, state });
       },
       value: currentHostListing?.state || '',
-      validate: () => {
+      validate: (state: string) => {
         if (!currentHostListing) return 'Cannot yet validate';
-        const blankField = isBlankString(currentHostListing.state);
+        const blankField = isBlankString(state);
         if (blankField) return 'State is a required field';
-        const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(
-          currentHostListing.state
-        );
+        const noSpecialCharsAndNumbers = isAlphaWithSpacesAndAccents(state);
         if (!noSpecialCharsAndNumbers)
           return 'State can only contain characters';
         return null;
@@ -134,9 +129,9 @@ function Location() {
         setCurrentHostListing({ ...currentHostListing, zipcode: zipCode });
       },
       value: currentHostListing?.zipcode || '',
-      validate: () => {
+      validate: (zipCode: string) => {
         if (!currentHostListing) return 'Cannot yet validate';
-        const blankField = isBlankString(currentHostListing.zipcode);
+        const blankField = isBlankString(zipCode);
         if (blankField) return 'Zip code is a required field';
         return null;
       },
@@ -183,6 +178,13 @@ function Location() {
                   currentHostListing.neighborhooddescription,
               });
             }}
+            // originalInputs={{
+            //   streetaddress: originalLocation.streetaddress,
+            //   apt: originalLocation.apt,
+            //   city: originalLocation.city,
+            //   state: originalLocation.state,
+            //   zipcode: originalLocation.zipcode,
+            // }}
           />
         </div>
         {/* Getting Around */}

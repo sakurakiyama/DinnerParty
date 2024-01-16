@@ -118,6 +118,7 @@ function TextAndMultipleSelectionBlock({
                 className='underline mr-auto font-semibold'
                 onClick={() => {
                   onCancel();
+                  setIsNotValid(true);
                   handleEditor();
                 }}
               >
