@@ -59,7 +59,7 @@ function AfterBooking() {
     {
       id: 'networkname',
       display: 'Network name',
-      required: false,
+      required: true,
       setterFunc: (networkname: string) => {
         if (!currentHostListing) return;
         setCurrentHostListing({
@@ -71,11 +71,8 @@ function AfterBooking() {
         });
       },
       value: currentHostListing?.wifidetails?.networkname || '',
-      validate: () => {
-        if (!currentHostListing) return 'Cannot yet validate';
-        const blankField = isBlankString(
-          currentHostListing?.wifidetails?.networkname
-        );
+      validate: (networkName: string) => {
+        const blankField = isBlankString(networkName);
         if (blankField) return 'Network name is a required field';
         return null;
       },
@@ -95,11 +92,8 @@ function AfterBooking() {
         });
       },
       value: currentHostListing?.wifidetails?.password || '',
-      validate: () => {
-        if (!currentHostListing) return 'Cannot yet validate';
-        const blankField = isBlankString(
-          currentHostListing?.wifidetails?.password
-        );
+      validate: (password: string) => {
+        const blankField = isBlankString(password);
         if (blankField) return 'Password is a required field';
         return null;
       },

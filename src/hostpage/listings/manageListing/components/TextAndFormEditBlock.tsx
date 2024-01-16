@@ -1,7 +1,8 @@
 import { ManageListingContext } from '../ManageListing';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import LabeledInput from '../../../../components/LabeledInput';
 import { LabeledInputProps } from '../../../../types';
+import { isBlankString } from '../../../../utils';
 
 interface TextAndFormEditBlockProps {
   display: string;
@@ -21,13 +22,22 @@ function TextAndFormEditBlock({
   onSave,
 }: TextAndFormEditBlockProps) {
   const { isLoading, updateListing } = useContext(ManageListingContext)!;
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNotValid, setIsNotValid] = useState<boolean>(true);
 
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
   };
+
+  useEffect(() => {
+    for (const input of inputConfigs) {
+      if (input.required) {
+        if (isBlankString(input.value)) {
+          setIsNotValid(true);
+        }
+      }
+    }
+  }, [inputConfigs]);
 
   const handleSave = () => {
     onSave();
