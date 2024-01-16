@@ -99,7 +99,7 @@ function TextAndTextEditBlock({
               ></textarea>
               {maxLength && (
                 <div
-                  className={`font-semibold mt-3 ${
+                  className={`font-semibold mt-1 text-xs ${
                     contents.length > maxLength
                       ? 'text-rose-800'
                       : 'text-gray-500'

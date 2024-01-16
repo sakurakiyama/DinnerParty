@@ -9,6 +9,7 @@ type OriginalPropertyAndRooms = {
   accesstype: string;
   bathrooms: number;
   diningareas: number;
+  hometype: string;
 };
 
 function PropertyAndRooms() {
@@ -23,6 +24,7 @@ function PropertyAndRooms() {
       accesstype: '',
       bathrooms: 0,
       diningareas: 0,
+      hometype: '',
     });
 
   const accessTypeOptions = [
@@ -52,6 +54,64 @@ function PropertyAndRooms() {
           <span className='sm:hidden'>A Room</span>
         </div>
       ),
+    },
+  ];
+
+  const homeTypeOptions = [
+    {
+      key: 'Townhouse',
+      selected: currentHostListing?.hometype === 'Townhouse',
+      description: 'Townhouse',
+    },
+    {
+      key: 'Loft',
+      selected: currentHostListing?.hometype === 'Loft',
+      description: 'Loft',
+    },
+    {
+      key: 'High-Rise Apartment',
+      selected: currentHostListing?.hometype === 'High-Rise Apartment',
+      description: 'High-Rise Apartment',
+    },
+    {
+      key: 'Pre-war Apartment',
+      selected: currentHostListing?.hometype === 'Pre-war Apartment',
+      description: 'Pre-war Apartment',
+    },
+    {
+      key: 'Penthouse',
+      selected: currentHostListing?.hometype === 'Penthouse',
+      description: 'Penthouse',
+    },
+    {
+      key: 'House Boat',
+      selected: currentHostListing?.hometype === 'House Boat',
+      description: 'House Boat',
+    },
+    {
+      key: 'Duplex',
+      selected: currentHostListing?.hometype === 'Duplex',
+      description: 'Duplex',
+    },
+    {
+      key: 'Warehouse',
+      selected: currentHostListing?.hometype === 'Warehouse',
+      description: 'Warehouse',
+    },
+    {
+      key: 'Mansion',
+      selected: currentHostListing?.hometype === 'Mansion',
+      description: 'Mansion',
+    },
+    {
+      key: 'Bed & Breakfast',
+      selected: currentHostListing?.hometype === 'Bed & Breakfast',
+      description: 'Bed & Breakfast',
+    },
+    {
+      key: 'Hotel',
+      selected: currentHostListing?.hometype === 'Hotel',
+      description: 'Hotel',
     },
   ];
 
@@ -89,6 +149,15 @@ function PropertyAndRooms() {
     return 'Key not found';
   };
 
+  const handlePropertyTypeSelection = (selection: string) => {
+    if (!currentHostListing) return;
+
+    setCurrentHostListing({
+      ...currentHostListing,
+      hometype: selection,
+    });
+  };
+
   useEffect(() => {
     if (currentHostListing) {
       if (currentHostListing.accesstype) {
@@ -100,6 +169,7 @@ function PropertyAndRooms() {
           accesstype: currentHostListing.accesstype || '',
           bathrooms: currentHostListing.bathrooms,
           diningareas: currentHostListing.diningareas,
+          hometype: currentHostListing.hometype || '',
         });
         setInitialSetupDone(true);
       }
@@ -136,6 +206,33 @@ function PropertyAndRooms() {
           validateSelection={(value: string) => {
             if (!currentHostListing) return false;
             if (originalPropertyAndRooms.accesstype === value) return true;
+            return false;
+          }}
+        />
+        {/* Property Type */}
+        <TextAndMultipleSelectionBlock
+          display={'Property type'}
+          contents={currentHostListing?.hometype}
+          caption={'Choose the property type that best describes your space'}
+          selectableOptions={homeTypeOptions}
+          onSelect={handlePropertyTypeSelection}
+          onCancel={() => {
+            if (!currentHostListing) return;
+            setCurrentHostListing({
+              ...currentHostListing,
+              hometype: originalPropertyAndRooms.hometype,
+            });
+          }}
+          onSave={() => {
+            if (!currentHostListing) return;
+            setOriginalPropertyAndRooms({
+              ...originalPropertyAndRooms,
+              hometype: currentHostListing.hometype || '',
+            });
+          }}
+          validateSelection={(value: string) => {
+            if (!currentHostListing) return false;
+            if (originalPropertyAndRooms.hometype === value) return true;
             return false;
           }}
         />

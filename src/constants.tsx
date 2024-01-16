@@ -4,14 +4,28 @@ import {
   MdOutlineCleanHands,
   MdDeck,
   MdBalcony,
+  MdOutlineHouseboat,
 } from 'react-icons/md';
 import { GiFireplace, GiBarbecue, GiRingingAlarm } from 'react-icons/gi';
-import { TbChefHat } from 'react-icons/tb';
+import { TbChefHat, TbBuildingBridge2 } from 'react-icons/tb';
 import { RiAlarmWarningLine, RiFirstAidKitLine } from 'react-icons/ri';
-import { PiFireExtinguisher, PiElevator } from 'react-icons/pi';
+import {
+  PiFireExtinguisher,
+  PiElevator,
+  PiBuildingsBold,
+} from 'react-icons/pi';
 import { TbStairs } from 'react-icons/tb';
 import { GrEscalator } from 'react-icons/gr';
-import { LuParkingSquare, LuDoorOpen } from 'react-icons/lu';
+import {
+  LuParkingSquare,
+  LuDoorOpen,
+  LuCastle,
+  LuWarehouse,
+  LuHotel,
+} from 'react-icons/lu';
+import { BsBuilding, BsHouseUp, BsBuildingUp } from 'react-icons/bs';
+import { HiOutlineOfficeBuilding } from 'react-icons/hi';
+import { IoBedOutline } from 'react-icons/io5';
 
 export const safetyItems = [
   {
@@ -117,5 +131,63 @@ export const accessibilityItems = [
     key: 'stairlift',
     image: <TbStairs size={30} />,
     display: 'Stair Lift',
+  },
+];
+
+export const allHomes = [
+  {
+    key: 'townhouse',
+    image: <HiOutlineOfficeBuilding size={30} />,
+    display: 'Townhouse',
+  },
+  {
+    key: 'loft',
+    image: <TbBuildingBridge2 size={35} />,
+    display: 'Loft',
+  },
+  {
+    key: 'highrise',
+    image: <PiBuildingsBold size={30} />,
+    display: 'High-Rise Apartment',
+  },
+  {
+    key: 'prewar',
+    image: <BsBuilding size={30} />,
+    display: 'Pre-war Apartment',
+  },
+  {
+    key: 'penthouse',
+    image: <BsBuildingUp size={30} />,
+    display: 'Penthouse',
+  },
+  {
+    key: 'houseboat',
+    image: <MdOutlineHouseboat size={35} />,
+    display: 'House Boat',
+  },
+  {
+    key: 'duplex',
+    image: <BsHouseUp size={30} />,
+    display: 'Duplex',
+  },
+  {
+    key: 'warehouse',
+    image: <LuWarehouse size={30} />,
+    display: 'Warehouse',
+  },
+  {
+    key: 'mansion',
+    image: <LuCastle size={30} />,
+    display: 'Mansion',
+  },
+  {
+    key: 'bednbreakfast',
+    image: <IoBedOutline size={30} />,
+    display: 'Bed & Breakfast',
+  },
+  {
+    key: 'hotel',
+    image: <LuHotel size={30} />,
+    display: 'Hotel',
   },
 ];
