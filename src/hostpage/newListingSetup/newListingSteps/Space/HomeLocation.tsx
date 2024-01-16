@@ -123,8 +123,6 @@ function HomeLocation() {
     setNotValidated(false);
   }, [currentHostListing]);
 
-  // if (!currentHostListing) return;
-
   const handleView = (operation?: string) => {
     if (operation === 'Forward') {
       setSlideIn('Right');
@@ -146,12 +144,12 @@ function HomeLocation() {
           <div className='font-semibold text-2xl md:text-3xl '>
             Where's your place located?
           </div>
-          <div className='mt-4 text-gray-500'>
+          <div className='mt-4 text-gray-500 text-sm md:text-base'>
             Your address is only shared with guests after they’ve made a
             reservation.
           </div>
           <div className='items-center justify-center flex flex-col md:w-[500px] mt-8'>
-            <form className='space-y-2 w-full'>
+            <form className='space-y-2 w-full text-sm md:text-base'>
               {inputConfigs.map((config) => (
                 <LabeledInput
                   key={config.id}

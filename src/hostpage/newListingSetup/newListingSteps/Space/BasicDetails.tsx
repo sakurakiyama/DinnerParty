@@ -63,7 +63,7 @@ function BasicDetails() {
           <div className='font-semibold text-2xl md:text-3xl '>
             Share some basics about your place
           </div>
-          <div className='mt-4 text-gray-500 mb-2 md:mb-6'>
+          <div className='mt-4 text-gray-500 mb-2 md:mb-6 text-sm md:text-base'>
             You'll add more details later, like dining room set up.
           </div>
         </div>
@@ -78,7 +78,9 @@ function BasicDetails() {
               }`}
             >
               <div className='flex flex-col'>
-                <div className='text-sm'>{currentItem.category}</div>
+                <div className='text-sm md:text-base'>
+                  {currentItem.category}
+                </div>
               </div>
               <PlusMinusButtons
                 isMinusDisabled={currentHostListing[currentItem.key] === 0}

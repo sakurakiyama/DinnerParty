@@ -60,7 +60,7 @@ function BasicAmenities() {
           <div className='font-semibold text-2xl md:text-3xl'>
             Tell guests what your place has to offer
           </div>
-          <div className='mt-4 md:text-base text-gray-500'>
+          <div className='mt-4 text-sm md:text-base text-gray-500'>
             You can add more amenities after you publish your listing.
           </div>
           <Tiles

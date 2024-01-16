@@ -32,8 +32,10 @@ function SelectableCards({
               }`}
             >
               <div className='w-[80%]'>
-                <div className='text-base font-semibold'>{current.header}</div>
-                <div className='text-xs mt-2 text-gray-500'>
+                <div className='text-base md:text-lg font-semibold'>
+                  {current.header}
+                </div>
+                <div className='text-sm md:text-base mt-2 text-gray-500'>
                   {current.caption}
                 </div>
               </div>

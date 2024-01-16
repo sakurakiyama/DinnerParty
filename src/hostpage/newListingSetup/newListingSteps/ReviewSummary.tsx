@@ -45,12 +45,11 @@ function ReviewSummary() {
 
   return (
     <div className='flex flex-col h-full overflow-auto animate-slideInRight'>
-      {' '}
       <div className='flex flex-col pt-10 md:pt-0 md:w-[800px] md:mt-auto md:mx-auto'>
         <div className='font-semibold text-2xl md:text-3xl'>
           Review your listing
         </div>
-        <div className='mt-4 md:text-base text-gray-500'>
+        <div className='mt-4 sm:text-sm md:text-base text-gray-500'>
           Here's what we'll show to guests. Make sure everything looks good.
         </div>
         <div className='flex flex-col md:flex-row w-full pt-8'>
@@ -67,10 +66,10 @@ function ReviewSummary() {
                   >
                     <div>{current.image}</div>
                     <div>
-                      <div className='font-semibold text-base pb-1'>
+                      <div className='font-semibold sm:text-sm md:text-base pb-1'>
                         {current.title}
                       </div>
-                      <div className='text-xs text-gray-500'>
+                      <div className='sm:text-xs md:text-sm text-gray-500'>
                         {current.description}
                       </div>
                     </div>

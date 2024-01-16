@@ -56,13 +56,13 @@ function NewListingSummary() {
                       key={`${current.heading}+${index}`}
                     >
                       <div>
-                        <div className='text-lg font-semibold flex'>
+                        <div className='text-base md:text-lg font-semibold flex'>
                           <div>{current.number}</div>
                           <div className='pl-4 font-semibold'>
                             {current.heading}
                           </div>
                         </div>
-                        <div className='pl-6 text-gray-500 mt-2'>
+                        <div className='text-sm md:text-base pl-6 text-gray-500 mt-2'>
                           {current.caption}
                         </div>
                       </div>

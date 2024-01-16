@@ -51,12 +51,12 @@ function AddTitle() {
         <div className='font-semibold text-2xl md:text-3xl pt-10 md:pt-0'>
           Now, let's give your house a title
         </div>
-        <div className='mt-4 md:text-base text-gray-500'>
+        <div className='mt-4 text-sm md:text-base text-gray-500'>
           Short titles work best. Have fun with it—you can always change it
           later.
         </div>
         <textarea
-          className={`mt-8 border rounded-md p-2 whitespace-normal h-20 ${
+          className={`mt-8 border rounded-md p-2 whitespace-normal h-20 text-sm md:text-base ${
             currentHostListing.title.length > 32
               ? 'outline-rose-800 bg-rose-800/20'
               : 'outline-slate-500'

@@ -51,11 +51,11 @@ function AddDescription() {
         <div className='font-semibold text-2xl md:text-3xl pt-10 md:pt-0 '>
           Next, let's describe your space
         </div>
-        <div className='mt-4 md:text-base text-gray-500'>
+        <div className='mt-4 text-sm md:text-base text-gray-500'>
           Share what makes your place special.
         </div>
         <textarea
-          className={`mt-8 border rounded-md p-2 whitespace-normal h-48  ${
+          className={`mt-8 border rounded-md p-2 whitespace-normal h-48 text-sm md:text-base ${
             currentHostListing.description.length > 500
               ? 'outline-rose-800 bg-rose-800/20'
               : 'outline-slate-500'

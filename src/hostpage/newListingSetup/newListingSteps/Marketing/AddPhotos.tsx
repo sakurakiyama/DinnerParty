@@ -112,7 +112,7 @@ function AddPhotos() {
             <div className='font-semibold text-2xl md:text-3xl'>
               Add some photos of your space
             </div>
-            <div className='mt-4 md:text-base text-gray-500 mb-8'>
+            <div className='mt-4 text-sm md:text-base text-gray-500 mb-8'>
               You'll need 5 photos to get started. You can add more or make
               changes later.
             </div>
@@ -133,11 +133,13 @@ function AddPhotos() {
                   <div>
                     <HiOutlinePhoto size={60} />
                   </div>
-                  <div className='text-xl font-semibold'>
+                  <div className='sm:text-lg md:text-xl font-semibold'>
                     Drag your photos here
                   </div>
-                  <div>Choose at least 5 photos</div>
-                  <div className='pt-6'>
+                  <div className='text-sm md:text-base'>
+                    Choose at least 5 photos
+                  </div>
+                  <div className='pt-6 text-sm md:text-base'>
                     <FileInput
                       handleChange={(
                         event: React.ChangeEvent<HTMLInputElement>
@@ -154,13 +156,13 @@ function AddPhotos() {
                   return (
                     <div
                       className='border h-[150px] md:h-[200px] md:w-[300px] bg-white rounded-md shadow-sm'
-                      key={`${dataUrl.slice(0, 10)}+${index}`}
+                      key={`${dataUrl.slice(0, 30)}+${index}`}
                     >
                       {dataUrl && (
                         <div
                           className='p-2 relative bg-cover w-full h-full'
                           style={{
-                            backgroundImage: `url(${dataUrl})`,
+                            backgroundImage: `url(${dataUrl as string})`,
                           }}
                         >
                           <button

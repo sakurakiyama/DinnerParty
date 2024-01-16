@@ -28,7 +28,7 @@ function Tiles({ items, handleTileClick, currentSelection }: TilesProps) {
               }`}
             >
               <div className='pb-2'>{current.image}</div>
-              <div>{current.display}</div>
+              <div className='text-sm md:text-base'>{current.display}</div>
             </div>
           );
         })}

@@ -20,7 +20,6 @@ import { UserContext, HostContext } from '../../App';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import axios from 'axios';
-import { convertToBase64 } from '../../utils';
 
 const pages = [
   <NewListingSummary />,
@@ -82,14 +81,7 @@ function NewListingWizard() {
       setCurrentHostListing(data.listing);
     };
 
-    if (currentHostListing) {
-      let base64Photos: string[] = [];
-      if (currentHostListing?.photos) {
-        base64Photos = convertToBase64(currentHostListing?.photos);
-      }
-
-      setCurrentHostListing({ ...currentHostListing, photos: base64Photos });
-    } else createListing();
+    if (!currentHostListing) createListing();
   }, []);
 
   const saveListing = async () => {

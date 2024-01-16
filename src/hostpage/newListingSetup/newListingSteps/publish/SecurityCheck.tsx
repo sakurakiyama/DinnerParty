@@ -104,7 +104,7 @@ function SecurityCheck() {
           <div className='font-semibold text-2xl md:text-3xl'>
             Just one last step!
           </div>
-          <div className='mt-4 md:text-base text-gray-500 flex flex-row items-center'>
+          <div className='mt-4 text-sm md:text-base text-gray-500 flex flex-row items-center'>
             <div>Does your space have any of these?</div>
             <div className='pl-2' onClick={handleSecurityModal}>
               <HiOutlineInformationCircle />
@@ -118,10 +118,12 @@ function SecurityCheck() {
                 );
                 return (
                   <div
-                    className='flex flex-row w-full pb-4  checked:bg-green-500'
+                    className='flex flex-row w-full pb-4 checked:bg-green-500'
                     key={`${current.key}+${index}`}
                   >
-                    <div className='mr-auto'>{current.title}</div>
+                    <div className='mr-auto text-sm md:text-base'>
+                      {current.title}
+                    </div>
                     <input
                       onChange={handleSelect}
                       className='w-[30px] accent-[#F0415F]'

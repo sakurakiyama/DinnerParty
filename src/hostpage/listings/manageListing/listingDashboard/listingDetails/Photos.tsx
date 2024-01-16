@@ -213,7 +213,7 @@ function Photos() {
                     return (
                       <div
                         className='border h-[150px] md:h-[200px] md:max-w-[300px] bg-white rounded-md shadow-sm'
-                        key={`${dataUrl.slice(0, 10)}+${index}`}
+                        key={`${dataUrl.slice(0, 30)}+${index}`}
                       >
                         {dataUrl && (
                           <div

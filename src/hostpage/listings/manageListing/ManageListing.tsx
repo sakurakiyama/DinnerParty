@@ -45,6 +45,10 @@ export const ManageListingContext = createContext<ManageListingProps | null>(
   null
 );
 
+/*
+[] TODO: Add delete functionality
+*/
+
 function ManageListing() {
   const {
     setHostListings,
