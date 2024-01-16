@@ -1,5 +1,5 @@
 import { ManageListingContext } from '../ManageListing';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import LabeledInput from '../../../../components/LabeledInput';
 import { LabeledInputProps } from '../../../../types';
 import { isBlankString } from '../../../../utils';
@@ -28,16 +28,6 @@ function TextAndFormEditBlock({
   const handleEditor = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
   };
-
-  useEffect(() => {
-    for (const input of inputConfigs) {
-      if (input.required) {
-        if (isBlankString(input.value)) {
-          setIsNotValid(true);
-        }
-      }
-    }
-  }, [inputConfigs]);
 
   const handleSave = () => {
     onSave();
@@ -102,7 +92,18 @@ function TextAndFormEditBlock({
                     if (config.validate) {
                       result = config.validate(value);
                       if (result) setIsNotValid(true);
-                      else setIsNotValid(false);
+                      else {
+                        let checkedOthers = false;
+                        for (const input of inputConfigs) {
+                          if (input.required) {
+                            if (isBlankString(input.value)) {
+                              checkedOthers = true;
+                              break;
+                            }
+                          }
+                        }
+                        setIsNotValid(checkedOthers);
+                      }
                     }
                     return result || null;
                   }}
