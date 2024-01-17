@@ -10,7 +10,7 @@ import CalendarPage from './hostpage/hostnav/calendar/CalendarPage';
 import InboxPage from './hostpage/hostnav/inbox/InboxPage';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Listing, Host, User } from './types';
+import { Listing, Host, User, HostBookings } from './types';
 import './App.css';
 
 interface HostContextProps {
@@ -22,6 +22,8 @@ interface HostContextProps {
   setNewListingModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   currentHostListing: Listing | null;
   setCurrentHostListing: React.Dispatch<React.SetStateAction<Listing | null>>;
+  hostBookings: HostBookings[];
+  setHostBookings: React.Dispatch<React.SetStateAction<HostBookings[]>>;
 }
 
 interface UserContextProps {
@@ -41,6 +43,7 @@ function App() {
   const [currentHostListing, setCurrentHostListing] = useState<Listing | null>(
     null
   );
+  const [hostBookings, setHostBookings] = useState<HostBookings[]>([]);
 
   const navigate = useNavigate();
 
@@ -80,6 +83,8 @@ function App() {
           setNewListingModalOpen,
           currentHostListing,
           setCurrentHostListing,
+          hostBookings,
+          setHostBookings,
         }}
       >
         {!isLoading && (

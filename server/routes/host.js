@@ -62,4 +62,15 @@ router.get(
   }
 );
 
+router.get(
+  '/getHostBookings',
+  authController.getToken,
+  authController.verifyToken,
+  userController.getUser,
+  hostController.createOrGetHost,
+  hostController.getHostBookings,
+  (req, res) => {
+    return res.status(200).json(res.locals.bookings);
+  }
+);
 export default router;

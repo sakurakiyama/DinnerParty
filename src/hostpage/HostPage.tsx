@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { UserContext, HostContext } from '../App';
 import HostNavBar from './hostnav/HostNavBar';
 import NewListingWizard from './newListingSetup/NewListingWizard';
+import HostReservations from './today/HostReservations';
 import axios from 'axios';
 
 function HostPage() {
@@ -13,6 +14,7 @@ function HostPage() {
     setHost,
     newListingModalOpen,
     setNewListingModalOpen,
+    setHostBookings,
   } = useContext(HostContext)!;
 
   useEffect(() => {
@@ -31,6 +33,18 @@ function HostPage() {
     }
   }, []);
 
+  useEffect(() => {
+    const getHostBookings = async () => {
+      const { data: bookingList } = await axios.get(
+        '/api/host/getHostBookings'
+      );
+      setHostBookings(bookingList);
+    };
+    if (host) {
+      getHostBookings();
+    }
+  }, [host]);
+
   return (
     <div>
       {newListingModalOpen && (
@@ -40,6 +54,17 @@ function HostPage() {
       )}
       <div>
         <HostNavBar />
+      </div>
+      <div className='p-16'>
+        {/* Greeting */}
+        {user && user.ishost && (
+          <div className='text-xl md:text-3xl font-semibold'>
+            Welcome back, {user.firstname}
+          </div>
+        )}
+        <div>
+          <HostReservations />
+        </div>
       </div>
     </div>
   );

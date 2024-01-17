@@ -69,3 +69,17 @@ export type LabeledInputProps = {
   value: string;
   validate?: (value: string) => string | null;
 };
+
+export type HostBookings = {
+  bookingid: number;
+  listingid: number;
+  userid: number;
+  hostid: number;
+  bookingdate: Date;
+  eventdate: Date;
+  totalguestprice: number;
+  hostfee: number;
+  guestfee: number;
+  totalhostearnings: number;
+  bookingstatus: string;
+};
