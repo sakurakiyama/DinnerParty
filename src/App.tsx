@@ -8,6 +8,7 @@ import ListingsPage from './hostpage/listings/ListingsPage';
 import ManageListing from './hostpage/listings/manageListing/ManageListing';
 import CalendarPage from './hostpage/hostnav/calendar/CalendarPage';
 import InboxPage from './hostpage/hostnav/inbox/InboxPage';
+import Profile from './profile/Profile';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Listing, Host, User, HostBookings } from './types';
@@ -100,6 +101,7 @@ function App() {
             ></Route>
             <Route path='/hosting/inbox' element={<InboxPage />}></Route>
             <Route path='/hosting/calendar' element={<CalendarPage />}></Route>
+            <Route path='/profile' element={<Profile />}></Route>
           </Routes>
         )}
       </HostContext.Provider>

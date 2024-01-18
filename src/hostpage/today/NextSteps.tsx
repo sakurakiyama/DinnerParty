@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { HostContext } from '../../App';
 
-function ToDo() {
+function NextSteps() {
   const { hostListings } = useContext(HostContext)!;
 
   return (
@@ -51,4 +51,4 @@ function ToDo() {
   );
 }
 
-export default ToDo;
+export default NextSteps;

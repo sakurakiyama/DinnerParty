@@ -3,7 +3,7 @@ import { UserContext, HostContext } from '../App';
 import HostNavBar from './hostnav/HostNavBar';
 import NewListingWizard from './newListingSetup/NewListingWizard';
 import HostReservations from './today/HostReservations';
-import ToDo from './today/ToDo';
+import NextSteps from './today/NextSteps';
 import axios from 'axios';
 
 function HostPage() {
@@ -66,7 +66,7 @@ function HostPage() {
           <HostReservations />
         </div>
         <div>
-          <ToDo />
+          <NextSteps />
         </div>
       </div>
     </div>

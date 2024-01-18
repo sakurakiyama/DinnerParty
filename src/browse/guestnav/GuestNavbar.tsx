@@ -40,9 +40,7 @@ function GuestNavBar() {
             >
               {user?.ishost ? 'Switch to hosting' : 'Become a host'}
             </button>
-            <button className='rounded-full bg-[var(--salmon)] p-2 text-white'>
-              <UserLogo />
-            </button>
+            <UserLogo />
           </div>
         </div>
       </div>

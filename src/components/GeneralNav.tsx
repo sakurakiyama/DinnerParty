@@ -1,9 +1,8 @@
-import Logo from '../../assets/Logo.png';
-import HostMenu from './components/HostMenu';
-import UserLogo from '../../components/UserLogo';
+import Logo from '../assets/Logo.png';
+import UserLogo from './UserLogo';
 import { useNavigate } from 'react-router-dom';
 
-function HostNavBar() {
+function GeneralNav() {
   const navigate = useNavigate();
 
   return (
@@ -14,27 +13,22 @@ function HostNavBar() {
           <img className='h-[50px] mr-6' src={Logo}></img>
         </div>
         {/* Center */}
-        <div className='hidden md:block'>
-          <HostMenu />
-        </div>
+        <div className='w-full'></div>
         {/* Right */}
-        <div className='w-[50%] text-end'>
+        <div className='w-full text-end'>
           <div className='flex flex-row justify-end items-center'>
             <button
-              onClick={() => navigate('/browse')}
-              className='hover:bg-[var(--light-grey)]  rounded-full p-2 ml-6 mr-2 font-medium'
+              onClick={() => navigate('/hosting')}
+              className='hover:bg-[var(--light-grey)] whitespace-nowrap rounded-full p-2 ml-6 mr-2 font-medium'
             >
-              Switch to booking
+              Switch to hosting
             </button>
             <UserLogo />
           </div>
         </div>
       </div>
-      <div className='block mt-8 md:hidden pb-4'>
-        <HostMenu />
-      </div>
     </div>
   );
 }
 
-export default HostNavBar;
+export default GeneralNav;
