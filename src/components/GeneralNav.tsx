@@ -21,7 +21,7 @@ function GeneralNav() {
               onClick={() => navigate('/hosting')}
               className='hover:bg-[var(--light-grey)] whitespace-nowrap rounded-full p-2 ml-6 mr-2 font-medium'
             >
-              Switch to hosting
+              Switch to booking
             </button>
             <UserLogo />
           </div>

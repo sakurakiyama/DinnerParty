@@ -178,13 +178,6 @@ function Location() {
                   currentHostListing.neighborhooddescription,
               });
             }}
-            // originalInputs={{
-            //   streetaddress: originalLocation.streetaddress,
-            //   apt: originalLocation.apt,
-            //   city: originalLocation.city,
-            //   state: originalLocation.state,
-            //   zipcode: originalLocation.zipcode,
-            // }}
           />
         </div>
         {/* Getting Around */}
