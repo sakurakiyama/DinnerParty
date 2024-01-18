@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 
-function UserLogo() {
+function NavUserIcon() {
   const navigate = useNavigate();
 
   const [logo, setLogo] = useState<string>('');
@@ -50,7 +50,7 @@ function UserLogo() {
   return (
     <div className='relative'>
       <button
-        className='rounded-full bg-[var(--salmon)] p-2 text-white'
+        className='rounded-full bg-[var(--salmon)] p-2 text-white font-semibold'
         onClick={handleMenu}
       >
         {logo}
@@ -75,4 +75,4 @@ function UserLogo() {
   );
 }
 
-export default UserLogo;
+export default NavUserIcon;

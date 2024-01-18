@@ -59,6 +59,8 @@ export type User = {
   tempcode: string | null;
   tempcodedate: string | null;
   userid: number;
+  datecreated: Date;
+  state: string | null;
 } | null;
 
 export type LabeledInputProps = {

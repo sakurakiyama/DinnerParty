@@ -10,14 +10,14 @@ function BeforeBooking() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
   const [initialSetupDone, setInitialSetupDone] = useState(false);
-  const [originalBeforeBooking, setOriginalBeforeBoking] =
+  const [originalBeforeBooking, setOriginalBeforeBooking] =
     useState<OriginalBeforeBooking>({
       guestinteraction: '',
     });
 
   useEffect(() => {
     if (currentHostListing && !initialSetupDone) {
-      setOriginalBeforeBoking({
+      setOriginalBeforeBooking({
         guestinteraction: currentHostListing.guestinteraction || '',
       });
       setInitialSetupDone(true);
@@ -52,7 +52,7 @@ function BeforeBooking() {
         }}
         onSave={() => {
           if (!currentHostListing) return;
-          setOriginalBeforeBoking({
+          setOriginalBeforeBooking({
             ...originalBeforeBooking,
             guestinteraction: currentHostListing.guestinteraction || '',
           });

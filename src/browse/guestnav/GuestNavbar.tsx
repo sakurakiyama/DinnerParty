@@ -2,7 +2,7 @@ import Logo from '../../assets/Logo.png';
 import SearchBar from './components/SearchBar';
 import CalendarSelector from './components/CalendarSelector';
 import GuestSelector from './components/GuestSelector';
-import UserLogo from '../../components/UserLogo';
+import NavUserIcon from '../../components/NavUserIcon';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { BrowsePageContext } from '../BrowsePage';
@@ -40,7 +40,7 @@ function GuestNavBar() {
             >
               {user?.ishost ? 'Switch to hosting' : 'Become a host'}
             </button>
-            <UserLogo />
+            <NavUserIcon />
           </div>
         </div>
       </div>

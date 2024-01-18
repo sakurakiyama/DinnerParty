@@ -1,6 +1,6 @@
 import Logo from '../../assets/Logo.png';
 import HostMenu from './components/HostMenu';
-import UserLogo from '../../components/UserLogo';
+import NavUserIcon from '../../components/NavUserIcon';
 import { useNavigate } from 'react-router-dom';
 
 function HostNavBar() {
@@ -26,7 +26,7 @@ function HostNavBar() {
             >
               Switch to booking
             </button>
-            <UserLogo />
+            <NavUserIcon />
           </div>
         </div>
       </div>

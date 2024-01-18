@@ -1,5 +1,5 @@
 import Logo from '../assets/Logo.png';
-import UserLogo from './UserLogo';
+import UserLogo from './NavUserIcon';
 import { useNavigate } from 'react-router-dom';
 
 function GeneralNav() {
