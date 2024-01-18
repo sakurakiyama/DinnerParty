@@ -208,12 +208,12 @@ function ManageListing() {
               {currentHostListing?.title}
             </div>
             {/* Insant Book and Status */}
-            <div className='flex flex-row space-x-6 items-center text-sm mr-6 pt-4 md:pt-0'>
+            <div className='flex flex-row space-x-6 items-center text-sm mr-6 pt-4 md:pt-0 font-medium'>
               {instantBook}
               {listingStatus}
             </div>
             {/* Preview Button */}
-            <button className='hover:bg-[var(--light-grey)] flex justify-center items-center border border-black p-2 pr-4 pl-4 rounded-md text-sm w-fit'>
+            <button className='hover:bg-[var(--light-grey)] flex justify-center items-center border border-black font-medium p-2 pr-4 pl-4 rounded-md text-sm w-fit'>
               Preview Listing
             </button>
           </div>

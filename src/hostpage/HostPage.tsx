@@ -3,12 +3,12 @@ import { UserContext, HostContext } from '../App';
 import HostNavBar from './hostnav/HostNavBar';
 import NewListingWizard from './newListingSetup/NewListingWizard';
 import HostReservations from './today/HostReservations';
+import ToDo from './today/ToDo';
 import axios from 'axios';
 
 function HostPage() {
   const { user } = useContext(UserContext)!;
   const {
-    hostListings,
     setHostListings,
     host,
     setHost,
@@ -64,6 +64,9 @@ function HostPage() {
         )}
         <div>
           <HostReservations />
+        </div>
+        <div>
+          <ToDo />
         </div>
       </div>
     </div>

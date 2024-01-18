@@ -46,12 +46,19 @@ function Sidebar() {
           );
         })}
       </div>
-      <div className='block md:hidden flex flex-row space-x-4 text-sm justify-center border-b'>
+      <div className='block md:hidden flex flex-row text-sm justify-center border-b font-medium'>
         {sections.map((section, index) => {
           return (
-            <div className='p-4' key={`${section.sectionHeader}+${index}`}>
+            <div
+              className={`p-2 ${
+                currentOpenSection === index
+                  ? 'border-b-2 border-b-black'
+                  : 'border-b-2 border-b-transparent'
+              }`}
+              key={`${section.sectionHeader}+${index}`}
+            >
               <button
-                className='hover:border-b hover:border-black'
+                className='hover:bg-[var(--light-grey)] hover:bg-[var(--light-grey)] p-2 rounded-md'
                 onClick={() => handleChangeSection(index)}
               >
                 {section.sectionHeader}

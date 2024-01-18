@@ -83,14 +83,14 @@ function ListingsPage() {
               </div>
               <div className='flex'>
                 <button
-                  className='flex justify-center items-center text-sm border border-black font-semibold p-2 pr-4 pl-4 rounded-md'
+                  className='flex justify-center items-center text-sm border border-black font-medium p-2 pr-4 pl-4 rounded-md'
                   onClick={createNewListing}
                 >
                   <FaPlus size={17} className='pr-2' /> Create listing
                 </button>
               </div>
             </div>
-            <table className='w-full text-xs md:text-sm mt-6'>
+            <table className='w-full text-xs md:text-sm mt-10'>
               <tbody>
                 <tr>
                   {headers.map((header, index) => {
