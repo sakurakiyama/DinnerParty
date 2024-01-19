@@ -40,18 +40,18 @@ function Profile() {
     <ProfileContext.Provider value={{ isLoading, updateUser }}>
       <div>
         <GeneralNav />
-        <div className='flex flex-row pt-20 px-40 space-x-20 w-full'>
-          <div>
+        <div className='flex flex-col md:flex-row pt-20 pr-20 pl-20 gap-20'>
+          <div className='w-full'>
             <ProfileCard />
           </div>
           <div className='w-full'>
-            <div className='border-b pb-8'>
+            <div className='border-b pb-8 w-full'>
               <AboutUser />
             </div>
-            <div className='pt-8 border-b pb-8'>
+            <div className='pt-8 border-b pb-8 w-full'>
               <UserReviews />
             </div>
-            <div className='pt-8 pb-8'>
+            <div className='pt-8 pb-8 w-full'>
               <UserListings />
             </div>
           </div>

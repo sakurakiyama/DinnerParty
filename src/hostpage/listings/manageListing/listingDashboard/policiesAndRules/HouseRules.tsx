@@ -1,7 +1,8 @@
 import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
 import SingleYesOrNoBlock from '../../components/SingleYesOrNoBlock';
-import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
+import GeneralTextAndTextEdit from '../../../../../components/GeneralTextAndTextEdit';
+import { ManageListingContext } from '../../ManageListing';
 import { isBlankString } from '../../../../../utils';
 
 type OriginalHouseRules = {
@@ -13,6 +14,8 @@ type OriginalHouseRules = {
 function HouseRules() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
+
   const [initialSetupDone, setInitialSetupDone] = useState(false);
   const [originalHouseRules, setOriginalHouseRules] =
     useState<OriginalHouseRules>({
@@ -82,7 +85,7 @@ function HouseRules() {
         }}
       />
       {/* Additional rules */}
-      <TextAndTextEditBlock
+      <GeneralTextAndTextEdit
         display={'Additional rules'}
         contents={currentHostListing?.additionalrules}
         caption={
@@ -108,6 +111,7 @@ function HouseRules() {
             ...originalHouseRules,
             additionalrules: currentHostListing.additionalrules,
           });
+          updateListing(undefined);
         }}
         required={true}
         validateInput={(value: string) => {
@@ -115,6 +119,7 @@ function HouseRules() {
           else if (value === originalHouseRules.additionalrules) return false;
           else return true;
         }}
+        isLoading={isLoading}
       />
     </div>
   );

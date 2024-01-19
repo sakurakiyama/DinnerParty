@@ -1,6 +1,10 @@
 import { useContext } from 'react';
 import { HostContext } from '../../App';
 
+/*
+TODO: If there are unfinished listings, on click open up new listing wizard and populate with that listings info 
+TODO: If there are listings that are ready but not published, open up the manage listings page with that listing data
+*/
 function NextSteps() {
   const { hostListings } = useContext(HostContext)!;
 

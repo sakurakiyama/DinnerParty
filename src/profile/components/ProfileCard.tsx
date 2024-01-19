@@ -25,8 +25,8 @@ function ProfileCard() {
   }, []);
 
   return (
-    <div>
-      <div className='flex flex-row gap-16 rounded-xl shadow-xl w-[400px] h-[250px] p-4'>
+    <div className='w-full'>
+      <div className='flex flex-row gap-16 rounded-xl shadow-xl w-[350px] h-[250px] p-4 justify-center'>
         <div className='flex flex-col justify-center items-center space-y-4'>
           <div className='flex justify-center items-center rounded-full bg-[var(--salmon)] w-[100px] h-[100px] p-2 text-white text-2xl font-semibold'>
             {logo}

@@ -1,13 +1,14 @@
 import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
-import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
-import TextAndFormEditBlock from '../../components/TextAndFormEditBlock';
 import {
   isAlphaWithSpacesAccentsAndNumbers,
   isAlphaWithSpacesAndAccents,
   isBlankString,
 } from '../../../../../utils';
 import { LabeledInputProps } from '../../../../../types';
+import GeneralTextAndTextEdit from '../../../../../components/GeneralTextAndTextEdit';
+import GeneralTextAndFormEditBlock from '../../../../../components/GeneralTextAndFormEditBlock';
+import { ManageListingContext } from '../../ManageListing';
 
 type OriginalLocation = {
   streetaddress: string;
@@ -22,6 +23,8 @@ type OriginalLocation = {
 function Location() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
+
   const [initialSetupDone, setInitialSetupDone] = useState(false);
   const [originalLocation, setOriginalLocation] = useState<OriginalLocation>({
     streetaddress: '',
@@ -144,15 +147,11 @@ function Location() {
       <div className='space-y-8'>
         <div className='text-sm'>
           {/* Address */}
-          <TextAndFormEditBlock
+          <GeneralTextAndFormEditBlock
             display={'Address'}
             contents={
               currentHostListing?.streetaddress
-                ? `${currentHostListing.streetaddress} ${
-                    currentHostListing?.apt || ''
-                  }, ${currentHostListing?.city} ${currentHostListing?.state} ${
-                    currentHostListing?.zipcode
-                  }`
+                ? `${currentHostListing.streetaddress} ${currentHostListing?.apt}, ${currentHostListing?.city} ${currentHostListing?.state} ${currentHostListing?.zipcode}`
                 : undefined
             }
             caption={
@@ -177,11 +176,13 @@ function Location() {
                 neighborhooddescription:
                   currentHostListing.neighborhooddescription,
               });
+              updateListing(undefined);
             }}
+            isLoading={isLoading}
           />
         </div>
         {/* Getting Around */}
-        <TextAndTextEditBlock
+        <GeneralTextAndTextEdit
           display={'Getting around'}
           contents={currentHostListing?.gettingarounddescription}
           caption={
@@ -209,6 +210,7 @@ function Location() {
               gettingarounddescription:
                 currentHostListing.gettingarounddescription,
             });
+            updateListing(undefined);
           }}
           required={true}
           validateInput={(value: string) => {
@@ -217,9 +219,10 @@ function Location() {
               return false;
             else return true;
           }}
+          isLoading={isLoading}
         />
         {/* Neighborhood Description */}
-        <TextAndTextEditBlock
+        <GeneralTextAndTextEdit
           display={'Neighborhood description'}
           contents={currentHostListing?.neighborhooddescription}
           caption={'Share some highlights about the neighborhood. '}
@@ -244,6 +247,7 @@ function Location() {
               neighborhooddescription:
                 currentHostListing.neighborhooddescription,
             });
+            updateListing(undefined);
           }}
           required={true}
           validateInput={(value: string) => {
@@ -252,6 +256,7 @@ function Location() {
               return false;
             else return true;
           }}
+          isLoading={isLoading}
         />
       </div>
     </div>

@@ -1,7 +1,8 @@
 import { useContext, useState, useEffect } from 'react';
 import { HostContext } from '../../../../../App';
-import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
 import { isBlankString } from '../../../../../utils';
+import GeneralTextAndTextEdit from '../../../../../components/GeneralTextAndTextEdit';
+import { ManageListingContext } from '../../ManageListing';
 
 type OriginalBeforeBooking = {
   guestinteraction: string;
@@ -9,6 +10,8 @@ type OriginalBeforeBooking = {
 function BeforeBooking() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
+
   const [initialSetupDone, setInitialSetupDone] = useState(false);
   const [originalBeforeBooking, setOriginalBeforeBooking] =
     useState<OriginalBeforeBooking>({
@@ -30,7 +33,7 @@ function BeforeBooking() {
       <div className='text-sm text-slate-500 pb-6'>
         Anyone can see this info on your listing page.
       </div>
-      <TextAndTextEditBlock
+      <GeneralTextAndTextEdit
         display={'Interaction preferences'}
         contents={currentHostListing?.guestinteraction || ''}
         caption={
@@ -56,6 +59,7 @@ function BeforeBooking() {
             ...originalBeforeBooking,
             guestinteraction: currentHostListing.guestinteraction || '',
           });
+          updateListing(undefined);
         }}
         required={true}
         validateInput={(value: string) => {
@@ -64,6 +68,7 @@ function BeforeBooking() {
             return false;
           else return true;
         }}
+        isLoading={isLoading}
       />
     </div>
   );

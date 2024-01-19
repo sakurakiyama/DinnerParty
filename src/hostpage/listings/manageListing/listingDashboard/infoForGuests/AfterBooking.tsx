@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
-import TextAndFormEditBlock from '../../components/TextAndFormEditBlock';
 import { LabeledInputProps } from '../../../../../types';
 import { isBlankString } from '../../../../../utils';
 import { WifiDetails } from '../../../../../types';
+import GeneralTextAndFormEditBlock from '../../../../../components/GeneralTextAndFormEditBlock';
+import { ManageListingContext } from '../../ManageListing';
 
 type AfterBooking = {
   wifidetails: WifiDetails;
@@ -11,6 +12,8 @@ type AfterBooking = {
 function AfterBooking() {
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
+
   const [wifiDetailsElement, setWifiDetailsElement] = useState<
     JSX.Element | undefined
   >(undefined);
@@ -107,7 +110,7 @@ function AfterBooking() {
         Confirmed guests can see this info before they arrive.
       </div>
       <div className='space-y-8'>
-        <TextAndFormEditBlock
+        <GeneralTextAndFormEditBlock
           display={'Wifi details'}
           contents={wifiDetailsElement}
           caption={
@@ -130,7 +133,9 @@ function AfterBooking() {
               networkname: currentHostListing.wifidetails.networkname,
               password: currentHostListing.wifidetails.password,
             });
+            updateListing(undefined);
           }}
+          isLoading={isLoading}
         />
       </div>
     </div>

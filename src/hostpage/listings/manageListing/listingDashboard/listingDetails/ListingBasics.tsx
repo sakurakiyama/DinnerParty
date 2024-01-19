@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { HostContext } from '../../../../../App';
-import TextAndTextEditBlock from '../../components/TextAndTextEditBlock';
 import TextAndMultipleSelectionBlock from '../../components/TextAndMultipleSelectionBlock';
 import { FaCircle } from 'react-icons/fa';
 import SinglePlusMinusBlock from '../../components/SinglePlusMinusBlock';
 import { isBlankString } from '../../../../../utils';
+import GeneralTextAndTextEdit from '../../../../../components/GeneralTextAndTextEdit';
+import { ManageListingContext } from '../../ManageListing';
 
 type OriginalListingBasics = {
   title: string;
@@ -17,6 +18,8 @@ function ListingBasics() {
   const [statusElement, setStatusElement] = useState<JSX.Element | string>('');
   const { currentHostListing, setCurrentHostListing } =
     useContext(HostContext)!;
+  const { isLoading, updateListing } = useContext(ManageListingContext)!;
+
   const [initialSetupDone, setInitialSetupDone] = useState(false);
   const [originalListingBasics, setOriginalListingBasics] =
     useState<OriginalListingBasics>({
@@ -110,7 +113,7 @@ function ListingBasics() {
       <div className='pb-6 font-semibold text-lg'>Listing basics</div>
       <div className='space-y-8'>
         {/* Listing title */}
-        <TextAndTextEditBlock
+        <GeneralTextAndTextEdit
           display={'Listing title'}
           contents={currentHostListing?.title}
           caption={'Highlight what makes your place special.'}
@@ -134,6 +137,7 @@ function ListingBasics() {
               ...originalListingBasics,
               title: currentHostListing.title,
             });
+            updateListing(undefined);
           }}
           required={true}
           validateInput={(value: string) => {
@@ -142,9 +146,10 @@ function ListingBasics() {
             else return true;
           }}
           maxLength={32}
+          isLoading={isLoading}
         />
         {/* Listing description */}
-        <TextAndTextEditBlock
+        <GeneralTextAndTextEdit
           display={'Listing description'}
           contents={currentHostListing?.description}
           caption={
@@ -170,6 +175,7 @@ function ListingBasics() {
               ...originalListingBasics,
               description: currentHostListing.description,
             });
+            updateListing(undefined);
           }}
           required={true}
           validateInput={(value: string) => {
@@ -178,9 +184,10 @@ function ListingBasics() {
             else return true;
           }}
           maxLength={500}
+          isLoading={isLoading}
         />
         {/* Space Description  */}
-        <TextAndTextEditBlock
+        <GeneralTextAndTextEdit
           display={'Space description'}
           contents={currentHostListing?.spacedescription}
           caption={
@@ -206,6 +213,7 @@ function ListingBasics() {
               ...originalListingBasics,
               spacedescription: currentHostListing.spacedescription,
             });
+            updateListing(undefined);
           }}
           required={true}
           validateInput={(value: string) => {
@@ -214,6 +222,7 @@ function ListingBasics() {
               return false;
             else return true;
           }}
+          isLoading={isLoading}
         />
         {/* Listing Status */}
         <TextAndMultipleSelectionBlock
