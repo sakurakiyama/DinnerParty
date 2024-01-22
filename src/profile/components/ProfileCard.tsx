@@ -34,7 +34,7 @@ function ProfileCard() {
           <div className='font-semibold text-3xl'>{user?.firstname}</div>
         </div>
         <div className='flex flex-col justify-center space-y-4'>
-          {/* TODO: Remove hard coded data */}
+          {/* [] TODO: Remove hard coded data */}
           <div className='border-b pb-4'>
             <div className='font-semibold text-lg'>0</div>
             <div className='text-xs'>Reviews</div>

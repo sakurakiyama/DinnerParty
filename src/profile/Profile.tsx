@@ -12,6 +12,10 @@ interface ProfileProps {
   updateUser: () => void;
 }
 
+/*
+[] TODO: Make it adjust for smaller screens
+*/
+
 export const ProfileContext = createContext<ProfileProps | null>(null);
 
 function Profile() {
