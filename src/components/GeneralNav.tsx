@@ -18,7 +18,7 @@ function GeneralNav() {
         <div className='w-full text-end'>
           <div className='flex flex-row justify-end items-center'>
             <button
-              onClick={() => navigate('/hosting')}
+              onClick={() => navigate('/browse')}
               className='hover:bg-[var(--light-grey)] whitespace-nowrap rounded-full p-2 ml-6 mr-2 font-medium'
             >
               Switch to booking
