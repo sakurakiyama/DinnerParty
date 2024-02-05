@@ -10,7 +10,7 @@ function UserReviews() {
   return (
     <div>
       <div className='font-semibold text-xl'>{user?.firstname}'s reviews</div>
-      <div>Reviews will go here</div>
+      <div className='text-sm md:text-base '>Reviews will go here</div>
     </div>
   );
 }
