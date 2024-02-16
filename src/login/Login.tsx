@@ -6,14 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import OrangeHeaderCard from '../components/OrangeHeaderCard';
 
 /* 
-TODO: Currently race condition issue being handled by settimeout. Refactor to a better solution.
-TODO: Add error message for unsuccessful passcode
+Currently race condition issue being handled by settimeout. Refactor to a better solution.
 */
 
 type InputRef = React.RefObject<HTMLInputElement> | null;
 
 function Login() {
-  const { setUser } = useContext(UserContext)!;
+  const { user, setUser } = useContext(UserContext)!;
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<null | string>(null);
@@ -30,9 +29,12 @@ function Login() {
   ];
 
   const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const inputRowRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (emailInputRef.current) emailInputRef.current.focus();
+    if (user) {
+      navigate('/browse');
+    } else if (emailInputRef.current) emailInputRef.current.focus();
   }, []);
 
   const handleCodeChange = (index: number, value: string) => {
@@ -48,26 +50,27 @@ function Login() {
     }
   };
 
-  const handleDelete = (
+  const handleDelete = async (
     index: number,
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     const keyPressed = event.code;
     if (keyPressed === 'Backspace') {
       event.preventDefault();
+      const newCode = [...code];
+
       if (index > 0 && code[index]) {
-        const newCode = [...code];
         newCode[index] = '';
-        setCode(newCode);
+        await setCode(newCode);
+        inputRefs[index]?.current?.focus();
       } else if (index > 0 && !code[index]) {
-        const newCode = [...code];
         newCode[index - 1] = '';
-        setCode(newCode);
+        await setCode(newCode);
         inputRefs[index - 1]?.current?.focus();
       } else if (index === 0 && code[index]) {
-        const newCode = [...code];
         newCode[index] = '';
-        setCode(newCode);
+        await setCode(newCode);
+        inputRefs[index]?.current?.focus();
       }
     }
   };
@@ -97,9 +100,16 @@ function Login() {
   const submitVerificationCode = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
+      const submittedCode = code.join('');
+
+      if (submittedCode.length !== inputRefs.length) {
+        if (!inputRowRef.current) return;
+        inputRowRef.current.classList.add('animate-shake');
+        return;
+      }
       const { data } = await axios.post('/api/auth/verifycode', {
         email,
-        code: code.join(''),
+        code: submittedCode,
       });
       setUser(data);
       navigate('/browse');
@@ -149,19 +159,23 @@ function Login() {
               <div>
                 Almost there! A six digit verification code was sent to {email}
                 <form className='pt-8' onSubmit={submitVerificationCode}>
-                  {code.map((value, index) => (
-                    <input
-                      ref={inputRefs[index]}
-                      className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-slate-500'
-                      key={`${value}+${index}`}
-                      type='text'
-                      maxLength={1}
-                      value={value}
-                      onKeyDown={(e) => handleDelete(index, e)}
-                      onChange={(e) => handleCodeChange(index, e.target.value)}
-                      onPaste={(e) => handlePaste(index, e)}
-                    />
-                  ))}
+                  <div ref={inputRowRef}>
+                    {code.map((value, index) => (
+                      <input
+                        ref={inputRefs[index]}
+                        className='border w-[25px] h-[40px] rounded-md m-2 text-center outline-slate-500'
+                        key={`${value}+${index}`}
+                        type='text'
+                        maxLength={1}
+                        value={value}
+                        onKeyDown={(e) => handleDelete(index, e)}
+                        onChange={(e) =>
+                          handleCodeChange(index, e.target.value)
+                        }
+                        onPaste={(e) => handlePaste(index, e)}
+                      />
+                    ))}
+                  </div>
                   <button
                     className='border rounded-full mt-16 w-full bg-[var(--mango-sorbet)]	text-white p-2 pl-8 pr-8 shadow-sm m-auto'
                     type='submit'
